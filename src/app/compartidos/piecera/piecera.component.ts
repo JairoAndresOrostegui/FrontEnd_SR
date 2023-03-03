@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PieceraComponent implements OnInit {
 
+  year = new Date();
+  anioActual = this.year.getFullYear();
+  
   constructor() { }
 
   ngOnInit(): void {

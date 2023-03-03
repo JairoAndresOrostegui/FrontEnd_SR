@@ -1,0 +1,72 @@
+h2 {
+  margin-bottom: 4vh;
+}
+
+.etiqueta-entrada {
+  width: 325px;
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1.5fr 3.5fr;
+  column-gap: 10px;
+}
+
+.etiqueta-entrada-contraseña {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+}
+
+.etiqueta {
+  text-align: end;
+  margin-right: 0.5em;
+}
+
+.formulario-piecera {
+  text-align: center;
+  padding-top: 2em;
+}
+
+.mostrar-contraseña {
+  background-size: cover;
+  margin-left: 5px;
+}
+
+.boton-principal {
+  margin: 2vh 0;
+}
+
+.campo-requerido {
+  margin-left: 2vw;
+  margin-top: -1.5vh;
+}
+
+.etiqueta-entrada {
+  padding-bottom: 20px;
+}
+
+.forzar-maquetacion {
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.forzar-maquetacion input {
+  margin-right: 10px;
+}
+
+@media (max-width: 500px) {
+  .etiqueta-entrada {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .etiqueta {
+    text-align: start;
+    margin-right: 0;
+    margin-bottom: 0.5em;
+  }
+}
+
+@media (max-height: 500px) {
+  .formulario-estandar {
+    padding: 2vh 7vw;
+  }
+}

@@ -2,10 +2,16 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+
 import { CabeceraComponent } from './compartidos/cabecera/cabecera.component';
 import { PieceraComponent } from './compartidos/piecera/piecera.component';
 import { ConfirmarComponent } from './compartidos/confirmar/confirmar.component';
 import { MenudenavegacionComponent } from './compartidos/menudenavegacion/menudenavegacion.component';
+import { RegresarComponent } from './compartidos/regresar/regresar.component';
+
+import { IniciarsesionComponent } from './autenticacion/iniciarsesion/iniciarsesion.component';
+import { CrearreservaComponent } from './administrativos/direccionacademica/crearreserva/crearreserva.component';
 
 @NgModule({
   declarations: [
@@ -13,10 +19,14 @@ import { MenudenavegacionComponent } from './compartidos/menudenavegacion/menude
     CabeceraComponent,
     PieceraComponent,
     ConfirmarComponent,
-    MenudenavegacionComponent
+    MenudenavegacionComponent,
+    RegresarComponent,
+    IniciarsesionComponent,
+    CrearreservaComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

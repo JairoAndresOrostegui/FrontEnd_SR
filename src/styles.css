@@ -1,1 +1,617 @@
-/* You can add global styles to this file, and also import other style files */
+/* ESTILOS GENERALES */
+
+/* Anulando margen de navegacion por defecto y establecimiento de colores en variables. */
+html{
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+  margin: 0;
+  margin-bottom: 40px;
+
+  --basico-blanco: #FFF;
+  --basico-magenta: #EE2B7B;
+  --basico-gris0: #706F6F;
+
+  --neutro-gris2: #E3E3E3;
+  --neutro-gris3: #8C8C8C;
+  --neutro-gris4: #424242;
+  --neutro-gris5: #242422;
+
+  --contraste-morado: #BB00E6;
+  --contraste-azul: #009EE2;
+  --contraste-verde: #2BB1AA;
+  --contraste-amarillo: #F7A700;
+
+  --alerta-rojo: #ff0000;
+  --alerta-amarillo: #ff7700;
+  --alerta-verde: #00b300b0;
+}
+
+/* Anulando margenes por defecto de etiquetas de texto y la seleccion de estas. */
+
+h1, h2, h3, h4, h5, h6, p, a, label {
+  margin: 0;
+  user-select: none;
+}
+
+
+/* COLORIMETRIA */
+
+/* Colores Basicos:
+-Deben estar presentes en todas las páginas.
+-El magenta debe tener un uso moderado y estar en los elementos que no ocupen mucho espacio. */
+
+.color-basico-blanco {
+  color: var(--basico-blanco);
+}
+
+.fondo-basico-blanco {
+  background-color: var(--basico-blanco);
+}
+
+.color-basico-magenta {
+  color: var(--basico-magenta);
+}
+
+.fondo-basico-magenta {
+  background-color: var(--basico-magenta);
+}
+
+.color-basico-gris0 {
+  color: var(--basico-gris0);
+}
+
+.fondo-basico-gris0 {
+  background-color: var(--basico-gris0);
+}
+
+/* Colores neutros:
+-Para limpiar la carga visual y matizar la intensidad del magenta.
+-Se combinan con los colores de contraste. */
+
+.color-neutro-gris2 {
+  color: var(--neutro-gris2);
+}
+
+.fondo-neutro-gris2 {
+  background-color: var(--neutro-gris2);
+}
+
+.color-neutro-gris3 {
+  color: var(--neutro-gris3);
+}
+
+.fondo-neutro-gris3 {
+  background-color: var(--neutro-gris3);
+}
+
+.color-neutro-gris4 {
+  color: var(--neutro-gris4);
+}
+
+.fondo-neutro-gris4 {
+  background-color: var(--neutro-gris4);
+}
+
+.color-neutro-gris5 {
+  color: var(--neutro-gris5);
+}
+
+.fondo-neutro-gris5 {
+  background-color: var(--neutro-gris5);
+}
+
+/* Colores de contraste:
+-Corresponden a los colores distintivos para:
+  -Escuela de creatividad: morado.
+  -Escuela de salud: azul.
+  -Escuela de Desarrollo empresarial: verde.
+  -Gastronomia: Amarillo.
+-Se usan para aumentar el impacto visual y destacar algunos elementos.*/
+
+.color-contraste-morado {
+  color: var(--contraste-morado);
+}
+
+.fondo-contraste-morado {
+  background-color: var(--contraste-morado);
+}
+
+.color-contraste-azul {
+  color: var(--contraste-azul);
+}
+
+.fondo-contraste-azul {
+  background-color: var(--contraste-azul);
+}
+
+.color-contraste-verde {
+  color: var(--contraste-verde);
+}
+
+.fondo-contraste-verde {
+  background-color: var(--contraste-verde);
+}
+
+.color-contraste-amarillo {
+  color: var(--contraste-amarillo);
+}
+
+.fondo-contraste-amarillo {
+  background-color: var(--contraste-amarillo);
+}
+
+/* Colores de mensaje de alerta */
+
+.color-alerta-rojo {
+  color: var(--alerta-rojo);
+}
+
+.fondo-alerta-rojo {
+  background-color: var(--alerta-rojo);
+}
+
+.color-alerta-amarillo {
+  color: var(--alerta-amarillo);
+}
+
+.fondo-alerta-amarillo {
+  background-color: var(--alerta-amarillo);
+}
+
+.color-alerta-verde {
+  color: var(--alerta-verde);
+}
+
+.fondo-alerta-verde {
+  background-color: var(--alerta-verde);
+}
+
+
+/* TIPOGRAFIA */
+
+/* Fuente:
+-Importando el tipo de letra Montserrat con todos los grosores. */
+
+@font-face {
+  font-family: Montserrat-Black;
+  src: url('../src/fuentes/Montserrat-Black.ttf');
+}
+
+@font-face {
+  font-family: Montserrat-Bold;
+  src: url('../src/fuentes/Montserrat-Bold.ttf');
+}
+
+@font-face {
+  font-family: Montserrat-ExtraBold;
+  src: url('../src/fuentes/Montserrat-ExtraBold.ttf');
+}
+
+@font-face {
+  font-family: Montserrat-ExtraLight;
+  src: url('../src/fuentes/Montserrat-ExtraLight.ttf');
+}
+
+@font-face {
+  font-family: Montserrat-Light;
+  src: url('../src/fuentes/Montserrat-Light.ttf');
+}
+
+@font-face {
+  font-family: Montserrat-Medium;
+  src: url('../src/fuentes/Montserrat-Medium.ttf');
+}
+
+@font-face {
+  font-family: Montserrat-Regular;
+  src: url('../src/fuentes/Montserrat-Regular.ttf');
+}
+
+@font-face {
+  font-family: Montserrat-SemiBold;
+  src: url('../src/fuentes/Montserrat-SemiBold.ttf');
+}
+
+@font-face {
+  font-family: Montserrat-Thin;
+  src: url('../src/fuentes/Montserrat-Thin.ttf');
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../src/fuentes/Montserrat-VariableFont_wght.ttf');
+}
+
+label, span{
+  font-family: Montserrat-Medium;
+}
+
+button {
+  font-family: Montserrat-Regular !important;
+}
+
+input {
+  font-family: Montserrat-Light !important;
+}
+
+.toast-success, .toast-info, .toast-warning, .toast-error, .mat-option, .mat-form-field-label, .mat-select, .mat-tooltip {
+  font-family: Montserrat-Regular !important;
+}
+
+.mat-form-field-label {
+  color: var(--neutro-gris5)!important;
+}
+
+.mat-form-field-appearance-fill, .mat-form-field-flex {
+  background-color: var(--basico-blanco)!important;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0!important;
+}
+
+.mat-form-field-underline {
+  bottom: 0!important;
+}
+
+.mat-tooltip {
+  font-size: 13px!important;
+}
+
+/* Tamaños predeterminados: */
+
+.fuente-cuerpo-tabla td {
+  font-size: 16px;
+}
+
+.fuente-pequeña {
+  font-size: 14px;
+}
+
+.fuente-mediana {
+  font-size: 18px;
+}
+
+.fuente-grande {
+  font-size: 22px;
+}
+
+.fuente-extragrande {
+  font-size: 26px;
+}
+
+/* Variaciones de fuente: */
+
+.negrilla {
+  font-weight: bold;
+}
+
+.subrayado {
+  text-decoration: underline;
+}
+
+.cursiva {
+  font-style: italic;
+}
+
+
+/* FOTOGRAFIA
+
+-Usar filtros de color con diferentes modos de fusión o transparencia solo sobre las fotografías que lleven textos encima
+para facilitar la lectura o con transiciones a blanco para limpiar la carga visual.
+-Las fotografías que vayan sin textos deben presentarse limpias, es decir, sin filtros de color. */
+
+/* Modos de fusion */
+
+.fusion-boton:hover {
+  filter: brightness(0.6);
+  cursor: pointer;
+}
+
+.fusion-invertida:hover {
+  filter: invert(0.8);
+  cursor: pointer;
+}
+
+.fusion-imagen {
+  mix-blend-mode: multiply;
+}
+
+.fondo-nulo {
+  background: none;
+}
+
+/* Modos de transicion */
+
+.transicion-blanco-imagen {
+  opacity: 0.5;
+}
+
+
+/* COMPONENTES */
+
+/* Radio de Bordeado: */
+
+.esquina-8 {
+  border-radius: 8px;
+}
+
+.esquina-16 {
+  border-radius: 16px;
+}
+
+.esquina-24 {
+  border-radius: 24px;
+}
+
+.esquina-32 {
+  border-radius: 32px;
+}
+
+/* Contorno de borde */
+
+.contorno-nulo {
+  border: none;
+}
+
+.borde-magenta {
+  border: 3px solid var(--principal-magenta);
+}
+
+.borde-gris {
+  border: 3px solid var(--principal-gris);
+}
+
+.borde-grisoscuro {
+  border: 3px solid var(--neutro-gris5);
+}
+
+.borde-morado {
+  border: 3px solid var(--contraste-morado);
+}
+
+.borde-azul {
+  border: 3px solid var(--contraste-azul);
+}
+
+.borde-verde {
+  border: 3px solid var(--contraste-verde);
+}
+
+.borde-amarillo {
+  border: 3px solid var(--contraste-amarillo);
+}
+
+/* Botones */
+
+.boton-principal {
+  width: fit-content;
+  height: 30px;
+}
+
+.boton-enlace {
+  border: 0;
+  background: none;
+  text-decoration: underline;
+}
+
+/* Iconos */
+
+/* Estilo */
+.icono {
+  background: none;
+  background-size: cover;
+  width: 35px;
+  height: 35px;
+}
+
+.icono-validar {
+  margin-right: -50px;
+}
+
+/* Imagen */
+.icono-agregar {
+  background-image: url(assets/img/iconos/agregar.svg);
+}
+
+.icono-ayuda {
+  background-image: url(assets/img/iconos/ayuda.svg);
+}
+
+.icono-buscar {
+  background-image: url(assets/img/iconos/buscar.svg);
+}
+
+.icono-cerrar {
+  background-image: url(assets/img/iconos/cerrar.svg);
+}
+
+.icono-contrasena {
+  background-image: url(assets/img/iconos/contrasena.svg);
+}
+
+.icono-descargar {
+  background-image: url(assets/img/iconos/descarga.svg);
+}
+
+.icono-editar {
+  background-image: url(assets/img/iconos/editar.svg);
+}
+
+.icono-eliminar {
+  background-image: url(assets/img/iconos/eliminar.svg);
+}
+
+.icono-excel {
+  background-image: url(assets/img/iconos/excel.svg);
+}
+
+.icono-graficar {
+  background-image: url(assets/img/iconos/graficar.svg);
+}
+
+.icono-mail {
+  background-image: url(assets/img/iconos/mail.svg);
+}
+
+.icono-menu {
+  background-image: url(assets/img/iconos/menu.svg);
+}
+
+.icono-regresar {
+  background-image: url(assets/img/iconos/regresar.svg);
+}
+
+.icono-seleccionarArchivo {
+  background-image: url(assets/img/iconos/seleccionarArchivo.svg);
+}
+
+.icono-transferirSaldo {
+  background-image: url(assets/img/iconos/transferirSaldo.svg);
+}
+
+.icono-usuario {
+  background-image: url(assets/img/iconos/usuario.svg);
+}
+
+.icono-verificar {
+  background-image: url(assets/img/iconos/verificacion.svg);
+}
+
+/* Input */
+
+.entrada-texto {
+  height: 35px;
+  padding: 0 10px;
+  border: none;
+}
+
+/* Sombreado de caja */
+
+.sombreado-caja:focus {
+  box-shadow: 2px 2px 5px var(--basico-magenta), 2px -3px 5px var(--basico-magenta), -3px 2px 5px var(--basico-magenta);
+}
+
+/* Formularios */
+
+.formulario-estandar {
+  margin: auto;
+  padding: 7vh 7vw;
+}
+
+
+/* ALINEACION */
+
+.espacio-minimo {
+  min-width: 100vw;
+  min-height: 80vh;
+}
+
+.centrar-fila {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.centrar-columna {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.fila {
+  display: flex;
+}
+
+.fila-inicio {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.fila-final {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.columna {
+  display: flex;
+  flex-direction: column;
+}
+
+.centrar-texto {
+  text-align: center;
+}
+
+.texto-izquierda {
+  text-align: start;
+}
+
+.texto-derecha {
+  text-align: end;
+}
+
+/* Margenes*/
+
+.ml-1 {
+  margin-left: 4px;
+}
+
+.ml-2 {
+  margin-left: 8px;
+}
+
+.ml-3 {
+  margin-left: 12px;
+}
+
+.mr-1 {
+  margin-right: 4px;
+}
+
+.mr-2 {
+  margin-right: 8px;
+}
+
+.mr-3 {
+  margin-right: 12px;
+}
+
+.mt-1 {
+  margin-top: 4px;
+}
+
+.mt-2 {
+  margin-top: 8px;
+}
+
+.mt-3 {
+  margin-top: 12px;
+}
+
+.mb-1 {
+  margin-bottom: 4px;
+}
+
+.mb-2 {
+  margin-bottom: 8px;
+}
+
+.mb-3 {
+  margin-bottom: 12px;
+}
+
+/* Visualizacion */
+
+.oculto {
+  visibility: hidden;
+}
+
+/* CAPTCHA GOOGLE V3 */
+
+.grecaptcha-badge {
+  visibility: visible;
+}

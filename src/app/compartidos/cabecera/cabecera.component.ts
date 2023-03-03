@@ -7,7 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CabeceraComponent implements OnInit {
 
-  constructor() { }
+  nombre: string;
+  funcionalidad: string;
+
+  constructor() {
+    this.nombre = '';
+    this.funcionalidad = 'Login';
+  }
 
   ngOnInit(): void {
   }
