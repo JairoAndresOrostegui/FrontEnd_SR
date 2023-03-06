@@ -2,6 +2,11 @@ h2 {
   margin-bottom: 4vh;
 }
 
+.formulario-estandar {
+  margin: 10% auto;
+  width: 550px;
+}
+
 .etiqueta-entrada {
   width: 325px;
   align-items: center;
@@ -43,16 +48,6 @@ h2 {
   padding-bottom: 20px;
 }
 
-.forzar-maquetacion {
-  height: 50px;
-  display: flex;
-  align-items: center;
-}
-
-.forzar-maquetacion input {
-  margin-right: 10px;
-}
-
 @media (max-width: 500px) {
   .etiqueta-entrada {
     display: grid;
@@ -62,6 +57,13 @@ h2 {
     text-align: start;
     margin-right: 0;
     margin-bottom: 0.5em;
+  }
+  .formulario-estandar {
+    margin: 10% auto;
+    width: 100%;
+  }
+  .fuente-grande {
+    text-align: center;
   }
 }
 

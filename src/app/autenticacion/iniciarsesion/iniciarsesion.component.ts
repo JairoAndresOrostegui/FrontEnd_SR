@@ -7,9 +7,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IniciarsesionComponent implements OnInit {
 
-  constructor() { }
+  tipoinput: string;
+
+  constructor() {
+    this.tipoinput = 'password';
+  }
 
   ngOnInit(): void {
+  }
+
+  cambiartipo(): void {
+    if (this.tipoinput === 'password') {
+      this.tipoinput = 'text';
+    } else {
+      this.tipoinput = 'password';
+    }
   }
 
 }

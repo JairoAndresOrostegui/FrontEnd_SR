@@ -12,3 +12,9 @@
 .espacio{
   height: 30px;
 }
+
+@media (max-width: 500px) {
+  .espacio{
+    width: 100%;
+  }
+}
