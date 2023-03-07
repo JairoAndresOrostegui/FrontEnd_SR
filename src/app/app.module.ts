@@ -17,6 +17,10 @@ import { CrearreservaComponent } from './administrativos/direccionacademica/crea
 import { ConsultarreservaComponent } from './administrativos/direccionacademica/consultarreserva/consultarreserva.component';
 import { ActualizarreservaComponent } from './administrativos/direccionacademica/actualizarreserva/actualizarreserva.component';
 import { RecuperaraccesoComponent } from './autenticacion/recuperaracceso/recuperaracceso.component';
+import { ConsultarunidadComponent } from './administrativos/direccionacademica/consultarunidad/consultarunidad.component';
+import { CrearunidadComponent } from './administrativos/direccionacademica/crearunidad/crearunidad.component';
+import { TipounidadComponent } from './administrativos/direccionacademica/tipounidad/tipounidad.component';
+import { CaracteristicasunidadComponent } from './administrativos/direccionacademica/caracteristicasunidad/caracteristicasunidad.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +34,11 @@ import { RecuperaraccesoComponent } from './autenticacion/recuperaracceso/recupe
     CrearreservaComponent,
     ConsultarreservaComponent,
     ActualizarreservaComponent,
-    RecuperaraccesoComponent
+    RecuperaraccesoComponent,
+    ConsultarunidadComponent,
+    CrearunidadComponent,
+    TipounidadComponent,
+    CaracteristicasunidadComponent
   ],
   imports: [
     BrowserModule,
