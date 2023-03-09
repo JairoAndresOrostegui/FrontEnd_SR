@@ -21,6 +21,7 @@ import { ConsultarunidadComponent } from './administrativos/direccionacademica/c
 import { CrearunidadComponent } from './administrativos/direccionacademica/crearunidad/crearunidad.component';
 import { TipounidadComponent } from './administrativos/direccionacademica/tipounidad/tipounidad.component';
 import { CaracteristicasunidadComponent } from './administrativos/direccionacademica/caracteristicasunidad/caracteristicasunidad.component';
+import { InformesreservaComponent } from './administrativos/direccionacademica/informesreserva/informesreserva.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { CaracteristicasunidadComponent } from './administrativos/direccionacade
     ConsultarunidadComponent,
     CrearunidadComponent,
     TipounidadComponent,
-    CaracteristicasunidadComponent
+    CaracteristicasunidadComponent,
+    InformesreservaComponent
   ],
   imports: [
     BrowserModule,
