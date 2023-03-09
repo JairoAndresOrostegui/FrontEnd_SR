@@ -1,5 +1,5 @@
 <div>
-  <form class="centrar-columna" [formGroup]="buscar">
+  <form class="centrar-columna" [formGroup]="frmbuscar">
     <div class="centrar mb-6 fuente-pequeña separacion-radio">
       <input type="radio" formControlName="filtro" value="tipo"><label class="centrar">Tipo de unidad</label>
       <input type="radio" formControlName="filtro" value="nombre" [checked]='true'><label class="centrar">Nombre</label>
@@ -20,9 +20,9 @@
       <th>Capacidad</th>
       <th>Caracteristicas</th>
       <th>Estado</th>
-      <th *ngIf="Usuario.permisos?.eliminar === 'si'">Eliminar</th>
+      <!-- <th *ngIf="Usuario.permisos?.eliminar === 'si'">Eliminar</th>-->
     </tr>
-    <tr *ngFor="let item of Usuario.datosUnidad" class="fuente-cuerpo-tabla borde-tabla">
+    <!-- <tr *ngFor="let item of Usuario.datosUnidad" class="fuente-cuerpo-tabla borde-tabla">
       <td>{{ item.nombre_tipo_espacio }}</td>
       <td><button (click)="mostrarUnidad(item.id_unidad_organizacional)" class="boton-enlace fuente-link color-basico-magenta fusion-invertida">{{ item.nombre_unidad_organizacional }}</button></td>
       <td>{{ item.capacidad_unidad_organizacional }}</td>
@@ -34,14 +34,13 @@
       <td [ngClass]="{'color-alerta-verde':item.estado_unidad_organizacional==='Activo','color-alerta-amarillo':item.estado_unidad_organizacional==='Inactivo',
           'color-alerta-rojo':item.estado_unidad_organizacional==='Bloqueado'}" class="espacio-pequeño negrilla">{{ item.estado_unidad_organizacional }}</td>
       <td *ngIf="Usuario.permisos?.eliminar === 'si'" class="espacio-pequeño"><button (click)="eliminarUnidad(item.id_unidad_organizacional)" class="icono icono-eliminar contorno-nulo fusion-boton" matTooltip="Eliminar"></button></td>
-    </tr>
+    </tr>-->
   </table>
 </div>
-<form *ngIf="mostrar" [formGroup]="actualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5">
+<form *ngIf="mostrar" [formGroup]="frmactualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5">
   <div class="centrar-fila mb-6">
     <h2 class="centrar-texto fuente-grande">{{ txtformulario }} unidad organizacional:</h2>
   </div>
-  <input type="hidden" formControlName="idUnidad">
   <div class="fila">
     <div class="centrar-fila">
       <label class="fuente-pequeña">Tipo de espacio:</label>
@@ -61,7 +60,7 @@
         <img *ngIf="chequeo" class="icono" [src]='urlimagen'>
         <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Nombre"></button>
       </div>
-      <span *ngIf="actualizar.get('nombre')?.hasError('required') && actualizar.get('nombre')?.touched"
+      <span *ngIf="frmactualizar.get('nombre')?.hasError('required') && frmactualizar.get('nombre')?.touched"
         class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Este campo es requerido</span>
     </div>
   </div>
@@ -72,7 +71,7 @@
         <input type="number" min="0" class="input-texto entrada-texto" placeholder="Piso" formControlName="piso">
         <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Piso"></button>
       </div>
-      <span *ngIf="actualizar.get('piso')?.hasError('required') && actualizar.get('piso')?.touched"
+      <span *ngIf="frmactualizar.get('piso')?.hasError('required') && frmactualizar.get('piso')?.touched"
         class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Este campo es requerido</span>
     </div>
     <div>
@@ -82,7 +81,7 @@
         <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Capacidad"></button>
       </div>
     </div>
-    <span *ngIf="actualizar.get('capacidad')?.hasError('required') && actualizar.get('capacidad')?.touched"
+    <span *ngIf="frmactualizar.get('capacidad')?.hasError('required') && frmactualizar.get('capacidad')?.touched"
         class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Este campo es requerido</span>
   </div>
   <div class="fila">
@@ -152,9 +151,9 @@
       <tr class="fuente-pequeña">
         <th class="centrar-select-comp">Caracteristica</th>
         <th>Cantidad</th>
-        <th *ngIf="Usuario.permisos?.modificar === 'si'">Accion</th>
+        <!--<th *ngIf="Usuario.permisos?.modificar === 'si'">Accion</th>-->
       </tr>
-      <tr *ngIf="Usuario.permisos?.modificar === 'si'">
+      <!--<tr *ngIf="Usuario.permisos?.modificar === 'si'">
         <td>
           <mat-form-field appearance="fill" class="centrar-select">
             <mat-select formControlName="caracteristica">
@@ -170,18 +169,18 @@
         <td>
           <button class="icono icono-agregar contorno-nulo fusion-boton" (click)="agregarCaracteristica()" matTooltip="Agregar"></button>
         </td>
-      </tr>
-      <span *ngIf="actualizar.get('cantidad')?.hasError('required') && actualizar.get('cantidad')?.touched"
+      </tr>-->
+      <span *ngIf="frmactualizar.get('cantidad')?.hasError('required') && frmactualizar.get('cantidad')?.touched"
           class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Indique la cantidad</span>
-      <tr *ngFor="let item of caracteristicaslista;" class="fuente-cuerpo-tabla borde-tabla">
+      <!--<tr *ngFor="let item of caracteristicaslista;" class="fuente-cuerpo-tabla borde-tabla">
         <td>{{ item.label.toUpperCase() }}</td>
         <td>{{ item.cantidad }}</td>
         <td *ngIf="Usuario.permisos?.modificar === 'si'">
           <button class="icono icono-eliminar contorno-nulo fusion-boton" (click)="eliminarCaracteristica(item.value)" matTooltip="Eliminar"></button></td>
-      </tr>
+      </tr>-->
     </table>
   </div>
-  <div *ngIf="Usuario.permisos?.modificar === 'si'" class="centrar-fila boton-crear mt-6">
-     <button (click)="actualizarUnidad()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">Actualizar</button>
-  </div>
+  <!--<div *ngIf="Usuario.permisos?.modificar === 'si'" class="centrar-fila boton-crear mt-6">
+     <button (click)="frmactualizarUnidad()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">frmactualizar</button>
+  </div>-->
 </form>
