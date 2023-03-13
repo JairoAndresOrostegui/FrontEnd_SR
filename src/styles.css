@@ -505,12 +505,10 @@ para facilitar la lectura o con transiciones a blanco para limpiar la carga visu
 
 /* ALINEACION */
 
-/*
 .espacio-minimo {
   min-width: 90vw;
-  min-height: 80vh;
+  min-height: 60vh;
 }
-*/
 
 .centrar-fila {
   display: flex;

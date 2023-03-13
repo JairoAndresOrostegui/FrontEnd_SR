@@ -1,6 +1,5 @@
 .centrar-fila-cabecera {
   display: flex;
-  width: 100vw;
   justify-content: center;
   align-items: center;
 }
@@ -38,7 +37,6 @@
     flex-direction: column;
   }  
   .fila-inicio {
-    width: 100vw;
     display: flex;
     justify-content: center;
   }
@@ -46,13 +44,11 @@
     padding: 2vh 2vw;
   }
   .centrar-fila {
-    width: 100vw;
     padding-bottom: 1vh;
   }
   .fila {
     justify-content: space-around;
     align-items: center;
-    width: 100vw;
     height: 50px;
   }
   .fuente-extragrande {
@@ -63,7 +59,6 @@
 @media (max-width: 400px) {
   .fila {
     flex-direction: column;
-    width: 100vw;
     text-align: center;
   }
   .fila img {

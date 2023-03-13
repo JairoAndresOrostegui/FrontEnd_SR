@@ -2,7 +2,7 @@ import { RestService } from './../../servicios/rest.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { ReCaptchaV3Service } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-iniciarsesion',
@@ -18,23 +18,16 @@ export class IniciarsesionComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private peticion: RestService
+    private peticion: RestService,
+    private recaptchaV3Service: ReCaptchaV3Service,
   ) {
+    this.tipoinput = 'password';
     this.login = this.fb.group(
       {
-        usuarios: ['', Validators.required],
+        usuario: ['', Validators.required],
         contraseña: ['', Validators.required]
       }
     )
-
-  tipoinput: string;
-
-  constructor(private fb: FormBuilder) {
-    this.tipoinput = 'password';
-    this.login = this.fb.group ({
-      usuario: '',
-      contraseña: ''
-    })
   }
 
   ngOnInit(): void {
@@ -47,34 +40,39 @@ export class IniciarsesionComponent implements OnInit {
       }
       return;
     };
-    // Se validara sin TOKEN
-    // this.recaptchaV3Service.execute('importantAction').subscribe((token: string) => {
-      this.peticion.login('login', {
-        login_usuario: this.login.value.usuario,
-        clave_usuario: this.login.value.contraseña
-      }).subscribe((respuesta) => {
-        if (respuesta?.message === "La contraseña se encuentra desactualizada") {
-          // this.toastr.warning(respuesta.message, 'Alerta', { timeOut: 3000 });
-          // this.autenticacion.datosUsuario = this.login.value.usuario;
-          // this.router.navigate(['iniciarsesion/cambiarcontraseña']);
-        } else if ( respuesta?.message === 'Los datos se encuentran desactualizado' || respuesta?.message === 'Autenticación exitosa' ) {
-          this.peticion.token = respuesta.token;
-          // this.autenticacion.datosLogin = respuesta;
-          // this.autenticacion.funcionalidadActiva = this.autenticacion.datosLogin.user.componente[0].funcionalidad[0].nombre_funcionalidad;
-          // this.autenticacion.permisos = this.autenticacion.datosLogin.user.componente[0].funcionalidad[0].permisosRol;
-          this.login.reset();
-          if (respuesta?.message === 'Autenticación exitosa') {
-            // this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
-          } else {
+    // Se validara el token del captcha de google
+    this.recaptchaV3Service.execute('importantAction').subscribe((token: string) => {
+      if (token == "") {
+        this.router.navigate(['iniciarsesion']);
+      } else {
+        this.peticion.login('login', {
+          login_usuario: this.login.value.usuario,
+          clave_usuario: this.login.value.contraseña
+        }).subscribe((respuesta) => {
+          if (respuesta?.message === "La contraseña se encuentra desactualizada") {
             // this.toastr.warning(respuesta.message, 'Alerta', { timeOut: 3000 });
+            // this.autenticacion.datosUsuario = this.login.value.usuario;
+            // this.router.navigate(['iniciarsesion/cambiarcontraseña']);
+          } else if ( respuesta?.message === 'Los datos se encuentran desactualizado' || respuesta?.message === 'Autenticación exitosa' ) {
+            this.peticion.token = respuesta.token;
+            // this.autenticacion.datosLogin = respuesta;
+            // this.autenticacion.funcionalidadActiva = this.autenticacion.datosLogin.user.componente[0].funcionalidad[0].nombre_funcionalidad;
+            // this.autenticacion.permisos = this.autenticacion.datosLogin.user.componente[0].funcionalidad[0].permisosRol;
+            this.login.reset();
+            if (respuesta?.message === 'Autenticación exitosa') {
+              // this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
+            } else {
+              // this.toastr.warning(respuesta.message, 'Alerta', { timeOut: 3000 });
+            }
+            // this.router.navigate([this.autenticacion.datosLogin.user.componente[0].funcionalidad[0].url_funcionalidad]);
+          }else {
+            // this.toastr.error(respuesta.message, 'Error', { timeOut: 3000 });
           }
-          // this.router.navigate([this.autenticacion.datosLogin.user.componente[0].funcionalidad[0].url_funcionalidad]);
-        }else {
-          // this.toastr.error(respuesta.message, 'Error', { timeOut: 3000 });
-        }
-    // }}
-    })
-  };
+        });
+      }
+    });
+  }
+
 
   cambiartipo(): void {
     if (this.tipoinput === 'password') {
