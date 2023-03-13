@@ -1,4 +1,9 @@
 import { AppComponent } from './app.component';
+import { environment } from 'src/environments/environment';
+
+import { HttpClientModule } from '@angular/common/http';
+
+import { RecaptchaV3Module, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha';
 
 import { AppRoutingModule } from './app-routing.module';
 import { NgModule } from '@angular/core';
@@ -27,6 +32,7 @@ import { CrearunidadComponent } from './administrativos/direccionacademica/crear
 import { TipounidadComponent } from './administrativos/direccionacademica/tipounidad/tipounidad.component';
 import { CaracteristicasunidadComponent } from './administrativos/direccionacademica/caracteristicasunidad/caracteristicasunidad.component';
 import { InformesreservaComponent } from './administrativos/direccionacademica/informesreserva/informesreserva.component';
+
 
 @NgModule({
   declarations: [
@@ -58,8 +64,14 @@ import { InformesreservaComponent } from './administrativos/direccionacademica/i
     MatFormFieldModule,
     MatSelectModule,
     MatTooltipModule,
+    HttpClientModule,
+    RecaptchaV3Module
   ],
-  providers: [],
+  providers: [
+    {
+    provide: RECAPTCHA_V3_SITE_KEY,
+    useValue: environment.recaptcha.siteKey
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

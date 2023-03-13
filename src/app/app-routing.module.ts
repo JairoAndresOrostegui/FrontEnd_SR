@@ -1,3 +1,4 @@
+import { ConsultarunidadComponent } from './administrativos/direccionacademica/consultarunidad/consultarunidad.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CrearreservaComponent } from './administrativos/direccionacademica/crearreserva/crearreserva.component';
@@ -7,6 +8,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/iniciarsesion', pathMatch: 'full'},
   { path: 'iniciarsesion', component: IniciarsesionComponent},
   { path: 'crearreserva', component: CrearreservaComponent},
+  { path: 'consultarunidad', component: ConsultarunidadComponent},
   { path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 
