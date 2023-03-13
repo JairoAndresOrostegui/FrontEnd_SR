@@ -1,1 +1,129 @@
-<p>crearunidad works!</p>
+<form [formGroup]="crearsede" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5">
+  <div class="fila">
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Tipo de espacio:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="tipoespacio">
+          <mat-option *ngFor="let item of cmbtipoespacio" [value]="item.value">
+            {{item.label.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Tipo espacio"></button>
+    </div>
+    <div>
+      <div class="centrar-fila margen-label-usuario">
+        <label class="fuente-pequeña">Nombre:</label>
+        <input class="input-texto entrada-texto" placeholder="Nombre de la Sede o Aula" formControlName="nombre">
+        <img *ngIf="chequeo" class="icono" [src]='urlimagen'>
+        <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Nombre del espacio"></button>
+      </div>
+      <span *ngIf="crearsede.get('nombre')?.hasError('required') && crearsede.get('nombre')?.touched"
+        class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Este campo es requerido</span>
+    </div>
+  </div>
+  <div class="fila">
+    <div>
+      <div class="centrar-fila">
+        <label class="fuente-pequeña">Piso:</label>
+        <input type="number" min="0" class="input-texto entrada-texto" placeholder="Piso" formControlName="piso">
+        <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Piso"></button>
+      </div>
+      <span *ngIf="crearsede.get('piso')?.hasError('required') && crearsede.get('piso')?.touched"
+        class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Este campo es requerido</span>
+    </div>
+    <div>
+      <div class="centrar-fila">
+        <label class="fuente-pequeña">Capacidad:</label>
+        <input type="number" min="0" class="input-texto entrada-texto" placeholder="Capacidad del espacio" formControlName="capacidad">
+        <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Capacidad"></button>
+      </div>
+    </div>
+    <span *ngIf="crearsede.get('capacidad')?.hasError('required') && crearsede.get('capacidad')?.touched"
+        class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Este campo es requerido</span>
+  </div>
+  <div class="fila">
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Tipo Unidad Dependencia:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="tipoespaciodep">
+          <mat-option *ngFor="let item of cmbtipoespaciodep" [value]="item.value" (onSelectionChange)="selectipoespaciodep()">
+            {{item.label.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Tipo de dependencia"></button>
+    </div>
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Unidad Dependencia:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="unidaddependencia">
+          <mat-option *ngFor="let item of cmbunidaddependencia" [value]="item.value">
+            {{item.label.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Unidad dependencia"></button>
+    </div>
+  </div>
+  <div class="fila">
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Departamento Unidad:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="dptounidad">
+          <mat-option *ngFor="let item of cmbdptounidad" [value]="item.value" (onSelectionChange)="selectMunicipio()">
+            {{item.label.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Departamento unidad"></button>
+    </div>
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Municipio Unidad:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="municipiound">
+          <mat-option *ngFor="let item of cmbmunicipiound" [value]="item.value">
+            {{item.label.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Municipio unidad"></button>
+    </div>
+  </div>
+  <div class="centrar-fila">
+    <table cellpadding="7"><!--
+      <tr class="fuente-pequeña">
+        <th class="centrar-select-comp">Caracteristica</th>
+        <th>Cantidad</th>
+        <th>Accion</th>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field appearance="fill" class="centrar-select">
+            <mat-select formControlName="caracteristica">
+              <mat-option *ngFor="let item of cmbcaracteristica" [value]="item.value">
+                {{item.label.toUpperCase()}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
+          <input type="number" min="0" class="input-numerico entrada-texto" formControlName="cantidad">
+        </td>
+        <td>
+          <button class="icono icono-agregar contorno-nulo fusion-boton" (click)="agregarcaracteristica()" matTooltip="Agregar"></button>
+        </td>
+      </tr>
+      <span *ngIf="crearsede.get('cantidad')?.hasError('required') && crearsede.get('cantidad')?.touched"
+          class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Indique la cantidad</span>
+      <tr *ngFor="let item of caracteristicaslista;" class="fuente-cuerpo-tabla borde-tabla">
+        <td>{{ item.label.toUpperCase() }}</td>
+        <td>{{ item.cantidad }}</td>
+        <td><button class="icono icono-eliminar contorno-nulo fusion-boton" (click)="eliminarcaracteristica(item.value)"></button></td>
+      </tr>-->
+    </table>
+  </div>
+  <div class="centrar-fila boton-crear mt-6"><!--
+     <button (click)="crearUnidad()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">Crear</button>-->
+  </div>
+</form>
