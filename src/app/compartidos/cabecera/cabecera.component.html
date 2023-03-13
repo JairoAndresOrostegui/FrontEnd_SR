@@ -2,13 +2,13 @@
   <div class="fila-inicio">
     <img src="../../../assets/img/logos/cesde_magenta.jpg">
   </div>
-  <div class="centrar-fila centrar-texto">
-    <h2 class="color-basico-gris0 fuente-extragrande">{{ funcionalidad }}</h2>
+  <div *ngIf="nombreUsuario.length != 0" class="centrar-fila centrar-texto">
+    <h2 class="color-basico-gris0 fuente-extragrande">{{ nombreFuncionalidad }}</h2>
   </div>
-  <div *ngIf="nombre.length != 0" class="fila">
+  <div *ngIf="nombreUsuario.length != 0" class="fila">
     <div class="nombre-persona">
       <p class="color-basico-gris0 fuente-mediana ancho">
-        {{ nombre }}
+        {{ nombreUsuario }}
       </p>
     </div>
     <img src="../../../assets/img/iconos/usuario.svg">

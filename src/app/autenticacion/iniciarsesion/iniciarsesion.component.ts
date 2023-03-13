@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-iniciarsesion',
@@ -7,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IniciarsesionComponent implements OnInit {
 
+  login: FormGroup;
+
   tipoinput: string;
 
-  constructor() {
+  constructor(private fb: FormBuilder) {
     this.tipoinput = 'password';
+    this.login = this.fb.group ({
+      usuario: '',
+      contraseña: ''
+    })
   }
 
   ngOnInit(): void {
