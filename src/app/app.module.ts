@@ -1,11 +1,10 @@
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+
 import { environment } from 'src/environments/environment';
-
-import { HttpClientModule } from '@angular/common/http';
-
 import { RecaptchaV3Module, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha';
 
-import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
@@ -32,6 +31,7 @@ import { CrearunidadComponent } from './administrativos/direccionacademica/crear
 import { TipounidadComponent } from './administrativos/direccionacademica/tipounidad/tipounidad.component';
 import { CaracteristicasunidadComponent } from './administrativos/direccionacademica/caracteristicasunidad/caracteristicasunidad.component';
 import { InformesreservaComponent } from './administrativos/direccionacademica/informesreserva/informesreserva.component';
+import { ReportesreservaComponent } from './administrativos/direccionacademica/reportesreserva/reportesreserva.component';
 
 
 @NgModule({
@@ -51,7 +51,8 @@ import { InformesreservaComponent } from './administrativos/direccionacademica/i
     CrearunidadComponent,
     TipounidadComponent,
     CaracteristicasunidadComponent,
-    InformesreservaComponent
+    InformesreservaComponent,
+    ReportesreservaComponent
   ],
   imports: [
     BrowserModule,

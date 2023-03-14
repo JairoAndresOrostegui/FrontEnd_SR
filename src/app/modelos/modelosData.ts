@@ -7,9 +7,11 @@ import { PermisosRol } from './login';
 
 export class DatosUsuario {
 
-  datosLogin?: any;
+  funcionalidadActiva?: string = '';
 
   permisos?: PermisosRol;
+
+  datosLogin?: any;
 
   datosUnidad?: any;
 

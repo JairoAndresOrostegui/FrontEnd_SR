@@ -1,1 +1,16 @@
-<p>menudenavegacion works!</p>
+<div class="espacio-menu">
+  <div class="columna">
+    <button type="button" (click)="toggle()">Menú</button>
+    <div [@toggleBox]="isOpen ? 'open' : 'closed'" class="columna">
+      <div *ngFor="let lista of Usuariomenu.datosLogin?.user?.componente; let index = index">
+        <button (click)="toggle2(index)" class="no-hover-menu no-hover">{{ lista.nombre_componente }}</button>
+        <div [@toggleBox]="lista.estado ? 'open' : 'closed'" class="columna">
+          <div *ngFor="let sublista of lista.funcionalidad" class="submenu">
+            <button (click)="establecerfuncionalidad(sublista)">{{ sublista.nombre_funcionalidad }}</button>
+          </div>
+        </div>
+      </div>
+      <button (click)="reset()">Salir</button>
+    </div>
+  </div>
+</div>
