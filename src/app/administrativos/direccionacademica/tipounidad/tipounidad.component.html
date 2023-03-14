@@ -1,1 +1,71 @@
-<p>tipounidad works!</p>
+<div *ngIf="volver" class="centrar-fila mb-6">
+  <button (click)="regresar()" class="icono icono-regresar contorno-nulo fusion-boton" matTooltip="Regresar"></button>
+</div>
+<div *ngIf="mostrarCrear">
+  <div *ngIf="Usuario.permisos?.agregar === 'si'" class="centrar-fila mb-6">
+    <button (click)="iniciarCrear()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">Crear tipo de unidad organizacional</button>
+  </div>
+</div>
+<div class="centrar-fila mt-6 responsivo">
+  <div *ngIf="busqueda">
+    <form class="centrar-columna" [formGroup]="buscar">
+      <div class="centrar mb-6 fuente-pequeña separacion-radio">
+        <input type="radio" formControlName="filtro" value="nombre">
+        <label class="centrar">Tipo de espacio</label>
+        <input type="radio" formControlName="filtro" value="estado">
+        <label class="centrar">Estado</label>
+      </div>
+      <div class="centrar-fila mt-6 fuente-pequeña">
+        <label>Buscar:</label>
+        <input class="entrada-texto fondo-neutro-gris2" formControlName="entrada">
+        <button (click)="buscarTipoEspacio()" class="icono icono-buscar contorno-nulo fusion-boton" matTooltip="Buscar tipo de espacio físico"></button>
+      </div>
+    </form>
+    <table *ngIf="verbuscar" class="espacio-trabajo centrar-texto" cellpadding="7">
+      <tr class="fuente-pequeña">
+        <th>Tipo de espacio</th>
+        <th>Estado</th>
+        <th *ngIf="Usuario.permisos?.modificar === 'si'">Editar</th>
+        <th *ngIf="Usuario.permisos?.eliminar === 'si'">Eliminar</th>
+      </tr>
+      <tr *ngFor="let item of this.Usuario.datosTipoEspacio" class="fuente-cuerpo-tabla borde-tabla">
+        <td>{{ item.nombre_tipo_espacio }}</td>
+        <td [ngClass]="{'color-alerta-verde':item.estado_tipo_espacio==='Activo','color-alerta-amarillo':item.estado_tipo_espacio==='Inactivo'}" class="negrilla">{{ item.estado_tipo_espacio }}</td>
+        <td *ngIf="Usuario.permisos?.modificar === 'si'" class="espacio-pequeño">
+          <button (click)="mostrarTipoEspacio(item.id_tipo_espacio)" class="icono icono-editar contorno-nulo fusion-boton" matTooltip="Editar tipo de espacio"></button>
+        </td>
+        <td *ngIf="Usuario.permisos?.eliminar === 'si'" class="espacio-pequeño">
+          <button (click)="eliminarTipoEspacio(item.id_tipo_espacio)" class="icono icono-eliminar contorno-nulo fusion-boton" matTooltip="Eliminar tipo de espacio"></button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <form *ngIf="vereditar" [formGroup]="actualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5 mb-6">
+    <div class="centrar-fila mb-6">
+      <h2 class="centrar-texto fuente-grande">{{ txtformulario }} tipo de espacio:</h2>
+    </div>
+    <input type="hidden" formControlName="idactualizar">
+    <div class="centrar-fila tamaño-input">
+      <label class="fuente-pequeña">Tipo de espacio:</label>
+      <input class="entrada-texto fondo-basico-blanco" formControlName="nombreactualizar">
+      <img *ngIf="chequeo" class="icono icono-validar" [src]='urlimagen'>
+      <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Tipo de espacio"></button>
+    </div>
+    <span *ngIf="actualizar.get('nombreactualizar')?.hasError('required') && actualizar.get('nombreactualizar')?.touched"
+          class="fuente-pequeña mb-6 campo-requerido color-contraste-amarillo">Este campo es requerido</span>
+    <div class="centrar-fila tamaño-input">
+      <label class="fuente-pequeña">Estado:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="estadoactualizar">
+          <mat-option value="activo">{{'activo'.toUpperCase()}}</mat-option>
+          <mat-option value="inactivo">{{'inactivo'.toUpperCase()}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Estado del espacio"></button>
+    </div>
+    <div class="centrar-fila">
+      <button (click)="actualizarTipoEspacio()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">{{txtboton}}</button>
+    </div>
+  </form>
+</div>

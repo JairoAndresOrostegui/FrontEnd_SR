@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PermisosRol } from './login';
+import { PermisosRol } from './autenticacion/login';
 
 @Injectable({
   providedIn: 'root'
@@ -14,5 +14,9 @@ export class DatosUsuario {
   datosLogin?: any;
 
   datosUnidad?: any;
+
+  datosCaracteristica?: any;
+
+  datosTipoEspacio?: any;
 
 }
