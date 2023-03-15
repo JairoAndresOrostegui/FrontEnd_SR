@@ -1,8 +1,9 @@
 import { RestService } from './../../servicios/rest.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-iniciarsesion',
@@ -11,62 +12,68 @@ import { ReCaptchaV3Service } from 'ng-recaptcha';
 })
 export class IniciarsesionComponent implements OnInit {
 
-  login: FormGroup;
   error = false;
   tipoinput!: string;
+  usuario: string;
+  clave: string;
+  logueo: any;
 
   constructor(
-    private fb: FormBuilder,
     private router: Router,
-    private peticion: RestService,
+    private _peticion: RestService,
+    private toastr: ToastrService,
     private recaptchaV3Service: ReCaptchaV3Service,
   ) {
     this.tipoinput = 'password';
-    this.login = this.fb.group(
-      {
-        usuario: ['', Validators.required],
-        contraseña: ['', Validators.required]
-      }
-    )
+    this.usuario = "";
+    this.clave = "";
   }
 
   ngOnInit(): void {
   }
 
-  iniciarsesion(): void {
-    if (this.login.valid) {
-      for (const control of Object.keys(this.login.controls)) {
-        this.login.controls[control].markAsTouched();
-      }
-      return;
-    };
+  iniciarSesion(): void {
     // Se validara el token del captcha de google
     this.recaptchaV3Service.execute('importantAction').subscribe((token: string) => {
       if (token == "") {
         this.router.navigate(['iniciarsesion']);
       } else {
-        this.peticion.login('login', {
-          login_usuario: this.login.value.usuario,
-          clave_usuario: this.login.value.contraseña
-        }).subscribe((respuesta) => {
+        /*
+        logica del login con la api de cesde
+        dfasdkfjasldkf
+        if (a = 1) {
+          id_rol = 1
+        } else {
+          id_rol =2
+        }
+        */
+        this._peticion.login('login/menu?id_rol=' + 1, {
+        }).subscribe((respuesta) => {console.log(respuesta)
+          this.logueo = respuesta;
+          /*
           if (respuesta?.message === "La contraseña se encuentra desactualizada") {
-            // this.toastr.warning(respuesta.message, 'Alerta', { timeOut: 3000 });
-            // this.autenticacion.datosUsuario = this.login.value.usuario;
-            // this.router.navigate(['iniciarsesion/cambiarcontraseña']);
+            this.toastr.warning(respuesta.message, 'Alerta', { timeOut: 3000 });
+            this.autenticacion.datosUsuario = this.login.value.usuario;
+            this.router.navigate(['iniciarsesion/cambiarcontraseña']);
           } else if ( respuesta?.message === 'Los datos se encuentran desactualizado' || respuesta?.message === 'Autenticación exitosa' ) {
             this.peticion.token = respuesta.token;
-            // this.autenticacion.datosLogin = respuesta;
-            // this.autenticacion.funcionalidadActiva = this.autenticacion.datosLogin.user.componente[0].funcionalidad[0].nombre_funcionalidad;
-            // this.autenticacion.permisos = this.autenticacion.datosLogin.user.componente[0].funcionalidad[0].permisosRol;
+            this.autenticacion.datosLogin = respuesta;
+            this.autenticacion.funcionalidadActiva = this.autenticacion.datosLogin.user.componente[0].funcionalidad[0].nombre_funcionalidad;
+            this.autenticacion.permisos = this.autenticacion.datosLogin.user.componente[0].funcionalidad[0].permisosRol;
             this.login.reset();
             if (respuesta?.message === 'Autenticación exitosa') {
-              // this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
+              this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
             } else {
-              // this.toastr.warning(respuesta.message, 'Alerta', { timeOut: 3000 });
+              this.toastr.warning(respuesta.message, 'Alerta', { timeOut: 3000 });
             }
-            // this.router.navigate([this.autenticacion.datosLogin.user.componente[0].funcionalidad[0].url_funcionalidad]);
+            this.router.navigate([this.autenticacion.datosLogin.user.componente[0].funcionalidad[0].url_funcionalidad]);
           }else {
-            // this.toastr.error(respuesta.message, 'Error', { timeOut: 3000 });
+            this.toastr.error(respuesta.message, 'Error', { timeOut: 3000 });
+          }*/
+          if (this.logueo.token === '') {
+            this.toastr.warning('Error en la aplicación, contactese con el administrador del sistema', 'Alerta', { timeOut: 3000 });
+          } else {
+            console.log(respuesta)
           }
         });
       }
@@ -74,7 +81,7 @@ export class IniciarsesionComponent implements OnInit {
   }
 
 
-  cambiartipo(): void {
+  cambiarTipo(): void {
     if (this.tipoinput === 'password') {
       this.tipoinput = 'text';
     } else {

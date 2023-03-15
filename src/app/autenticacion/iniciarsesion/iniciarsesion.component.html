@@ -1,22 +1,23 @@
-<form [formGroup]="login" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5 centrar-columna" >
+<form class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5 centrar-columna" >
   
   <h2 class="fuente-grande">Bienvenidos al sistema de información Cesde</h2>
   <h2 class="fuente-grande">Inicio de sesión</h2>
 
   <div class="etiqueta-entrada fuente-pequeña">
     <label class="etiqueta">Usuario:</label>
-    <input type="text" class="entrada-texto" placeholder="escriba el usuario" formControlName="usuario">
+    <input type="text" class="entrada-texto" placeholder="escriba el usuario" [(ngModel)]="usuario" name="usuario">
   </div>
 
   <div class="etiqueta-entrada mt-6 fuente-pequeña">
     <label class="etiqueta">Contraseña:</label>
     <div class="etiqueta-entrada-contraseña">
-      <input [type]="tipoinput" class="entrada-texto" placeholder="escriba la contraseña" formControlName="contraseña">
+      <input [type]="tipoinput" class="entrada-texto" placeholder="escriba la contraseña" [(ngModel)]="clave" name="contraseña">
       <button class="mostrar-contraseña icono icono-contrasena fondo-basico-magenta fusion-boton borde-grueso contorno-nulo esquina-24" type="button" 
-              matTooltip="Mostrar/Ocultar contraseña" (click)="cambiartipo()"></button>
+              matTooltip="Mostrar/Ocultar contraseña" (click)="cambiarTipo()"></button>
     </div>
   </div>
 
-  <button class="boton-principal fuente-pequeña fondo-basico-magenta color-basico-blanco fusion-boton contorno-nulo">Ingresar</button>
+  <button class="boton-principal fuente-pequeña fondo-basico-magenta color-basico-blanco fusion-boton contorno-nulo"
+          (click)="iniciarSesion()">Ingresar</button>
 
 </form>

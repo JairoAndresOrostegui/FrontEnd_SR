@@ -1,14 +1,19 @@
+//Sistema
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+//Implementacion
 import { environment } from 'src/environments/environment';
 import { RecaptchaV3Module, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha';
 
+//Dependencias auxiliares
+import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,6 +21,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+//Componentes
 import { CabeceraComponent } from './compartidos/cabecera/cabecera.component';
 import { PieceraComponent } from './compartidos/piecera/piecera.component';
 import { ConfirmarComponent } from './compartidos/confirmar/confirmar.component';
@@ -32,7 +38,6 @@ import { TipounidadComponent } from './administrativos/direccionacademica/tipoun
 import { CaracteristicasunidadComponent } from './administrativos/direccionacademica/caracteristicasunidad/caracteristicasunidad.component';
 import { InformesreservaComponent } from './administrativos/direccionacademica/informesreserva/informesreserva.component';
 import { ReportesreservaComponent } from './administrativos/direccionacademica/reportesreserva/reportesreserva.component';
-
 
 @NgModule({
   declarations: [
@@ -59,6 +64,7 @@ import { ReportesreservaComponent } from './administrativos/direccionacademica/r
     AppRoutingModule,
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
     MatButtonModule,
@@ -66,7 +72,8 @@ import { ReportesreservaComponent } from './administrativos/direccionacademica/r
     MatSelectModule,
     MatTooltipModule,
     HttpClientModule,
-    RecaptchaV3Module
+    RecaptchaV3Module,
+    ToastrModule.forRoot()
   ],
   providers: [
     {

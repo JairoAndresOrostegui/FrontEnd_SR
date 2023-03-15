@@ -21,7 +21,7 @@ export class RestService {
 
   //Confirma las credenciales de autenticacion y trae toda su informaion y menu
   public login(url: string, body: any) {
-    return this.http.post<Login>(this.apiurl + url, body)
+    return this.http.get<Login>(this.apiurl + url, body)
   }
 
   //Servicios genericos de validar, crear, actualizar y eliminar
