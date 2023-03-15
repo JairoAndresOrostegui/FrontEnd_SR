@@ -1,8 +1,8 @@
-<div class="espacio-menu">
+<div class="espacio-menu" *ngIf="Usuariomenu.funcionalidadActiva != ''">
   <div class="columna">
     <button type="button" (click)="toggle()">Menú</button>
     <div [@toggleBox]="isOpen ? 'open' : 'closed'" class="columna">
-      <div *ngFor="let lista of Usuariomenu.datosLogin?.user?.componente; let index = index">
+      <div *ngFor="let lista of Usuariomenu.datosLogin; let index = index">
         <button (click)="toggle2(index)" class="no-hover-menu no-hover">{{ lista.nombre_componente }}</button>
         <div [@toggleBox]="lista.estado ? 'open' : 'closed'" class="columna">
           <div *ngFor="let sublista of lista.funcionalidad" class="submenu">

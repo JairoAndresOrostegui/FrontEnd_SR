@@ -2,8 +2,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Login } from '../modelos/autenticacion/login';
+import { Login2 } from '../modelos/autenticacion/login2';
 import { Rol } from '../modelos/autenticacion/rol';
-import { Respuesta } from '../modelos/genericos/listas';
+import { Respuesta, Select } from '../modelos/genericos/listas';
+import { ObtenerReserva, Reserva } from '../modelos/reservas/reserva';
 import { Unidad } from '../modelos/unidadesOrganizacionales/unidad';
 import { Caracteristica, Tipoespaciofisico } from '../modelos/unidadesOrganizacionales/unidad';
 
@@ -21,7 +23,14 @@ export class RestService {
 
   //Confirma las credenciales de autenticacion y trae toda su informaion y menu
   public login(url: string, body: any) {
-    return this.http.get<Login>(this.apiurl + url, body)
+    return this.http.get<Login2>(this.apiurl + url, body)
+  }
+
+  //Llenar los Select para los combobox
+  public getselect(url: string) {
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.token });
+    const requestOptions = { headers: headers };
+    return this.http.get<Select>(this.apiurl + url, requestOptions);
   }
 
   //Servicios genericos de validar, crear, actualizar y eliminar
@@ -75,5 +84,18 @@ export class RestService {
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.token });
     const requestOptions = { headers: headers };
     return this.http.get<Tipoespaciofisico>(this.apiurl + url, requestOptions);
+  }
+
+  //Consumo de API para reserva
+  public getreserva(url: string, body: any) {
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.token });
+    const requestOptions = { headers: headers };
+    return this.http.post<Reserva>(this.apiurl + url, body, requestOptions);
+  }
+
+  public gettodasreserva(url: string) {
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.token });
+    const requestOptions = { headers: headers };
+    return this.http.get<ObtenerReserva>(this.apiurl + url, requestOptions);
   }
 }

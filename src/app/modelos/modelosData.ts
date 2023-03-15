@@ -19,4 +19,6 @@ export class DatosUsuario {
 
   datosTipoEspacio?: any;
 
+  datosReserva?: any;
+
 }

@@ -9,6 +9,7 @@ import { CrearunidadComponent } from './administrativos/direccionacademica/crear
 import { TipounidadComponent } from './administrativos/direccionacademica/tipounidad/tipounidad.component';
 import { CaracteristicasunidadComponent } from './administrativos/direccionacademica/caracteristicasunidad/caracteristicasunidad.component';
 import { InformesreservaComponent } from './administrativos/direccionacademica/informesreserva/informesreserva.component';
+import { ReportesreservaComponent } from './administrativos/direccionacademica/reportesreserva/reportesreserva.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/iniciarsesion', pathMatch: 'full'},
@@ -20,8 +21,8 @@ const routes: Routes = [
   { path: 'crearunidad', component: CrearunidadComponent},
   { path: 'tipounidad', component: TipounidadComponent},
   { path: 'caracteristicaunidad', component: CaracteristicasunidadComponent},
-  { path: 'informe1', component: InformesreservaComponent},
-  { path: 'informe2', component: InformesreservaComponent},
+  { path: 'informesreserva', component: InformesreservaComponent},
+  { path: 'reportesreserva', component: ReportesreservaComponent},
   { path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 

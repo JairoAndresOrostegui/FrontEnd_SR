@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DatosUsuario } from 'src/app/modelos/modelosData';
 
 @Component({
   selector: 'app-cabecera',
@@ -10,7 +11,7 @@ export class CabeceraComponent implements OnInit {
   nombreUsuario: string;
   nombreFuncionalidad: string;
 
-  constructor() {
+  constructor(public Usuario: DatosUsuario) {
     this.nombreUsuario = '';
     this.nombreFuncionalidad = '';
   }

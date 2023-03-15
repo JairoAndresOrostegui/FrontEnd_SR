@@ -2,8 +2,8 @@
   <div class="fila-inicio">
     <img src="../../../assets/img/logos/cesde_magenta.jpg">
   </div>
-  <div *ngIf="nombreUsuario.length != 0" class="centrar-fila centrar-texto">
-    <h2 class="color-basico-gris0 fuente-extragrande">{{ nombreFuncionalidad }}</h2>
+  <div *ngIf="Usuario.funcionalidadActiva != ''" class="centrar-fila centrar-texto">
+    <h2 class="color-basico-gris0 fuente-extragrande">{{ Usuario.funcionalidadActiva?.toUpperCase() }}</h2>
   </div>
   <div *ngIf="nombreUsuario.length != 0" class="fila">
     <div class="nombre-persona">

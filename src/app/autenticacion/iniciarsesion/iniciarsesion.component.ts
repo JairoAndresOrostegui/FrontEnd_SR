@@ -1,5 +1,5 @@
 import { RestService } from './../../servicios/rest.service';
-import { FormsModule } from '@angular/forms';
+import { DatosUsuario } from 'src/app/modelos/modelosData';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
@@ -21,6 +21,7 @@ export class IniciarsesionComponent implements OnInit {
   constructor(
     private router: Router,
     private _peticion: RestService,
+    private autenticacion: DatosUsuario,
     private toastr: ToastrService,
     private recaptchaV3Service: ReCaptchaV3Service,
   ) {
@@ -48,7 +49,7 @@ export class IniciarsesionComponent implements OnInit {
         }
         */
         this._peticion.login('login/menu?id_rol=' + 1, {
-        }).subscribe((respuesta) => {console.log(respuesta)
+        }).subscribe((respuesta) => {
           this.logueo = respuesta;
           /*
           if (respuesta?.message === "La contraseña se encuentra desactualizada") {
@@ -73,7 +74,17 @@ export class IniciarsesionComponent implements OnInit {
           if (this.logueo.token === '') {
             this.toastr.warning('Error en la aplicación, contactese con el administrador del sistema', 'Alerta', { timeOut: 3000 });
           } else {
-            console.log(respuesta)
+            this.toastr.success('Login exitoso', 'Exitoso', { timeOut: 1500 });
+            this._peticion.token = this.logueo.token;
+            this.autenticacion.datosLogin = this.logueo.componente;
+            this.autenticacion.funcionalidadActiva = this.autenticacion.datosLogin[0].funcionalidad[0].nombre_funcionalidad;
+            this.autenticacion.permisos = this.autenticacion.datosLogin[0].funcionalidad[0].permisosRol;
+            for(let item of this.autenticacion.datosLogin) {
+              item.estado = true;
+            }
+            this.usuario = '';
+            this.clave = '';
+            this.router.navigate([this.autenticacion.datosLogin[0].funcionalidad[0].url_funcionalidad]);
           }
         });
       }

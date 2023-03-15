@@ -1,10 +1,6 @@
-export interface Tipoespaciofisico {
+export interface Login2 {
   token: string;
-  menu:  Menu;
-}
-
-export interface Menu {
-  componente: Componente[];
+  menu:  Componente;
 }
 
 export interface Componente {

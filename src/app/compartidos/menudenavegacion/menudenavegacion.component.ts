@@ -1,3 +1,4 @@
+import { state, style, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DatosUsuario } from 'src/app/modelos/modelosData';
@@ -5,7 +6,13 @@ import { DatosUsuario } from 'src/app/modelos/modelosData';
 @Component({
   selector: 'app-menudenavegacion',
   templateUrl: './menudenavegacion.component.html',
-  styleUrls: ['./menudenavegacion.component.css']
+  styleUrls: ['./menudenavegacion.component.css'],
+  animations: [
+    trigger('toggleBox', [
+      state('open', style({ display: 'block' })),
+      state('closed', style({ display: 'none' }))
+    ])
+  ]
 })
 export class MenudenavegacionComponent implements OnInit {
 
@@ -16,16 +23,12 @@ export class MenudenavegacionComponent implements OnInit {
   };
 
   toggle2(key: number) {
-    this.Usuariomenu.datosLogin.user.componente[key].estado = !this.Usuariomenu.datosLogin.user.componente[key].estado;
+    this.Usuariomenu.datosLogin[key].estado = !this.Usuariomenu.datosLogin[key].estado;
   };
 
   constructor(public Usuariomenu: DatosUsuario, private router: Router) {
     if (typeof(this.Usuariomenu.datosLogin) === 'undefined') {
       this.router.navigate(['/']);
-    } else {
-      for(let item of Usuariomenu.datosLogin.user.componente) {
-        item.estado = true;
-      }
     }
   };
 
@@ -40,7 +43,7 @@ export class MenudenavegacionComponent implements OnInit {
 
   reset() {
     this.Usuariomenu.funcionalidadActiva = '';
-    this.Usuariomenu.datosLogin.user = [];
+    this.Usuariomenu.datosLogin = [];
     this.router.navigate(['/']);
   }
 
