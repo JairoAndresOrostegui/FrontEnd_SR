@@ -44,10 +44,46 @@ export class IniciarsesionComponent implements OnInit {
         /*
         logica del login con la api de cesde
         */
-        if ((this.usuario === 'director.academico') && (this.clave === '123')) {
-          this.id_rol = 1;
-        } else if ((this.usuario === 'director.extension') && (this.clave === '123')){
+        if ((this.usuario === 'director.extension') && (this.clave === '123')) {
           this.id_rol = 9;
+        }  else if ((this.usuario === 'analista.extension') && (this.clave === '123')){
+          this.id_rol = 14;
+        } else if ((this.usuario === 'auxiliar.extension') && (this.clave === '123')){
+          this.id_rol = 16;
+        } else if ((this.usuario === 'director.plantafisica') && (this.clave === '123')){
+          this.id_rol = 17;
+        } else if ((this.usuario === 'coordinador.plantafisica') && (this.clave === '123')){
+          this.id_rol = 18;
+        } else if ((this.usuario === 'auxiliar.plantafisica') && (this.clave === '123')){
+          this.id_rol = 19;
+        } else if ((this.usuario === 'director.direccionacademica') && (this.clave === '123')){
+          this.id_rol = 1;
+        } else if ((this.usuario === 'jefe.direccionacademica') && (this.clave === '123')){
+          this.id_rol = 20;
+        } else if ((this.usuario === 'auxiliar.direccionacademica') && (this.clave === '123')){
+          this.id_rol = 21;
+        } else if ((this.usuario === 'director.colegios') && (this.clave === '123')){
+          this.id_rol = 24;
+        } else if ((this.usuario === 'jefe.colegios') && (this.clave === '123')){
+          this.id_rol = 22;
+        } else if ((this.usuario === 'analista.colegios') && (this.clave === '123')){
+          this.id_rol = 22;
+        } else if ((this.usuario === 'director.gruposempresarial') && (this.clave === '123')){
+          this.id_rol = 25;
+        } else if ((this.usuario === 'lider.gruposempresarial') && (this.clave === '123')){
+          this.id_rol = 28;
+        } else if ((this.usuario === 'gestor.gruposempresarial') && (this.clave === '123')){
+          this.id_rol = 15;
+        } else if ((this.usuario === 'auxiliar.gruposempresarial') && (this.clave === '123')){
+          this.id_rol = 13;
+        } else if ((this.usuario === 'director.escuelas') && (this.clave === '123')){
+          this.id_rol = 4;
+        } else if ((this.usuario === 'jefe.escuelas') && (this.clave === '123')){
+          this.id_rol = 26;
+        } else if ((this.usuario === 'secretaria.escuelas') && (this.clave === '123')){
+          this.id_rol = 11;
+        } else if ((this.usuario === 'auxiliar.escuelas') && (this.clave === '123')){
+          this.id_rol = 12;
         }
         this._peticion.login('login/menu?id_rol=' + this.id_rol, {
         }).subscribe((respuesta) => {
