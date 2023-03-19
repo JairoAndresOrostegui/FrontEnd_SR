@@ -1,0 +1,50 @@
+.formulario-estandar {
+  padding: 2vh 3vw;
+  padding-top: 6vh;
+}
+
+.centrar-fila {
+  column-gap: 15px;
+  padding-bottom: 2vh;
+}
+
+.centrar-fila label {
+  width: 180px;
+  text-align: end;
+}
+
+.centrar-fila input {
+  width: 200px;
+}
+
+.centrar-select {
+  width: 220px;
+}
+
+.boton-verificar {
+  margin-left: 30px;
+}
+
+.fila {
+  display: flex;
+  column-gap: 15px;
+  align-items: flex-start;
+}
+
+.caja {
+  height: 97px;
+  width: 395px;
+}
+
+table {
+  border-spacing: 0;
+}
+
+@media (max-width: 1250px){
+  .fila {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+  }
+}

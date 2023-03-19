@@ -1,1 +1,183 @@
-<p>crearreserva works!</p>
+<form [formGroup]="crearreserva" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5">
+  <div class="fila">
+    <div>
+      <div class="centrar-fila">
+        <label class="fuente-pequeña">Fecha de inicio(*):</label>
+        <input type="date" class="entrada-texto fondo-basico-blanco" formControlName="fechainicio">
+      </div>
+      <span *ngIf="crearreserva.get('fechainicio')?.hasError('required') && crearreserva.get('fechainicio')?.touched"
+          class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Este campo es requerido</span>
+    </div>
+    <div>
+      <div class="centrar-fila">
+        <label class="fuente-pequeña">Fecha de finalización(*):</label>
+        <input type="date" class="entrada-texto fondo-basico-blanco" formControlName="fechafin">
+      </div>
+      <span *ngIf="crearreserva.get('fechafin')?.hasError('required') && crearreserva.get('fechafin')?.touched"
+          class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Este campo es requerido</span>
+    </div>
+  </div>
+  <div class="fila">
+    <div>
+      <div class="centrar-fila">
+        <label class="fuente-pequeña">Hora de inicio(*):</label>
+        <mat-form-field appearance="fill" class="centrar-select">
+          <mat-select formControlName="horainicio">
+            <mat-option *ngFor="let item of horainicial" [value]="item.value">
+              {{item.viewValue}}
+            </mat-option>            
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div>
+      <div class="centrar-fila">
+        <label class="fuente-pequeña">Hora de finalización(*):</label>
+        <mat-form-field appearance="fill" class="centrar-select">
+          <mat-select formControlName="horafin">
+            <mat-option *ngFor="let item of horafinal" [value]="item.value">
+              {{item.viewValue}}
+            </mat-option>           
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="fila">
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Tipo de unidad:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="tipo">
+          <mat-option *ngFor="let item of cbtipoespacio" [value]="item.value">
+            {{item.label.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Sede:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="sede">
+          <mat-option *ngFor="let item of sedes" [value]="item.value">
+            {{item.label.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="fila">
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Programa:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="grupo">
+          <mat-option *ngFor="let item of cbgrupo" [value]="item.value">
+            {{item.label.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Grupo:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="usuariopersona">
+          <mat-option *ngFor="let item of cbusuarios" [value]="item.value">
+            {{item.label.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="fila">
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Submódulo:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="grupo">
+          <mat-option *ngFor="let item of cbgrupo" [value]="item.value">
+            {{item.label.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Usuario:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="usuariopersona">
+          <mat-option *ngFor="let item of cbusuarios" [value]="item.value">
+            {{item.label.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="fila">
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Estado:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="estado">
+          <mat-option value="disponible">Disponible</mat-option>
+          <mat-option value="reservado">Reservado</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Dia:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="dia">
+          <mat-option value="lunes">LUNES</mat-option>
+          <mat-option value="martes">MARTES</mat-option>
+          <mat-option value="miercoles">MIÉRCOLES</mat-option>
+          <mat-option value="jueves">JUEVES</mat-option>
+          <mat-option value="viernes">VIERNES</mat-option>
+          <mat-option value="sabado">SÁBADO</mat-option>
+          <mat-option value="sabado">DOMINGO</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="fila">
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Característica:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="caracteristica">
+          <mat-option *ngFor="let item of cbcaracteristicas" [value]="item.value">
+            {{item.label.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Capacidad mínima:</label>
+      <input class="entrada-texto fondo-basico-blanco" min="1" formControlName="capacidad" type="number">
+    </div>
+  </div>
+  <div class="fila">
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Encargado:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="usuario">
+          <mat-option *ngFor="let item of cbusuarios" [value]="item.value">
+            {{item.label.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="centrar-fila">
+      <textarea class="caja entrada-texto fondo-basico-blanco" formControlName="observaciones" placeholder="Observaciones"></textarea>
+    </div>
+  </div>
+  <div class="centrar-fila mb-6">
+    <button (click)="buscarEspacios()" class="icono icono-buscar contorno-nulo fusion-boton" matTooltip="Buscar unidades disponibles"></button>
+  </div>
+  <div class="centrar-fila mt-6">
+    <mat-form-field appearance="fill" class="centrar-select">
+      <mat-select formControlName="disponibles">
+        <mat-option *ngFor="let item of listaUnidades" [value]="item.value">
+          {{item.label.toUpperCase()}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="centrar-fila boton-crear mt-6">
+    <button (click)="crearReserva()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">Crear</button>
+ </div>
+</form>

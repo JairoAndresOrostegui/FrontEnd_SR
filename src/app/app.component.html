@@ -6,7 +6,7 @@
 }
 </style>
 <app-cabecera></app-cabecera>
-<div class="espacio-minimo">
+<div class="espacio-minimo" [ngClass]="_peticion.token != '' ? 'fila' : ''">
   <app-menudenavegacion></app-menudenavegacion>
   <div class="centrar-fila">
     <router-outlet></router-outlet>

@@ -16,6 +16,7 @@ export class IniciarsesionComponent implements OnInit {
   tipoinput!: string;
   usuario: string;
   clave: string;
+  id_rol: number;
   logueo: any;
 
   constructor(
@@ -25,6 +26,7 @@ export class IniciarsesionComponent implements OnInit {
     private toastr: ToastrService,
     private recaptchaV3Service: ReCaptchaV3Service,
   ) {
+    this.id_rol = 0;
     this.tipoinput = 'password';
     this.usuario = "";
     this.clave = "";
@@ -41,14 +43,13 @@ export class IniciarsesionComponent implements OnInit {
       } else {
         /*
         logica del login con la api de cesde
-        dfasdkfjasldkf
-        if (a = 1) {
-          id_rol = 1
-        } else {
-          id_rol =2
-        }
         */
-        this._peticion.login('login/menu?id_rol=' + 1, {
+        if ((this.usuario === 'director.academico') && (this.clave === '123')) {
+          this.id_rol = 1;
+        } else if ((this.usuario === 'director.extension') && (this.clave === '123')){
+          this.id_rol = 9;
+        }
+        this._peticion.login('login/menu?id_rol=' + this.id_rol, {
         }).subscribe((respuesta) => {
           this.logueo = respuesta;
           /*
