@@ -1,1 +1,28 @@
-<p>informesreserva works!</p>
+<!-- Tabla -->
+<div class="centrar-fila">
+  <button class="icono icono-buscar contorno-nulo fusion-boton icono2" (click)="mostrarLista(1)" matTooltip="Sedes"></button>
+  <button class="icono icono-buscar contorno-nulo fusion-boton icono2" (click)="mostrarLista(2)" matTooltip="Tipos de unidad"></button>
+  <button class="icono icono-buscar contorno-nulo fusion-boton icono2" (click)="mostrarLista(3)" matTooltip="Programas"></button>
+  <button class="icono icono-buscar contorno-nulo fusion-boton icono2" (click)="mostrarLista(4)" matTooltip="Usuarios"></button>
+</div>
+<div *ngIf="reportes != ''" class="centrar-fila">
+  <table class="espacio-trabajo centrar-texto" [cellPadding]="10">
+    <tr class="fuente-pequeña">
+      <th>Informe</th>
+      <th>Gráfico</th>
+      <th>Excel</th>
+    </tr>
+    <!-- Enseñar tabla -->
+    <tr class="fuente-cuerpo-tabla borde-tabla">
+    <tr *ngFor="let reporte of reportes" class="fuente-cuerpo-tabla borde-tabla">
+      <!-- Principal -->
+      <td class="texto-izquierda1">{{ reporte.label }}</td>
+      <td>
+        <button class="icono icono-graficar contorno-nulo fusion-boton" matTooltip="Ver grafico"></button>
+      </td>
+      <td>
+        <button class="icono icono-excel contorno-nulo fusion-boton" matTooltip="Descargar excel"></button>
+      </td>
+    </tr>
+  </table>
+</div>
