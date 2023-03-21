@@ -14,6 +14,7 @@ export class CrearreservaComponent implements OnInit {
   sedes: any;
   cbtipoespacio?: any;
   listaUnidades?: any;
+  //cbprograma?: any;
   cbgrupo?: any;
   cbusuarios?: any;
   cbdisponibles?: any;
@@ -70,6 +71,12 @@ export class CrearreservaComponent implements OnInit {
     {value: '22:10', viewValue: '22:10'},
     {value: '22:55', viewValue: '22:55'}
   ]
+
+//Objetos quemados:
+  //Submodulos:
+  comboBox = [{value: 1, label: 'Algebra 1'},{value: 2, label: 'Algebra 2'},{value: 3, label: 'Estadistica'},{value: 4, label: 'Lógica computacional'}];
+  //Programas
+  cbprograma = [{value: 1, label: 'AB'},{value: 1, label: 'CD'},{value: 1, label: 'EF'}]
 
   constructor(private fb: FormBuilder,
     private toastr: ToastrService,
