@@ -101,6 +101,7 @@ export class IniciarsesionComponent implements OnInit {
             this.toastr.success('Login exitoso', 'Exitoso', { timeOut: 1500 });
             this._peticion.token = this.logueo.token;
             this.autenticacion.datosLogin = this.logueo.componente;
+            this.autenticacion.datosLogin.rol = this.id_rol;
             this.autenticacion.funcionalidadActiva = this.autenticacion.datosLogin[0].funcionalidad[0].nombre_funcionalidad;
             this.autenticacion.permisos = this.autenticacion.datosLogin[0].funcionalidad[0].permisosRol;
             for (let item of this.autenticacion.datosLogin) {

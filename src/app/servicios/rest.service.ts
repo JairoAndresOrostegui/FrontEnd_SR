@@ -24,7 +24,7 @@ export class RestService {
   ) { }
 
   //Confirma las credenciales de autenticacion y trae toda su informaion y menu
-  public login(url: string,) {
+  public login(url: string) {
     return this.http.get<Login2>(this.apiurl + url)
   }
 
