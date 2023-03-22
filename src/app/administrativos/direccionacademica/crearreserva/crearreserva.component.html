@@ -25,7 +25,7 @@
           <mat-select formControlName="horainicio">
             <mat-option *ngFor="let item of horainicial" [value]="item.value">
               {{item.viewValue}}
-            </mat-option>            
+            </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -37,7 +37,7 @@
           <mat-select formControlName="horafin">
             <mat-option *ngFor="let item of horafinal" [value]="item.value">
               {{item.viewValue}}
-            </mat-option>           
+            </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -69,8 +69,8 @@
     <div class="centrar-fila">
       <label class="fuente-pequeña">Programa:</label>
       <mat-form-field appearance="fill" class="centrar-select">
-        <mat-select formControlName="grupo">
-          <mat-option *ngFor="let item of cbgrupo" [value]="item.value">
+        <mat-select formControlName="programa">
+          <mat-option *ngFor="let item of cbprograma" [value]="item.value">
             {{item.label.toUpperCase()}}
           </mat-option>
         </mat-select>
@@ -79,8 +79,8 @@
     <div class="centrar-fila">
       <label class="fuente-pequeña">Grupo:</label>
       <mat-form-field appearance="fill" class="centrar-select">
-        <mat-select formControlName="usuariopersona">
-          <mat-option *ngFor="let item of cbusuarios" [value]="item.value">
+        <mat-select formControlName="grupo">
+          <mat-option *ngFor="let item of cbgrupos" [value]="item.value">
             {{item.label.toUpperCase()}}
           </mat-option>
         </mat-select>
@@ -91,8 +91,8 @@
     <div class="centrar-fila">
       <label class="fuente-pequeña">Submódulo:</label>
       <mat-form-field appearance="fill" class="centrar-select">
-        <mat-select formControlName="grupo">
-          <mat-option *ngFor="let item of cbgrupo" [value]="item.value">
+        <mat-select formControlName="submodulo">
+          <mat-option *ngFor="let item of cbsubmodulo" [value]="item.value">
             {{item.label.toUpperCase()}}
           </mat-option>
         </mat-select>
@@ -114,22 +114,17 @@
       <label class="fuente-pequeña">Estado:</label>
       <mat-form-field appearance="fill" class="centrar-select">
         <mat-select formControlName="estado">
-          <mat-option value="disponible">Disponible</mat-option>
-          <mat-option value="reservado">Reservado</mat-option>
+          <mat-option value="disponible">{{ 'Disponible' | uppercase}}</mat-option>
+          <mat-option value="reservado">{{'Reservado' | uppercase}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
     <div class="centrar-fila">
       <label class="fuente-pequeña">Dia:</label>
       <mat-form-field appearance="fill" class="centrar-select">
-        <mat-select formControlName="dia">
-          <mat-option value="lunes">LUNES</mat-option>
-          <mat-option value="martes">MARTES</mat-option>
-          <mat-option value="miercoles">MIÉRCOLES</mat-option>
-          <mat-option value="jueves">JUEVES</mat-option>
-          <mat-option value="viernes">VIERNES</mat-option>
-          <mat-option value="sabado">SÁBADO</mat-option>
-          <mat-option value="sabado">DOMINGO</mat-option>
+        <mat-label>Dia de la semana</mat-label>
+        <mat-select formControlName="dia" multiple>
+          <mat-option *ngFor="let item of semana" [value]="item">{{item}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -154,8 +149,8 @@
     <div class="centrar-fila">
       <label class="fuente-pequeña">Encargado:</label>
       <mat-form-field appearance="fill" class="centrar-select">
-        <mat-select formControlName="usuario">
-          <mat-option *ngFor="let item of cbusuarios" [value]="item.value">
+        <mat-select formControlName="encargado">
+          <mat-option *ngFor="let item of cbencargado" [value]="item.value">
             {{item.label.toUpperCase()}}
           </mat-option>
         </mat-select>

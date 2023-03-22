@@ -16,8 +16,11 @@ export class ConsultarreservaComponent implements OnInit {
   miFormulario: FormGroup;
   visible = false;
   verfiltro = false;
-  comboBox?: any;
+  // comboBox?: any;
   comboBox1?: any;
+
+  //Objetos quemados
+  comboBox = [{value: 1, label: 'Algebra 1'},{value: 2, label: 'Algebra 2'},{value: 3, label: 'Estadistica'},{value: 4, label: 'Lógica computacional'}];
 
   constructor(private fb: FormBuilder,
               private _peticion: RestService,
@@ -41,30 +44,30 @@ export class ConsultarreservaComponent implements OnInit {
   }
 
   filtrarUnidadportipo() {
-    setTimeout (() => {
-      this._peticion.getselect('unidadorganizacional/combo/' + this.miFormulario.value.tipoespacio).subscribe((respuesta) => {
-        this.comboBox = respuesta;
-        if (this.comboBox.length === 0) {
-          this.toastr.error('Este tipo de espacio no tiene registros', 'Error', { timeOut: 1500 });
-        } else {
-          this.miFormulario.controls['filtro'].setValue(this.comboBox[0].value);
-        }
-      });
-    }, 50)
+    // setTimeout (() => {
+    //   this._peticion.getselect('unidadorganizacional/combo/' + this.miFormulario.value.tipoespacio).subscribe((respuesta) => {
+    //     this.comboBox = respuesta;
+    //     if (this.comboBox.length === 0) {
+    //       this.toastr.error('Este tipo de espacio no tiene registros', 'Error', { timeOut: 1500 });
+    //     } else {
+    //       this.miFormulario.controls['filtro'].setValue(this.comboBox[0].value);
+    //     }
+    //   });
+    // }, 50)
   }
 
   buscarReserva(): void {
-    setTimeout (() => {
-      this._peticion.gettodasreserva('reserva/buscar?type=' + this.miFormulario.value.radioButton + '&search=' + this.miFormulario.value.filtro).subscribe((respuesta) => {
-        this.Usuario.datosReserva = respuesta;
-        if (this.Usuario.datosReserva.message === 'No hay registros') {
-          this.toastr.error('No hay registros', 'Error', { timeOut: 1500 });
-          this.visible = false;
-        } else {
-          this.visible = true;
-        }
-      });
-    }, 100)
+    // setTimeout (() => {
+    //   this._peticion.gettodasreserva('reserva/buscar?type=' + this.miFormulario.value.radioButton + '&search=' + this.miFormulario.value.filtro).subscribe((respuesta) => {
+    //     this.Usuario.datosReserva = respuesta;
+    //     if (this.Usuario.datosReserva.message === 'No hay registros') {
+    //       this.toastr.error('No hay registros', 'Error', { timeOut: 1500 });
+    //       this.visible = false;
+    //     } else {
+    //       this.visible = true;
+    //     }
+    //   });
+    // }, 100)
   }
 
   eliminarReserva(id: number ): void {
@@ -93,17 +96,18 @@ export class ConsultarreservaComponent implements OnInit {
         // Usuarios
         this.verfiltro = false;
         this._peticion.getselect('usuario/combo').subscribe((respuesta) => {
-          this.comboBox = respuesta;
+          // this.comboBox = respuesta;
           this.miFormulario.controls['filtro'].setValue(this.comboBox[0].value);
         });
         break;
       case 'submodulo':
         // Submodulo
-        this.verfiltro = false;
-        this._peticion.getselect('submodulo/combo').subscribe((respuesta) => {
-          this.comboBox = respuesta;
-          this.miFormulario.controls['filtro'].setValue(this.comboBox[0].value);
-        });
+        // this.verfiltro = false;
+        // this._peticion.getselect('submodulo/combo').subscribe((respuesta) => {
+        //   this.comboBox = respuesta;
+        //   this.miFormulario.controls['filtro'].setValue(this.comboBox[0].value);
+        // });
+        this.miFormulario.controls['filtro'].setValue(this.comboBox[0].value) ;
         break;
       default:
         break;

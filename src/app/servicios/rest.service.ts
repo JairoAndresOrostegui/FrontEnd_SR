@@ -5,7 +5,9 @@ import { Login } from '../modelos/autenticacion/login';
 import { Login2 } from '../modelos/autenticacion/login2';
 import { Rol } from '../modelos/autenticacion/rol';
 import { Respuesta, Select } from '../modelos/genericos/listas';
-import { ObtenerReserva, Reserva } from '../modelos/reservas/reserva';
+import { ObtenerReserva } from '../modelos/reservas/reserva';
+import { Reservas } from '../modelos/reservas/reserva2';
+import { Reservas3 } from '../modelos/reservas/reserva3';
 import { Unidad } from '../modelos/unidadesOrganizacionales/unidad';
 import { Caracteristica, Tipoespaciofisico } from '../modelos/unidadesOrganizacionales/unidad';
 
@@ -22,8 +24,8 @@ export class RestService {
   ) { }
 
   //Confirma las credenciales de autenticacion y trae toda su informaion y menu
-  public login(url: string, body: any) {
-    return this.http.get<Login2>(this.apiurl + url, body)
+  public login(url: string,) {
+    return this.http.get<Login2>(this.apiurl + url)
   }
 
   //Llenar los Select para los combobox
@@ -39,7 +41,7 @@ export class RestService {
     const requestOptions = { headers: headers };
     return this.http.get<boolean>(this.apiurl + url, requestOptions);
   }
-  
+
   public create(url: string, body: any) {
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.token });
     const requestOptions = { headers: headers };
@@ -87,10 +89,10 @@ export class RestService {
   }
 
   //Consumo de API para reserva
-  public getreserva(url: string, body: any) {
+  public postreserva(url: string, body: any) {
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.token });
     const requestOptions = { headers: headers };
-    return this.http.post<Reserva>(this.apiurl + url, body, requestOptions);
+    return this.http.post<any>(this.apiurl + url, body, requestOptions);
   }
 
   public gettodasreserva(url: string) {
