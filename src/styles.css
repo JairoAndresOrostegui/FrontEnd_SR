@@ -257,6 +257,14 @@ input {
   bottom: 0!important;
 }
 
+.mat-form-field-infix {
+  border-top: 0!important;
+}
+
+.mat-form-field {
+  font-size: 12px!important;
+}
+
 .mat-tooltip {
   font-size: 13px!important;
 }
