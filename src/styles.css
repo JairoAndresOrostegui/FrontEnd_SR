@@ -296,6 +296,10 @@ input {
   display: none!important;
 }
 
+.mat-mdc-dialog-container {
+  font-family: Montserrat-Medium !important;
+}
+
 
 /* Tamaños predeterminados: */
 

@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ModalgraficotortaComponent implements OnInit {
 
-  view: [number, number] = [600, 600];
+  view: [number, number] = [600, 250];
 
   showLegend: boolean = true;
   showLabels: boolean = true;
