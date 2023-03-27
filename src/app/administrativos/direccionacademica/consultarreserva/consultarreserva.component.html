@@ -11,7 +11,7 @@
     </div>
 
     <!-- ComboBox tipos de espacio fisico -->
-    <div *ngIf="verfiltro" class="centrar-fila">
+    <div *ngIf="vertipoespacio" class="centrar-fila">
       <mat-form-field appearance="fill" class="centrar-select">
         <mat-select formControlName="tipoespacio">
           <mat-option *ngFor="let item of comboBox1" [value]="item.value" (onSelectionChange)="filtrarUnidadportipo()">
@@ -21,9 +21,19 @@
       </mat-form-field>
     </div>
     <!-- Unidades organizacionales filtradas por tipos de espacio fisico -->
-    <div class="centrar-fila">
+    <div *ngIf="versubmodulo" class="centrar-fila">
       <mat-form-field appearance="fill" class="centrar-select">
-        <mat-select formControlName="filtro">
+        <mat-select formControlName="submodulo">
+          <mat-option *ngFor="let item of comboBox" [value]="item.value" (onSelectionChange)="buscarReserva()">
+            {{ item.label.toUpperCase() }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- Unidades organizacionales filtradas por tipos de espacio fisico -->
+    <div *ngIf="verunidad" class="centrar-fila">
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="unidadorganizacional">
           <mat-option *ngFor="let item of comboBox" [value]="item.value" (onSelectionChange)="buscarReserva()">
             {{ item.label.toUpperCase() }}
           </mat-option>

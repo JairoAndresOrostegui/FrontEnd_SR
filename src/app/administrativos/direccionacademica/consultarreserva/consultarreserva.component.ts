@@ -15,12 +15,15 @@ export class ConsultarreservaComponent implements OnInit {
 
   miFormulario: FormGroup;
   visible = false;
-  verfiltro = false;
-  // comboBox?: any;
+  vertipoespacio = false;
+  verunidad = false;
+  versubmodulo = false;
   comboBox1?: any;
+  comboBox?: any;
+  comboUnidadOrganizacional?: any;
 
   //Objetos quemados
-  comboBox = [{value: 1, label: 'Algebra 1'},{value: 2, label: 'Algebra 2'},{value: 3, label: 'Estadistica'},{value: 4, label: 'Lógica computacional'}];
+  // comboBox = [{value: 1, label: 'Algebra 1'},{value: 2, label: 'Algebra 2'},{value: 3, label: 'Estadistica'},{value: 4, label: 'Lógica computacional'}];
 
   constructor(private fb: FormBuilder,
               private _peticion: RestService,
@@ -29,45 +32,45 @@ export class ConsultarreservaComponent implements OnInit {
               private toastr: ToastrService ){
                 this.miFormulario = this.fb.group ({
                   radioButton: ['submodulo'],
-                  filtro: [''],
+                  submodulo: [''],
                   tipoespacio: [''],
-                  unidadesfiltradas: ['']
+                  unidadorganizacional: ['']
                 });
                 this._peticion.getselect('tipoespacio/combo').subscribe((respuesta) => {
                   this.comboBox1 = respuesta;
                   this.miFormulario.controls['tipoespacio'].setValue(this.comboBox1[0].value);
                 });
-                this.cambioRadio();
+                // this.cambioRadio();
   };
 
   ngOnInit(){
   }
 
   filtrarUnidadportipo() {
-    // setTimeout (() => {
-    //   this._peticion.getselect('unidadorganizacional/combo/' + this.miFormulario.value.tipoespacio).subscribe((respuesta) => {
-    //     this.comboBox = respuesta;
-    //     if (this.comboBox.length === 0) {
-    //       this.toastr.error('Este tipo de espacio no tiene registros', 'Error', { timeOut: 1500 });
-    //     } else {
-    //       this.miFormulario.controls['filtro'].setValue(this.comboBox[0].value);
-    //     }
-    //   });
-    // }, 50)
+    setTimeout (() => {
+      this._peticion.getselect('unidadorganizacional/combo/' + this.miFormulario.value.tipoespacio).subscribe((respuesta) => {
+        this.comboBox = respuesta;
+        if (this.comboBox.length === 0) {
+          this.toastr.error('Este tipo de espacio no tiene registros', 'Error', { timeOut: 1500 });
+        } else {
+          this.miFormulario.controls['submodulo'].setValue(this.comboBox[0].value);
+        }
+      });
+    }, 50)
   }
 
   buscarReserva(): void {
-    // setTimeout (() => {
-    //   this._peticion.gettodasreserva('reserva/buscar?type=' + this.miFormulario.value.radioButton + '&search=' + this.miFormulario.value.filtro).subscribe((respuesta) => {
-    //     this.Usuario.datosReserva = respuesta;
-    //     if (this.Usuario.datosReserva.message === 'No hay registros') {
-    //       this.toastr.error('No hay registros', 'Error', { timeOut: 1500 });
-    //       this.visible = false;
-    //     } else {
-    //       this.visible = true;
-    //     }
-    //   });
-    // }, 100)
+    setTimeout (() => {
+      this._peticion.gettodasreserva('reserva/buscar?type=' + this.miFormulario.value.radioButton + '&search=' + this.miFormulario.value.submodulo).subscribe((respuesta) => {
+        this.Usuario.datosReserva = respuesta;
+        if (this.Usuario.datosReserva.message === 'No hay registros') {
+          this.toastr.error('No hay registros', 'Error', { timeOut: 1500 });
+          this.visible = false;
+        } else {
+          this.visible = true;
+        }
+      });
+    }, 100)
   }
 
   eliminarReserva(id: number ): void {
@@ -89,25 +92,26 @@ export class ConsultarreservaComponent implements OnInit {
   cambioRadio(){
     switch (this.miFormulario.value.radioButton) {
       case 'unidad_organizacional':
-        this.verfiltro = true;
+        this.vertipoespacio = true;
         this.filtrarUnidadportipo();
         break;
       case 'usuario':
         // Usuarios
-        this.verfiltro = false;
+        this.vertipoespacio = false;
         this._peticion.getselect('usuario/combo').subscribe((respuesta) => {
-          // this.comboBox = respuesta;
-          this.miFormulario.controls['filtro'].setValue(this.comboBox[0].value);
+          this.comboBox = respuesta;
+          this.miFormulario.controls['submodulo'].setValue(this.comboBox[0].value);
         });
         break;
       case 'submodulo':
         // Submodulo
-        // this.verfiltro = false;
-        // this._peticion.getselect('submodulo/combo').subscribe((respuesta) => {
-        //   this.comboBox = respuesta;
-        //   this.miFormulario.controls['filtro'].setValue(this.comboBox[0].value);
-        // });
-        this.miFormulario.controls['filtro'].setValue(this.comboBox[0].value) ;
+        this.vertipoespacio = false;
+        this.versubmodulo = true;
+        this._peticion.getselect('submodulo/combo').subscribe((respuesta) => {
+          this.comboBox = respuesta;
+          this.miFormulario.controls['submodulo'].setValue(this.comboBox[0].value);
+        });
+        this.miFormulario.controls['submodulo'].setValue(this.comboBox[0].value) ;
         break;
       default:
         break;

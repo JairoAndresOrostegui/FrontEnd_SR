@@ -171,7 +171,6 @@ export class CrearreservaComponent implements OnInit {
       capacidad_unidad_organizacional: this.crearreserva.value.capacidad,
       estado: this.crearreserva.value.estado
     }
-    console.log(this.crearreserva.value.dia)
     this.peticion.postreserva('unidadorganizacional/reserva', this.objetoreserva).subscribe((respuesta) => {
       if (this.crearreserva.value.estado === 'disponible') {
         this.listaUnidades = respuesta.reservaDisponible;
@@ -213,12 +212,12 @@ export class CrearreservaComponent implements OnInit {
       estado_reserva: this.crearreserva.value.estado,
       id_usuario_colaborador: objetocolaborador[0].value,
       nombre_usuario_colaborador: objetocolaborador[0].label,
-      nivel: '',
-      // codigo_programa: objetoprograma[0].value,
-      codigo_programa: '',
+      nivel: 99,
+      codigo_programa: objetoprograma[0].label,
+      // codigo_programa: '',
       nombre_programa: objetoprograma[0].label,
-      categoria: '',
-      escuela: '',
+      id_rol: 99,
+      escuela: 99,
       reserva_dia: [
         {
           id_reserva: 0 ,
