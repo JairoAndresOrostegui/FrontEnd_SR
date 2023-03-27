@@ -7,7 +7,10 @@ import { environment } from 'src/environments/environment';
 import { RecaptchaV3Module, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha';
 
 //Dependencias auxiliares
+//Externas
 import { ToastrModule } from 'ngx-toastr';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+//Propias de angular
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -38,6 +41,8 @@ import { TipounidadComponent } from './administrativos/direccionacademica/tipoun
 import { CaracteristicasunidadComponent } from './administrativos/direccionacademica/caracteristicasunidad/caracteristicasunidad.component';
 import { InformesreservaComponent } from './administrativos/direccionacademica/informesreserva/informesreserva.component';
 import { ReportesreservaComponent } from './administrativos/direccionacademica/reportesreserva/reportesreserva.component';
+import { ModalgraficotortaComponent } from './compartidos/modales/modalgraficotorta/modalgraficotorta.component';
+import { ModalgraficobarrasComponent } from './compartidos/modales/modalgraficobarras/modalgraficobarras.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +62,9 @@ import { ReportesreservaComponent } from './administrativos/direccionacademica/r
     TipounidadComponent,
     CaracteristicasunidadComponent,
     InformesreservaComponent,
-    ReportesreservaComponent
+    ReportesreservaComponent,
+    ModalgraficotortaComponent,
+    ModalgraficobarrasComponent
   ],
   imports: [
     BrowserModule,
@@ -73,6 +80,7 @@ import { ReportesreservaComponent } from './administrativos/direccionacademica/r
     MatTooltipModule,
     HttpClientModule,
     RecaptchaV3Module,
+    NgxChartsModule,
     ToastrModule.forRoot()
   ],
   providers: [

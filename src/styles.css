@@ -257,9 +257,49 @@ input {
   bottom: 0!important;
 }
 
+.mat-form-field-infix {
+  border-top: 0!important;
+}
+
+.mat-form-field {
+  font-size: 12px!important;
+}
+
 .mat-tooltip {
   font-size: 13px!important;
 }
+
+.mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix {
+  padding-top: 5px!important;
+  padding-bottom: 5px!important;
+}
+
+.mat-mdc-form-field-infix {
+  min-height: 20px!important;
+}
+
+.mat-mdc-select {
+  font-size: 12px!important;
+  font-family: Montserrat-Light !important;
+}
+
+.mat-mdc-option .mdc-list-item__primary-text {
+  font-size: 12px!important;
+  font-family: Montserrat-Light !important;
+}
+
+.mat-mdc-option {
+  min-height: 25px!important;
+}
+
+.mat-mdc-form-field-bottom-align::before {
+  display: none!important;
+}
+
+.mat-mdc-dialog-container {
+  font-family: Montserrat-Medium !important;
+}
+
 
 /* Tamaños predeterminados: */
 
