@@ -1,0 +1,73 @@
+.centrar-fila {
+  column-gap: 15px;
+  padding-bottom: 2vh;
+}
+
+.centrar-fila label {
+  width: 180px;
+  text-align: end;
+}
+
+.centrar-select {
+  width: 220px;
+}
+
+.centrar-fila input {
+  width: 200px;
+}
+
+.formulario-estandar {
+  padding: 3vh 4vw;
+  padding-top: 6vh;
+}
+
+.boton-principal {
+  padding: 0 1vw;
+}
+
+.boton-verificar {
+  display: flex;
+  justify-content: center;
+}
+
+table {
+  border-spacing: 0;
+}
+
+td {
+  text-align: center;
+}
+
+.margen-label-usuario img {
+  margin-right: -50px;
+}
+
+.fila {
+  display: flex;
+  column-gap: 15px;
+  align-items: flex-start;
+}
+
+.margen-usuario {
+  justify-content: center;
+}
+
+@media (max-width: 1250px){
+  .fila {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+  }
+  .formulario-estandar {
+    padding-left: 4vw;
+    padding-right: 4vw;
+  }
+}
+
+@media (max-width: 900px){
+  .formulario-estandar {
+    padding-left: 2vw;
+    padding-right: 2vw;
+  }
+}
