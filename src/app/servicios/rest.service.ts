@@ -42,6 +42,12 @@ export class RestService {
     return this.http.get<boolean>(this.apiurl + url, requestOptions);
   }
 
+  public getId(url: string) {
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.token });
+    const requestOptions = { headers: headers };
+    return this.http.get<Number>(this.apiurl + url, requestOptions);
+  }
+
   public create(url: string, body: any) {
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.token });
     const requestOptions = { headers: headers };

@@ -1,9 +1,35 @@
 <div class="centrar-texto mt-2">
-  <h1 class="fuente-extragrande">CESDE MEDELLIN</h1>
+  <h1 class="fuente-extragrande">CESDE {{ tittle }}</h1>
 </div>
-<ngx-charts-pie-grid
+<ngx-charts-pie-grid *ngIf="temp === 1"
   [view]="view"
-  [scheme]="colorScheme"
-  [results]="single">
-  height="300"
+  [scheme]="colorScheme1"
+  [results]="ocupacion"
+  >
 </ngx-charts-pie-grid>
+<ngx-charts-pie-chart *ngIf="temp === 2"
+  [view]="view"
+  [scheme]="colorScheme2"
+  [results]="tiposUnidad"
+  [gradient]="gradient"
+  [legend]="showLegend"
+  [labels]="showLabels"
+  [doughnut]="isDoughnut"
+  [legendTitle]="'Sedes'"
+  >
+</ngx-charts-pie-chart>
+<ngx-charts-bar-vertical-2d *ngIf="temp === 3"
+  [view]="view"
+  [scheme]="colorScheme3"
+  [results]="programas"
+  [gradient]="gradient"
+  [xAxis]="showXAxis"
+  [yAxis]="showYAxis"
+  [legend]="showLegend"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [xAxisLabel]="xAxisLabel"
+  [yAxisLabel]="yAxisLabel"
+  [legendTitle]="legendTitle"
+  >
+</ngx-charts-bar-vertical-2d>
