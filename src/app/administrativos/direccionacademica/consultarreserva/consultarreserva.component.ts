@@ -18,8 +18,9 @@ export class ConsultarreservaComponent implements OnInit {
   vertipoespacio = false;
   verunidad = false;
   versubmodulo = false;
-  comboBox1?: any;
   comboBox?: any;
+  comboBox1?: any;
+  comboBox2?: any;
   comboUnidadOrganizacional?: any;
 
   //Objetos quemados
@@ -62,6 +63,7 @@ export class ConsultarreservaComponent implements OnInit {
   buscarReserva(): void {
     setTimeout (() => {
       this._peticion.gettodasreserva('reserva/buscar?type=' + this.miFormulario.value.radioButton + '&search=' + this.miFormulario.value.submodulo).subscribe((respuesta) => {
+        console.log(respuesta)
         this.Usuario.datosReserva = respuesta;
         if (this.Usuario.datosReserva.message === 'No hay registros') {
           this.toastr.error('No hay registros', 'Error', { timeOut: 1500 });
@@ -104,7 +106,7 @@ export class ConsultarreservaComponent implements OnInit {
         });
         break;
       case 'submodulo':
-        // Submodulo
+    //     // Submodulo
         this.vertipoespacio = false;
         this.versubmodulo = true;
         this._peticion.getselect('submodulo/combo').subscribe((respuesta) => {

@@ -34,7 +34,7 @@
     <div *ngIf="verunidad" class="centrar-fila">
       <mat-form-field appearance="fill" class="centrar-select">
         <mat-select formControlName="unidadorganizacional">
-          <mat-option *ngFor="let item of comboBox" [value]="item.value" (onSelectionChange)="buscarReserva()">
+          <mat-option *ngFor="let item of comboBox2" [value]="item.value" (onSelectionChange)="buscarReserva()">
             {{ item.label.toUpperCase() }}
           </mat-option>
         </mat-select>

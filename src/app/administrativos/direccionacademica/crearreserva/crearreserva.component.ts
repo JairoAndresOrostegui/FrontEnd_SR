@@ -214,19 +214,16 @@ export class CrearreservaComponent implements OnInit {
       nombre_usuario_colaborador: objetocolaborador[0].label,
       nivel: 99,
       codigo_programa: objetoprograma[0].label,
-      // codigo_programa: '',
       nombre_programa: objetoprograma[0].label,
       id_rol: 99,
       escuela: 99,
-      reserva_dia: [
-        {
-          id_reserva: 0 ,
-          reserva_dia_dia: this.crearreserva.value.dia,
-          // reserva_dia_dia: '',
-          reserva_dia_hora_inicio: this.crearreserva.value.horainicio,
-          reserva_dia_hora_fin: this.crearreserva.value.horafin
-        }
-      ]
+      reservaDia: {
+        id_reserva: 0,
+        reserva_dia_dia: this.crearreserva.value.dia,
+        reserva_dia_id: 99,
+        reserva_dia_hora_inicio: this.crearreserva.value.horainicio,
+        reserva_dia_hora_fin: this.crearreserva.value.horafin
+      }
     }
     console.log(this.objetoreserva)
     this.peticion.create('reserva', this.objetoreserva).subscribe((respuesta) => {
