@@ -1,0 +1,55 @@
+.centrar-fila {
+  column-gap: 15px;
+  margin-bottom: 3vh;
+}
+
+.tamaño-input input {
+  width: 200px;
+}
+
+.tamaño-input label {
+  width: 130px;
+  text-align: end;
+}
+
+.centrar-select {
+  width: 220px;
+}
+
+.formulario-estandar {
+  padding: 3vh 5vw;
+  row-gap: 1vh;
+}
+
+.fuente-link {
+  font-size: 1.1em;
+}
+
+.separacion-radio {
+  margin-bottom: 20px;
+}
+
+.separacion-radio label {
+  margin-right: 20px;
+}
+
+table {
+  border-spacing: 0;
+}
+
+@media (max-width: 1200px) {
+  
+  .responsivo {
+    display: flex;
+    flex-flow: column;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 500px) {
+  
+  .responsivo {
+    display: flex;
+    flex-flow: column;
+  }
+}
