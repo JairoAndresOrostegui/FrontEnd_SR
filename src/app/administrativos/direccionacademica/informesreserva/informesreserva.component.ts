@@ -16,6 +16,10 @@ export class InformesreservaComponent implements OnInit {
   sedes: any;
   mes: any;
   sede: any;
+  
+  temp: number;
+  tittle: string = '';
+
   //programas: any;
   //usuarios: any;
 
@@ -52,16 +56,18 @@ export class InformesreservaComponent implements OnInit {
     this.mostrarLista(1);
     this._peticion.getselect('unidadrol?id_rol=' + this.Usuario.datosLogin.rol).subscribe((respuesta) => {
       this.sedes = respuesta;
+      this.tittle = this.sedes[0].label;
     });
     this.mes = 1;
     this.sede = 2;
+    this.temp = 1;
   }
 
   ngOnInit(): void {}
 
   mostrarLista(id: number): void {
     if (id === 1) {
-      this.reportes = [{ value: 1, label: 'Comparativo entre sedes' }]
+      this.reportes = [{ value: 1, label: 'Comparativo entre sedes' }];
     } else if (id === 2) {
       this._peticion.getselect('rolespacio?id_rol=' + this.Usuario.datosLogin.rol).subscribe((respuesta) => {
         this.reportes = respuesta;
@@ -77,12 +83,16 @@ export class InformesreservaComponent implements OnInit {
       });*/
       this.reportes = this.usuarios;
     }
+    this.temp = id;
   }
 
   mostrarGrafico(id: number): void {
-    const dialogRef = this.confirmacion.open(ModalgraficotortaComponent,
-      { maxWidth: "700px", data: {  } 
-    });
+    if (this.temp === 1) {
+      this.tittle = '';
+    } else {
+      this.tittle = this.sedes.filter((item: any) => item.value === this.sede)[0].label;
+    }
+    const dialogRef = this.confirmacion.open(ModalgraficotortaComponent, { maxWidth: "700px", data: { temp: this.temp, tittle: this.tittle } });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         //this.refrescarLista();

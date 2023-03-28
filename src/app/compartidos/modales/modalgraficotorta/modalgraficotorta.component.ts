@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Color, ScaleType } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-modalgraficotorta',
@@ -7,16 +9,55 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ModalgraficotortaComponent implements OnInit {
 
+  temp: number;
+  tittle: string;
+
   view: [number, number] = [600, 250];
 
   showLegend: boolean = true;
   showLabels: boolean = true;
+  gradient: boolean = true;
+  isDoughnut: boolean = false;
 
-  colorScheme: any = {
+  showXAxis: boolean;
+  showYAxis: boolean;
+  showXAxisLabel: boolean;
+  xAxisLabel: string;
+  showYAxisLabel: boolean;
+  yAxisLabel: string;
+  legendTitle: string;
+
+  colorScheme1: any = {
     domain: ['#EE2B7B', '#009EE2', '#BB00E6']
   };
 
-  single = [
+  colorScheme2: any = {
+    domain: ['#EE2B7B', '#009EE2', '#BB00E6']
+  };
+
+  colorScheme3: any = {
+    domain: ['#5AA454', '#C7B42C', '#AAAAAA'],
+    group: ScaleType.Ordinal, 
+    selectable: true, 
+    name: 'Customer Usage'
+  };
+
+  ocupacion = [
+    {
+      "name": "Principal",
+      "value": 7
+    },
+    {
+      "name": "Palo",
+      "value": 2
+    },
+    {
+      "name": "San Ignacio",
+      "value": 10
+    }
+  ];
+
+  tiposUnidad = [
     {
       "name": "Principal",
       "value": 7
@@ -31,7 +72,61 @@ export class ModalgraficotortaComponent implements OnInit {
     }
   ];
 
-  constructor() { }
+  programas = [
+    {
+      "name": "Germany",
+      "series": [
+        {
+          "name": "2010",
+          "value": 7300000
+        },
+        {
+          "name": "2011",
+          "value": 8940000
+        }
+      ]
+    },
+  
+    {
+      "name": "USA",
+      "series": [
+        {
+          "name": "2010",
+          "value": 7870000
+        },
+        {
+          "name": "2011",
+          "value": 8270000
+        }
+      ]
+    },
+  
+    {
+      "name": "France",
+      "series": [
+        {
+          "name": "2010",
+          "value": 5000002
+        },
+        {
+          "name": "2011",
+          "value": 5800000
+        }
+      ]
+    }
+  ];
+
+  constructor(@Inject(MAT_DIALOG_DATA) private data: any) {
+    this.temp = data.temp;
+    this.tittle = data.tittle;
+    this.showXAxis = true;
+    this.showYAxis = true;
+    this.showXAxisLabel = true;
+    this.xAxisLabel = 'Country';
+    this.showYAxisLabel = true;
+    this.yAxisLabel = 'Population';
+    this.legendTitle = 'Years';
+  }
 
   ngOnInit(): void {
   }
