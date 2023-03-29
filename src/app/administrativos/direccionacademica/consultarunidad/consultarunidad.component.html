@@ -1,13 +1,13 @@
 <div>
   <form class="centrar-columna" [formGroup]="buscar">
-    <div class="centrar mb-6 fuente-pequeña separacion-radio">
+    <div class="centrar fuente-pequeña separacion-radio">
       <input type="radio" formControlName="filtro" value="tipo"><label class="centrar">Tipo de unidad</label>
       <input type="radio" formControlName="filtro" value="nombre" [checked]='true'><label class="centrar">Nombre</label>
       <input type="radio" formControlName="filtro" value="capacidad" [checked]='true'><label class="centrar">Capacidad</label>
       <input type="radio" formControlName="filtro" value="caracteristica"><label class="centrar">Caracteristica</label>
       <input type="radio" formControlName="filtro" value="estado" [checked]='true'><label class="centrar">Estado</label>
     </div>
-    <div class="centrar-fila mt-6 fuente-pequeña">
+    <div class="centrar-fila mt-3 fuente-pequeña">
       <label>Buscar:</label>
       <input class="entrada-texto fondo-neutro-gris2" formControlName="entrada">
       <button (click)="buscarUnidad()" class="icono icono-buscar contorno-nulo fusion-boton" matTooltip="Buscar"></button>
@@ -38,7 +38,7 @@
   </table>
 </div>
 <form *ngIf="mostrar" [formGroup]="actualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5">
-  <div class="centrar-fila mb-6">
+  <div class="centrar-fila">
     <h2 class="centrar-texto fuente-grande">{{ txtformulario }} unidad organizacional:</h2>
   </div>
   <input type="hidden" formControlName="idUnidad">
@@ -62,7 +62,7 @@
         <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Nombre"></button>
       </div>
       <span *ngIf="actualizar.get('nombre')?.hasError('required') && actualizar.get('nombre')?.touched"
-        class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Este campo es requerido</span>
+        class="fuente-pequeña centrar-fila color-alerta-rojo">Este campo es requerido</span>
     </div>
   </div>
   <div class="fila">
@@ -73,7 +73,7 @@
         <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Piso"></button>
       </div>
       <span *ngIf="actualizar.get('piso')?.hasError('required') && actualizar.get('piso')?.touched"
-        class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Este campo es requerido</span>
+        class="fuente-pequeña centrar-fila color-alerta-rojo">Este campo es requerido</span>
     </div>
     <div>
       <div class="centrar-fila">
@@ -83,7 +83,7 @@
       </div>
     </div>
     <span *ngIf="actualizar.get('capacidad')?.hasError('required') && actualizar.get('capacidad')?.touched"
-        class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Este campo es requerido</span>
+        class="fuente-pequeña centrar-fila color-alerta-rojo">Este campo es requerido</span>
   </div>
   <div class="fila">
     <div class="centrar-fila">
@@ -181,7 +181,7 @@
       </tr>
     </table>
   </div>
-  <div *ngIf="Usuario.permisos?.modificar === 'si'" class="centrar-fila boton-crear mt-6">
-     <button (click)="actualizarUnidad()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">Actualizar</button>
+  <div *ngIf="Usuario.permisos?.modificar === 'si'" class="centrar-fila boton-crear">
+     <button (click)="actualizarUnidad()" class="fondo-basico-magenta contorno-nulo color-basico-blanco boton-principal fusion-boton">Actualizar</button>
   </div>
 </form>

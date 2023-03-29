@@ -73,6 +73,7 @@ export class ConsultarunidadComponent implements OnInit {
       });
     } else {
       this.peticion.getrol('unidadorganizacional/buscar?type='+this.buscar.value.filtro+'&search='+this.buscar.value.entrada).subscribe((respuesta) => {
+        console.log(respuesta)
         if (respuesta.message != 'No hay registros') {
           this.Usuario.datosUnidad = respuesta;
           this.visible = true;

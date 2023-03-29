@@ -15,11 +15,11 @@
       <div class="centrar-fila margen-label-usuario">
         <label class="fuente-pequeña">Nombre:</label>
         <input class="input-texto entrada-texto" placeholder="Nombre de la Sede o Aula" formControlName="nombre">
-        <img *ngIf="chequeo" class="icono" [src]='urlimagen'>
         <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Nombre del espacio"></button>
+        <img *ngIf="chequeo" class="icono" [src]='urlimagen'>
       </div>
       <span *ngIf="crearsede.get('nombre')?.hasError('required') && crearsede.get('nombre')?.touched"
-        class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Este campo es requerido</span>
+        class="fuente-pequeña centrar-fila color-alerta-rojo">Este campo es requerido</span>
     </div>
   </div>
   <div class="fila">
@@ -30,7 +30,7 @@
         <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Piso"></button>
       </div>
       <span *ngIf="crearsede.get('piso')?.hasError('required') && crearsede.get('piso')?.touched"
-        class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Este campo es requerido</span>
+        class="fuente-pequeña centrar-fila color-alerta-rojo">Este campo es requerido</span>
     </div>
     <div>
       <div class="centrar-fila">
@@ -40,7 +40,7 @@
       </div>
     </div>
     <span *ngIf="crearsede.get('capacidad')?.hasError('required') && crearsede.get('capacidad')?.touched"
-        class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Este campo es requerido</span>
+        class="fuente-pequeña centrar-fila color-alerta-rojo">Este campo es requerido</span>
   </div>
   <div class="fila">
     <div class="centrar-fila">
@@ -115,7 +115,7 @@
         </td>
       </tr>
       <span *ngIf="crearsede.get('cantidad')?.hasError('required') && crearsede.get('cantidad')?.touched"
-          class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Indique la cantidad</span>
+          class="fuente-pequeña centrar-fila color-alerta-rojo">Indique la cantidad</span>
       <tr *ngFor="let item of caracteristicaslista;" class="fuente-cuerpo-tabla borde-tabla">
         <td>{{ item.label.toUpperCase() }}</td>
         <td>{{ item.cantidad }}</td>
@@ -123,7 +123,7 @@
       </tr>
     </table>
   </div>
-  <div class="centrar-fila boton-crear mt-6">
+  <div class="centrar-fila boton-crear">
      <button (click)="crearUnidad()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">Crear</button>
   </div>
 </form>

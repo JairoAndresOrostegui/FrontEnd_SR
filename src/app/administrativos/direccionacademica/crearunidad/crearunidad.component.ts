@@ -137,7 +137,6 @@ export class CrearunidadComponent implements OnInit {
     this.verificarUnidad();
     setTimeout(() => {
       if (this.valido) {
-        console.log(this.valido)
         this.objetounidad = {
           id_unidad_organizacional: 0,
           id_tipo_espacio: this.crearsede.value.tipoespacio,
@@ -157,11 +156,9 @@ export class CrearunidadComponent implements OnInit {
           };
         });
       } else {
-        console.log(this.valido)
-        this.toastr.warning('Esta caracteristica ya existe', 'Alerta', { timeOut: 2500 });
+        this.toastr.warning('Este nombre de unidad ya existe', 'Alerta', { timeOut: 2500 });
       };
     }, 100);
-    console.log(this.objetounidad);
   }
   
   selectipoespaciodep(): void {
