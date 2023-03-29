@@ -38,7 +38,10 @@ export class TipounidadComponent implements OnInit {
       this.txtformulario = 'Actualizar';
       this.txtboton = 'Actualizar';
       this.buscar = this.fb.group ({ entrada: [''], filtro: ['nombre'] });
-      this.actualizar = this.fb.group ({ idactualizar: [''], nombreactualizar: ['', Validators.required], estadoactualizar: ['activo', Validators.required] });
+      this.actualizar = this.fb.group ({ 
+        idactualizar: [''], 
+        nombreactualizar: ['', Validators.required], 
+        estadoactualizar: ['activo', Validators.required] });
   }
 
   ngOnInit(): void {
@@ -124,6 +127,7 @@ export class TipounidadComponent implements OnInit {
             nombre_tipo_espacio: this.actualizar.value.nombreactualizar.toLowerCase(),
             estado_tipo_espacio: this.actualizar.value.estadoactualizar
           };
+          this.verificarTipoEspacio()
           this.peticion.create('tipoespacio', this.update).subscribe((respuesta) => {
             if (respuesta.message === 'Registro guardado con exito') {
               this.toastr.success('Tipo de espacio fisico creada con exito', 'Exitoso', { timeOut: 1500 });
@@ -160,10 +164,10 @@ export class TipounidadComponent implements OnInit {
     this.chequeo = true;
     this.peticion.getvalidar('tipoespacio/validatename/'+this.actualizar.value.nombreactualizar).subscribe((respuesta) => {
       if (!respuesta || this.txttipoespacio === this.actualizar.value.nombreactualizar) {
-        this.urlimagen = './../../../../../../assets/img/iconos/Verificacion.svg';
+        this.urlimagen = './../../assets/img/iconos/Verificacion.svg';
         this.valido = true;
       } else {
-        this.urlimagen = './../../../../../../assets/img/iconos/cerrar.svg';
+        this.urlimagen = './../../assets/img/iconos/cerrar.svg';
         this.valido = false;
       }
     })

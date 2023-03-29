@@ -137,6 +137,7 @@ export class CrearunidadComponent implements OnInit {
     this.verificarUnidad();
     setTimeout(() => {
       if (this.valido) {
+        console.log(this.valido)
         this.objetounidad = {
           id_unidad_organizacional: 0,
           id_tipo_espacio: this.crearsede.value.tipoespacio,
@@ -156,6 +157,7 @@ export class CrearunidadComponent implements OnInit {
           };
         });
       } else {
+        console.log(this.valido)
         this.toastr.warning('Esta caracteristica ya existe', 'Alerta', { timeOut: 2500 });
       };
     }, 100);
@@ -189,10 +191,10 @@ export class CrearunidadComponent implements OnInit {
     this.chequeo = true;
     this.peticion.getvalidar('unidadorganizacional/validatename/'+this.crearsede.value.nombre.toLowerCase()).subscribe((respuesta) => {
       if (!respuesta) {
-        this.urlimagen = './../../../../../../assets/img/iconos/Verificacion.svg';
+        this.urlimagen = './../../assets/img/iconos/verificacion.svg';
         this.valido = true;
       } else {
-        this.urlimagen = './../../../../../../assets/img/iconos/cerrar.svg';
+        this.urlimagen = './../../assets/img/iconos/cerrar.svg';
         this.valido = false;
       };
     });

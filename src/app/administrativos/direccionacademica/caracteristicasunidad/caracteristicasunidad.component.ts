@@ -124,6 +124,7 @@ export class CaracteristicasunidadComponent implements OnInit {
             nombre_caracteristica: this.actualizar.value.nombreactualizar.toLowerCase(),
             estado_caracteristica: this.actualizar.value.estadoactualizar
           };
+          this.verificarCaracteristica();
           this.peticion.create('caracteristica', this.update).subscribe((respuesta) => {
             if (respuesta.message === 'Registro guardado con exito') {
               this.toastr.success('Caracteristica creada con exito', 'Exitoso', { timeOut: 1500 });
@@ -160,10 +161,10 @@ export class CaracteristicasunidadComponent implements OnInit {
     this.chequeo = true;
     this.peticion.getvalidar('caracteristica/validatename/'+this.actualizar.value.nombreactualizar).subscribe((respuesta) => {
       if (!respuesta || this.txtcaracteristica === this.actualizar.value.nombreactualizar) {
-        this.urlimagen = './../../../../../../assets/img/iconos/Verificacion.svg';
+        this.urlimagen = './../../assets/img/iconos/Verificacion.svg';
         this.valido = true;
       } else {
-        this.urlimagen = './../../../../../../assets/img/iconos/cerrar.svg';
+        this.urlimagen = './../../assets/img/iconos/cerrar.svg';
         this.valido = false;
       }
     })

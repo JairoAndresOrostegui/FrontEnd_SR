@@ -15,12 +15,22 @@ export class ConsultarreservaComponent implements OnInit {
 
   miFormulario: FormGroup;
   visible = false;
-  vertipoespacio = false;
-  verunidad = false;
-  versubmodulo = false;
+  verComboBoxSede = false;
+  verAulas = false;
+  verTipoAulas = false;
+  verConvenios = false;
+  verProgramas = false;
+  verDiaInicio = false;
+  verJornada = false;
+  verArea = false;
   comboBox?: any;
-  comboBox1?: any;
+  comboBoxSede?: any;
   comboBox2?: any;
+  comboBox3?: any;
+  comboBox4?: any;
+  comboBox5?: any;
+  comboBox6?: any;
+  comboBox7?: any;
   comboUnidadOrganizacional?: any;
 
   //Objetos quemados
@@ -32,14 +42,20 @@ export class ConsultarreservaComponent implements OnInit {
               public confirmacion: MatDialog,
               private toastr: ToastrService ){
                 this.miFormulario = this.fb.group ({
-                  radioButton: ['submodulo'],
+                  radioButton: ['jornada'],
+                  unidadOrganizacional: [''],
                   submodulo: [''],
-                  tipoespacio: [''],
-                  unidadorganizacional: ['']
+                  unidadorganizacional: [''],
+                  aulas: [''],
+                  programas: [''],
+                  area: [''],
+                  diaInicio: [''],
+                  jornada: [''],
+                  usuario: [''],
                 });
                 this._peticion.getselect('tipoespacio/combo').subscribe((respuesta) => {
-                  this.comboBox1 = respuesta;
-                  this.miFormulario.controls['tipoespacio'].setValue(this.comboBox1[0].value);
+                  this.comboBoxSede = respuesta;
+                  this.miFormulario.controls['tipoespacio'].setValue(this.comboBoxSede[0].value);
                 });
                 // this.cambioRadio();
   };
@@ -48,76 +64,76 @@ export class ConsultarreservaComponent implements OnInit {
   }
 
   filtrarUnidadportipo() {
-    setTimeout (() => {
-      this._peticion.getselect('unidadorganizacional/combo/' + this.miFormulario.value.tipoespacio).subscribe((respuesta) => {
-        this.comboBox = respuesta;
-        if (this.comboBox.length === 0) {
-          this.toastr.error('Este tipo de espacio no tiene registros', 'Error', { timeOut: 1500 });
-        } else {
-          this.miFormulario.controls['submodulo'].setValue(this.comboBox[0].value);
-        }
-      });
-    }, 50)
+    // setTimeout (() => {
+    //   this._peticion.getselect('unidadorganizacional/combo/' + this.miFormulario.value.tipoespacio).subscribe((respuesta) => {
+    //     this.comboBox = respuesta;
+    //     if (this.comboBox.length === 0) {
+    //       this.toastr.error('Este tipo de espacio no tiene registros', 'Error', { timeOut: 1500 });
+    //     } else {
+    //       this.miFormulario.controls['submodulo'].setValue(this.comboBox[0].value);
+    //     }
+    //   });
+    // }, 50)
   }
 
   buscarReserva(): void {
-    setTimeout (() => {
-      this._peticion.gettodasreserva('reserva/buscar?type=' + this.miFormulario.value.radioButton + '&search=' + this.miFormulario.value.submodulo).subscribe((respuesta) => {
-        console.log(respuesta)
-        this.Usuario.datosReserva = respuesta;
-        if (this.Usuario.datosReserva.message === 'No hay registros') {
-          this.toastr.error('No hay registros', 'Error', { timeOut: 1500 });
-          this.visible = false;
-        } else {
-          this.visible = true;
-        }
-      });
-    }, 100)
+    // setTimeout (() => {
+    //   this._peticion.gettodasreserva('reserva/buscar?type=' + this.miFormulario.value.radioButton + '&search=' + this.miFormulario.value.submodulo).subscribe((respuesta) => {
+    //     console.log(respuesta)
+    //     this.Usuario.datosReserva = respuesta;
+    //     if (this.Usuario.datosReserva.message === 'No hay registros') {
+    //       this.toastr.error('No hay registros', 'Error', { timeOut: 1500 });
+    //       this.visible = false;
+    //     } else {
+    //       this.visible = true;
+    //     }
+    //   });
+    // }, 100)
   }
 
   eliminarReserva(id: number ): void {
-    const dialogRef = this.confirmacion.open(ConfirmarComponent, { maxWidth: "600px", data: { title: 'CONFIRMACION', message: 'Esta seguro de eliminar este registro?' } });
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        this._peticion.delete('reserva/' + id).subscribe((respuesta) => {
-          if (respuesta.message === "Registro eliminado con exito") {
-            this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
-            this.visible = false;
-          } else {
-            this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
-          }
-        })
-      };
-    });
+    // const dialogRef = this.confirmacion.open(ConfirmarComponent, { maxWidth: "600px", data: { title: 'CONFIRMACION', message: 'Esta seguro de eliminar este registro?' } });
+    // dialogRef.afterClosed().subscribe(res => {
+    //   if (res) {
+    //     this._peticion.delete('reserva/' + id).subscribe((respuesta) => {
+    //       if (respuesta.message === "Registro eliminado con exito") {
+    //         this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
+    //         this.visible = false;
+    //       } else {
+    //         this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
+    //       }
+    //     })
+    //   };
+    // });
   }
 
   cambioRadio(){
-    switch (this.miFormulario.value.radioButton) {
-      case 'unidad_organizacional':
-        this.vertipoespacio = true;
-        this.filtrarUnidadportipo();
-        break;
-      case 'usuario':
-        // Usuarios
-        this.vertipoespacio = false;
-        this._peticion.getselect('usuario/combo').subscribe((respuesta) => {
-          this.comboBox = respuesta;
-          this.miFormulario.controls['submodulo'].setValue(this.comboBox[0].value);
-        });
-        break;
-      case 'submodulo':
-    //     // Submodulo
-        this.vertipoespacio = false;
-        this.versubmodulo = true;
-        this._peticion.getselect('submodulo/combo').subscribe((respuesta) => {
-          this.comboBox = respuesta;
-          this.miFormulario.controls['submodulo'].setValue(this.comboBox[0].value);
-        });
-        this.miFormulario.controls['submodulo'].setValue(this.comboBox[0].value) ;
-        break;
-      default:
-        break;
-    };
+    // switch (this.miFormulario.value.radioButton) {
+    //   case 'unidad_organizacional':
+    //     this.vertipoespacio = true;
+    //     this.filtrarUnidadportipo();
+    //     break;
+    //   case 'usuario':
+    //     // Usuarios
+    //     this.vertipoespacio = false;
+    //     this._peticion.getselect('usuario/combo').subscribe((respuesta) => {
+    //       this.comboBox = respuesta;
+    //       this.miFormulario.controls['submodulo'].setValue(this.comboBox[0].value);
+    //     });
+    //     break;
+    //   case 'submodulo':
+    // //     // Submodulo
+    //     this.vertipoespacio = false;
+    //     this.versubmodulo = true;
+    //     this._peticion.getselect('submodulo/combo').subscribe((respuesta) => {
+    //       this.comboBox = respuesta;
+    //       this.miFormulario.controls['submodulo'].setValue(this.comboBox[0].value);
+    //     });
+    //     this.miFormulario.controls['submodulo'].setValue(this.comboBox[0].value) ;
+    //     break;
+    //   default:
+    //     break;
+    // };
   };
 
 }

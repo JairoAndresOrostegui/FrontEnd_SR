@@ -61,6 +61,7 @@ export class ConsultarunidadComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    console.log(this.Usuario.permisos?.eliminar)
   }
 
   buscarUnidad(): void {
@@ -262,7 +263,6 @@ export class ConsultarunidadComponent implements OnInit {
         this.toastr.warning('Esta caracteristica ya existe', 'Alerta', { timeOut: 2500 });
       };
     }, 100);
-    console.log(this.objetounidad);
   }
   
   selectipoespaciodep(): void {
@@ -283,7 +283,7 @@ export class ConsultarunidadComponent implements OnInit {
           this.cmbmunicipiound = respuesta;
           this.actualizar.controls['municipiound'].setValue(this.cmbmunicipiound[0].value);
         });
-      }, 100);
+      }, 50);
     }
   }
 

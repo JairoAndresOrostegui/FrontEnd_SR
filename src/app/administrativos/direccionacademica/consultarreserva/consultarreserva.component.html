@@ -4,37 +4,114 @@
     <div (change)="cambioRadio()" class="centrar mb-6 fuente-pequeña separacion-radio">
       <input formControlName="radioButton" type="radio" value="unidad_organizacional">
       <label class="centrar">Unidad organizacional</label>
-      <input formControlName="radioButton" type="radio" value="submodulo">
+      <input formControlName="radioButton" type="radio" value="unidad_academica">
+      <label class="centrar">Unidad academica</label>
+      <input formControlName="radioButton" type="radio" value="unidades">
+      <label class="centrar">Escuela, Colegios, Extension</label>
+      <input formControlName="radioButton" type="radio" value="area">
+      <label class="centrar">Area</label>
+      <input formControlName="radioButton" type="radio" value="jornada">
+      <label class="centrar">Jornada</label>
+      <!-- <input formControlName="radioButton" type="radio" value="submodulo">
       <label class="centrar">Submodulo</label>
       <input formControlName="radioButton" type="radio" value="usuario">
-      <label class="centrar">Usuario</label>
+      <label class="centrar">Usuario</label> -->
     </div>
 
-    <!-- ComboBox tipos de espacio fisico -->
-    <div *ngIf="vertipoespacio" class="centrar-fila">
+    <!-- ComboBox Sede -->
+    <div *ngIf="verComboBoxSede" class="centrar-fila">
+      <label class="">Sede</label>
       <mat-form-field appearance="fill" class="centrar-select">
-        <mat-select formControlName="tipoespacio">
-          <mat-option *ngFor="let item of comboBox1" [value]="item.value" (onSelectionChange)="filtrarUnidadportipo()">
+        <mat-select formControlName="unidadOrganizacional">
+          <mat-option *ngFor="let item of comboBoxSede" [value]="item.value" (onSelectionChange)="filtrarUnidadportipo()">
             {{ item.label.toUpperCase() }}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
-    <!-- Unidades organizacionales filtradas por tipos de espacio fisico -->
-    <div *ngIf="versubmodulo" class="centrar-fila">
+    <!-- ComboBox Tipos de Aulas -->
+    <div *ngIf="verTipoAulas" class="centrar-fila">
+      <label class="">Tipos de aulas</label>
       <mat-form-field appearance="fill" class="centrar-select">
-        <mat-select formControlName="submodulo">
-          <mat-option *ngFor="let item of comboBox" [value]="item.value" (onSelectionChange)="buscarReserva()">
-            {{ item.label.toUpperCase() }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <!-- Unidades organizacionales filtradas por tipos de espacio fisico -->
-    <div *ngIf="verunidad" class="centrar-fila">
-      <mat-form-field appearance="fill" class="centrar-select">
-        <mat-select formControlName="unidadorganizacional">
+        <mat-select formControlName="tipos_aula">
           <mat-option *ngFor="let item of comboBox2" [value]="item.value" (onSelectionChange)="buscarReserva()">
+            {{ item.label.toUpperCase() }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- ComboBox Aulas -->
+    <div *ngIf="verAulas" class="centrar-fila">
+      <label class="">Aulas</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="aulas">
+          <mat-option *ngFor="let item of comboBox3" [value]="item.value" (onSelectionChange)="buscarReserva()">
+            {{ item.label.toUpperCase() }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- ComboBox Convenios -->
+    <div *ngIf="verConvenios" class="centrar-fila">
+      <label class="">Convenios</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="unidadorganizacional1">
+          <mat-option *ngFor="let item of comboBox4" [value]="item.value" (onSelectionChange)="buscarReserva()">
+            {{ item.label.toUpperCase() }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- ComboBox Programas -->
+    <div *ngIf="verProgramas" class="centrar-fila">
+      <label class="">Programas</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="programas">
+          <mat-option *ngFor="let item of comboBox5" [value]="item.value" (onSelectionChange)="buscarReserva()">
+            {{ item.label.toUpperCase() }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- ComboBox Area -->
+    <div *ngIf="verArea" class="centrar-fila">
+      <label class="">Area</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="area">
+          <mat-option *ngFor="let item of comboBox6" [value]="item.value" (onSelectionChange)="buscarReserva()">
+            {{ item.label.toUpperCase() }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- ComboBox Dia Inicio -->
+    <div *ngIf="verDiaInicio" class="centrar-fila">
+      <label class="">Dia Inicio</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="diaInicio">
+          <mat-option *ngFor="let item of comboBox7" [value]="item.value" (onSelectionChange)="buscarReserva()">
+            {{ item.label.toUpperCase() }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- ComboBox Jornada -->
+    <div *ngIf="verJornada" class="centrar-fila">
+      <label class="">Jornada</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="jornada">
+          <mat-option *ngFor="let item of comboBox7" [value]="item.value" (onSelectionChange)="buscarReserva()">
+            {{ item.label.toUpperCase() }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- ComboBox Nombre Usuarios -->
+    <div *ngIf="verJornada" class="centrar-fila">
+      <label class="">Nombre Usuario</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="usuario">
+          <mat-option *ngFor="let item of comboBox7" [value]="item.value" (onSelectionChange)="buscarReserva()">
             {{ item.label.toUpperCase() }}
           </mat-option>
         </mat-select>
