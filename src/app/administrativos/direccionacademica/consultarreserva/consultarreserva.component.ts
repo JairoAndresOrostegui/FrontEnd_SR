@@ -53,10 +53,10 @@ export class ConsultarreservaComponent implements OnInit {
                   jornada: [''],
                   usuario: [''],
                 });
-                this._peticion.getselect('tipoespacio/combo').subscribe((respuesta) => {
-                  this.comboBoxSede = respuesta;
-                  this.miFormulario.controls['tipoespacio'].setValue(this.comboBoxSede[0].value);
-                });
+                // this._peticion.getselect('tipoespacio/combo').subscribe((respuesta) => {
+                //   this.comboBoxSede = respuesta;
+                //   this.miFormulario.controls['tipoespacio'].setValue(this.comboBoxSede[0].value);
+                // });
                 // this.cambioRadio();
   };
 

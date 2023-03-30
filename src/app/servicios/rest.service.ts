@@ -29,6 +29,13 @@ export class RestService {
   }
 
   //Llenar los Select para los combobox
+  public get(url: string) {
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.token });
+    const requestOptions = { headers: headers };
+    return this.http.get<any>(this.apiurl + url, requestOptions);
+  }
+
+  //Llenar los Select para los combobox
   public getselect(url: string) {
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.token });
     const requestOptions = { headers: headers };

@@ -33,17 +33,29 @@ export class ConsultarunidadComponent implements OnInit {
   iddpto?: Number;
   idtipoespaciopadre?: Number;
   txtformulario: string;
+  verBuscar = false;
+  comboBoxSede: any;
+  verComboBoxSede = true;
+  cbvacio = [{ value: 0, label: 'No existen registros' }]
+  sedes: any;
+  idSede: any;
+  idSede2: any;
+  
   
   constructor(private fb: FormBuilder,
     private toastr: ToastrService,
     public confirmacion: MatDialog,
     public Usuario: DatosUsuario,
-    private peticion: RestService ) {
+    private _peticion: RestService ) {
       this.txtformulario = 'Actualizar';
       this.caracteristicaslista = [];
       this.caracteristicaspush = [];
       //this.Usuario.datosRol = [];
-      this.buscar = this.fb.group ({ entrada: [''], filtro: ['nombre'] });
+      this.buscar = this.fb.group ({ 
+        entrada: [''], 
+        filtro: ['sede'],
+        sede: ['']
+      });
       this.actualizar = this.fb.group ({ 
         idUnidad: 0,
         nombre: ['', Validators.required],
@@ -56,24 +68,92 @@ export class ConsultarunidadComponent implements OnInit {
         dptounidad: [''],
         caracteristica: [''],
         tipoespaciodep: [''],
-        estado: ['']
+        estado: [''],
+      });
+      this._peticion.getselect('unidadrol?id_rol=' + this.Usuario.datosLogin.rol).subscribe((respuesta) => {
+        this.sedes = respuesta;
+        
+        if(this.sedes.length > 0){
+          this.comboBoxSede = respuesta;
+          this.buscar.controls['sede'].setValue(this.comboBoxSede[0].value);
+        }else {
+          this.comboBoxSede = this.cbvacio;
+          this.buscar.controls['sede'].setValue(this.comboBoxSede[0].value );
+        }
       });
   };
 
+  cambioRadio(){
+    switch(this.buscar.controls['filtro'].value){
+      case 'tipo':
+        this.verBuscar = true;
+        this.verComboBoxSede = false
+        this.visible = false;
+        break;
+      case 'nombre':
+        this.verBuscar = true;
+        this.verComboBoxSede = false
+        this.visible = false;
+        break;
+      case 'capacidad':
+        this.verBuscar = true;
+        this.verComboBoxSede = false
+        this.visible = false;
+        break;
+      case 'caracteristica':
+        this.verBuscar = true;
+        this.verComboBoxSede = false
+        this.visible = false;
+        break;
+      case 'estado':
+        this.verBuscar = true;
+        this.verComboBoxSede = false
+        this.visible = false;
+        break;
+      case 'sede':
+        this.verBuscar = false;
+        this.verComboBoxSede = true;
+        this.visible = false;
+        this.filtrarSede();
+        break;
+      default:
+        return;
+    }
+  }
+
+  filtrarSede(){
+    this.buscar.get('sede')?.valueChanges.subscribe( id => {
+      if(id != 0){
+        this._peticion.get('unidadorganizacional/buscar?type=sede&search=' + id).subscribe((respuesta) => {
+          if(respuesta.message === 'No hay registros') {
+            this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
+            this.visible = false;
+          }else{
+            this._peticion.get('unidadorganizacional/buscar?type=sede&search=' + id).subscribe((respuesta) => {
+              this.Usuario.datosUnidad = respuesta;
+              this.visible = true;
+            })
+          }
+        })
+      }
+    })
+  }
+
   ngOnInit(): void {
+    this.cambioRadio()
     console.log(this.Usuario.permisos?.eliminar)
+    
   }
 
   buscarUnidad(): void {
     this.mostrar = false;
     if (this.buscar.value.entrada === '') {
-      this.peticion.getrol('unidadorganizacional').subscribe((respuesta) => {
+      this._peticion.getrol('unidadorganizacional').subscribe((respuesta) => {
         this.Usuario.datosUnidad = respuesta;
         this.visible = true;
       });
     } else {
-      this.peticion.getrol('unidadorganizacional/buscar?type='+this.buscar.value.filtro+'&search='+this.buscar.value.entrada).subscribe((respuesta) => {
-        console.log(respuesta)
+      this._peticion.getrol('unidadorganizacional/buscar?type='+this.buscar.value.filtro+'&search='+this.buscar.value.entrada).subscribe((respuesta) => {
         if (respuesta.message != 'No hay registros') {
           this.Usuario.datosUnidad = respuesta;
           this.visible = true;
@@ -92,7 +172,7 @@ export class ConsultarunidadComponent implements OnInit {
     this.actualizar.controls['cantidad'].setValue(0);
     this.chequeo = false;
     this.visible = false;
-    this.peticion.getunidad('unidadorganizacional/'+id).subscribe((respuesta) => {
+    this._peticion.getunidad('unidadorganizacional/'+id).subscribe((respuesta) => {
       this.Usuario.datosUnidad = respuesta;
       this.actualizar.controls['idUnidad'].setValue(id);
       this.actualizar.controls['nombre'].setValue(respuesta.nombre_unidad_organizacional);
@@ -100,35 +180,35 @@ export class ConsultarunidadComponent implements OnInit {
       this.actualizar.controls['piso'].setValue(respuesta.piso_unidad_organizacional);
       this.actualizar.controls['capacidad'].setValue(respuesta.capacidad_unidad_organizacional);
       this.actualizar.controls['estado'].setValue(respuesta.estado_unidad_organizacional);
-      this.peticion.getunidad('unidadorganizacional/'+respuesta.id_unidad_organizacional_padre).subscribe((respuesta7) => {
+      this._peticion.getunidad('unidadorganizacional/'+respuesta.id_unidad_organizacional_padre).subscribe((respuesta7) => {
         this.idtipoespaciopadre = respuesta7.id_tipo_espacio;
       });
       setTimeout(() => {
-        this.peticion.getselect('tipoespacio/combo').subscribe((respuesta6) => {
+        this._peticion.getselect('tipoespacio/combo').subscribe((respuesta6) => {
           this.cmbtipoespacio = respuesta6;
           this.cmbtipoespaciodep = respuesta6;
           this.actualizar.controls['tipoespacio'].setValue(respuesta.id_tipo_espacio);
           this.actualizar.controls['tipoespaciodep'].setValue(this.idtipoespaciopadre);
         });
       }, 100);
-      this.peticion.getselect('unidadorganizacional/combo').subscribe((respuesta5) => {
+      this._peticion.getselect('unidadorganizacional/combo').subscribe((respuesta5) => {
         this.cmbunidaddependencia = respuesta5;
         this.actualizar.controls['unidaddependencia'].setValue(respuesta.id_unidad_organizacional_padre);
       });
-      this.peticion.getId('municipio/getByIdMunicipio/'+respuesta.id_municipio).subscribe((respuesta4) => {
+      this._peticion.getId('municipio/getByIdMunicipio/'+respuesta.id_municipio).subscribe((respuesta4) => {
         this.iddpto = respuesta4;
       });
-      this.peticion.getselect('departamento').subscribe((respuesta3) => {
+      this._peticion.getselect('departamento').subscribe((respuesta3) => {
         this.cmbdptounidad = respuesta3;
         this.actualizar.controls['dptounidad'].setValue(this.iddpto);
       });
       setTimeout(() => {
-        this.peticion.getselect('municipio/'+this.iddpto).subscribe((respuesta2) => {
+        this._peticion.getselect('municipio/'+this.iddpto).subscribe((respuesta2) => {
           this.cmbmunicipiound = respuesta2;
           this.actualizar.controls['municipiound'].setValue(respuesta.id_municipio);
         });
       }, 200);
-      this.peticion.getselect('caracteristica/combo').subscribe((respuesta) => {
+      this._peticion.getselect('caracteristica/combo').subscribe((respuesta) => {
         this.cmbcaracteristica = respuesta;
         this.actualizar.controls['caracteristica'].setValue(this.cmbcaracteristica[0].value);
       });
@@ -170,7 +250,7 @@ export class ConsultarunidadComponent implements OnInit {
     const dialogRef = this.confirmacion.open(ConfirmarComponent, { maxWidth: "600px", data: { title: 'CONFIRMACION', message: 'Esta seguro de eliminar este registro?' } });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.peticion.delete('unidadorganizacional/'+id).subscribe((respuesta) => {
+        this._peticion.delete('unidadorganizacional/'+id).subscribe((respuesta) => {
           if (respuesta.message === "Registro eliminado con exito") {
             this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
             this.visible = false;
@@ -253,7 +333,7 @@ export class ConsultarunidadComponent implements OnInit {
           id_unidad_organizacional_padre: this.actualizar.value.unidaddependencia,
           caracteristicas: this.caracteristicaspush
         };
-        this.peticion.update('unidadorganizacional', this.objetounidad).subscribe((respuesta) => {
+        this._peticion.update('unidadorganizacional', this.objetounidad).subscribe((respuesta) => {
           if(respuesta.message === 'Registro actualizado con exito') {
             this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
             this.txtunidad = this.actualizar.value.nombre;
@@ -269,7 +349,7 @@ export class ConsultarunidadComponent implements OnInit {
   selectipoespaciodep(): void {
     if (this.Usuario.permisos?.modificar === 'si') {
       setTimeout(() => {
-        this.peticion.getselect('unidadorganizacional/combo/'+this.actualizar.value.tipoespaciodep).subscribe((respuesta) => {
+        this._peticion.getselect('unidadorganizacional/combo/'+this.actualizar.value.tipoespaciodep).subscribe((respuesta) => {
           this.cmbunidaddependencia = respuesta;
           this.actualizar.controls['unidaddependencia'].setValue(this.cmbunidaddependencia[0].value);
         });
@@ -280,7 +360,7 @@ export class ConsultarunidadComponent implements OnInit {
   selectMunicipio(): void {
     if (this.Usuario.permisos?.modificar === 'si') {
       setTimeout(() => {
-        this.peticion.getselect('municipio/'+this.actualizar.value.dptounidad).subscribe((respuesta) => {
+        this._peticion.getselect('municipio/'+this.actualizar.value.dptounidad).subscribe((respuesta) => {
           this.cmbmunicipiound = respuesta;
           this.actualizar.controls['municipiound'].setValue(this.cmbmunicipiound[0].value);
         });
@@ -295,7 +375,7 @@ export class ConsultarunidadComponent implements OnInit {
       return;
     };
     this.chequeo = true;
-    this.peticion.getvalidar('unidadorganizacional/validatename/'+this.actualizar.value.nombre.toLowerCase()).subscribe((respuesta) => {
+    this._peticion.getvalidar('unidadorganizacional/validatename/'+this.actualizar.value.nombre.toLowerCase()).subscribe((respuesta) => {
       if (!respuesta || this.actualizar.value.nombre === this.txtunidad) {
         this.urlimagen = './../../../../../../assets/img/iconos/Verificacion.svg';
         this.valido = true;
@@ -305,5 +385,7 @@ export class ConsultarunidadComponent implements OnInit {
       };
     });
   }
+
+
 
 }
