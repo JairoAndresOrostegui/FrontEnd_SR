@@ -40,109 +40,120 @@ export class ConsultarunidadComponent implements OnInit {
   sedes: any;
   idSede: any;
   idSede2: any;
-  
-  
+
+
   constructor(private fb: FormBuilder,
     private toastr: ToastrService,
     public confirmacion: MatDialog,
     public Usuario: DatosUsuario,
-    private _peticion: RestService ) {
-      this.txtformulario = 'Actualizar';
-      this.caracteristicaslista = [];
-      this.caracteristicaspush = [];
-      //this.Usuario.datosRol = [];
-      this.buscar = this.fb.group ({ 
-        entrada: [''], 
-        filtro: ['sede'],
-        sede: ['']
-      });
-      this.actualizar = this.fb.group ({ 
-        idUnidad: 0,
-        nombre: ['', Validators.required],
-        piso: [0, Validators.required],
-        capacidad: [0, Validators.required],
-        cantidad: [0, Validators.required],
-        tipoespacio: [''],
-        unidaddependencia: [''],
-        municipiound: [''],
-        dptounidad: [''],
-        caracteristica: [''],
-        tipoespaciodep: [''],
-        estado: [''],
-      });
+    private _peticion: RestService) {
+    this.txtformulario = 'Actualizar';
+    this.caracteristicaslista = [];
+    this.caracteristicaspush = [];
+    this.sedes = this.cbvacio;
+    //this.Usuario.datosRol = [];
+    this.buscar = this.fb.group({
+      entrada: [''],
+      filtro: ['sede'],
+      sede: ['']
+    });
+    this.actualizar = this.fb.group({
+      idUnidad: 0,
+      nombre: ['', Validators.required],
+      piso: [0, Validators.required],
+      capacidad: [0, Validators.required],
+      cantidad: [0, Validators.required],
+      tipoespacio: [''],
+      unidaddependencia: [''],
+      municipiound: [''],
+      dptounidad: [''],
+      caracteristica: [''],
+      tipoespaciodep: [''],
+      estado: [''],
+    });
+    setTimeout(() => {
+      // Pido las sedes que tiene asignadas el rol del usuario
       this._peticion.getselect('unidadrol?id_rol=' + this.Usuario.datosLogin.rol).subscribe((respuesta) => {
         this.sedes = respuesta;
-        
-        if(this.sedes.length > 0){
+
+        if (this.sedes.length > 0) {
           this.comboBoxSede = respuesta;
           this.buscar.controls['sede'].setValue(this.comboBoxSede[0].value);
-        }else {
+        } else {
           this.comboBoxSede = this.cbvacio;
-          this.buscar.controls['sede'].setValue(this.comboBoxSede[0].value );
+          this.buscar.controls['sede'].setValue(this.comboBoxSede[0].value);
         }
       });
+    }, 50);
   };
 
-  cambioRadio(){
-    switch(this.buscar.controls['filtro'].value){
+  cambioRadio() {
+    switch (this.buscar.controls['filtro'].value) {
       case 'tipo':
         this.verBuscar = true;
         this.verComboBoxSede = false
         this.visible = false;
+        this.mostrar = false;
         break;
       case 'nombre':
         this.verBuscar = true;
         this.verComboBoxSede = false
         this.visible = false;
+        this.mostrar = false;
         break;
       case 'capacidad':
         this.verBuscar = true;
         this.verComboBoxSede = false
         this.visible = false;
+        this.mostrar = false;
         break;
       case 'caracteristica':
         this.verBuscar = true;
         this.verComboBoxSede = false
         this.visible = false;
+        this.mostrar = false;
         break;
       case 'estado':
         this.verBuscar = true;
         this.verComboBoxSede = false
         this.visible = false;
+        this.mostrar = false;
         break;
       case 'sede':
         this.verBuscar = false;
         this.verComboBoxSede = true;
         this.visible = false;
-        this.filtrarSede();
+        // this.filtrarSede();
         break;
       default:
         return;
     }
   }
 
-  filtrarSede(){
-    this.buscar.get('sede')?.valueChanges.subscribe( id => {
-      if(id != 0){
-        this._peticion.get('unidadorganizacional/buscar?type=sede&search=' + id).subscribe((respuesta) => {
-          if(respuesta.message === 'No hay registros') {
+
+  filtrarSede() {
+    setTimeout(() => {
+      if (this.buscar.value.sede != 0) {
+        this._peticion.getSede('unidadorganizacional/buscar?type=sede&search=' + this.buscar.value.sede).subscribe((respuesta) => {
+          if (respuesta.message === 'No hay registros') {
+            console.log('Primero')
             this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
             this.visible = false;
-          }else{
-            this._peticion.get('unidadorganizacional/buscar?type=sede&search=' + id).subscribe((respuesta) => {
-              this.Usuario.datosUnidad = respuesta;
-              this.visible = true;
-            })
+            console.log('Segundo')
+          } else {
+            this.Usuario.datosUnidad = respuesta;
+            this.visible = true;
           }
+          console.log('tercero')
         })
       }
-    })
+    }, 300);
   }
 
   ngOnInit(): void {
     this.cambioRadio()
     console.log(this.Usuario.permisos?.eliminar)
-    
+
   }
 
   buscarUnidad(): void {
@@ -153,7 +164,7 @@ export class ConsultarunidadComponent implements OnInit {
         this.visible = true;
       });
     } else {
-      this._peticion.getrol('unidadorganizacional/buscar?type='+this.buscar.value.filtro+'&search='+this.buscar.value.entrada).subscribe((respuesta) => {
+      this._peticion.getrol('unidadorganizacional/buscar?type=' + this.buscar.value.filtro + '&search=' + this.buscar.value.entrada).subscribe((respuesta) => {
         if (respuesta.message != 'No hay registros') {
           this.Usuario.datosUnidad = respuesta;
           this.visible = true;
@@ -172,7 +183,7 @@ export class ConsultarunidadComponent implements OnInit {
     this.actualizar.controls['cantidad'].setValue(0);
     this.chequeo = false;
     this.visible = false;
-    this._peticion.getunidad('unidadorganizacional/'+id).subscribe((respuesta) => {
+    this._peticion.getunidad('unidadorganizacional/' + id).subscribe((respuesta) => {
       this.Usuario.datosUnidad = respuesta;
       this.actualizar.controls['idUnidad'].setValue(id);
       this.actualizar.controls['nombre'].setValue(respuesta.nombre_unidad_organizacional);
@@ -180,7 +191,7 @@ export class ConsultarunidadComponent implements OnInit {
       this.actualizar.controls['piso'].setValue(respuesta.piso_unidad_organizacional);
       this.actualizar.controls['capacidad'].setValue(respuesta.capacidad_unidad_organizacional);
       this.actualizar.controls['estado'].setValue(respuesta.estado_unidad_organizacional);
-      this._peticion.getunidad('unidadorganizacional/'+respuesta.id_unidad_organizacional_padre).subscribe((respuesta7) => {
+      this._peticion.getunidad('unidadorganizacional/' + respuesta.id_unidad_organizacional_padre).subscribe((respuesta7) => {
         this.idtipoespaciopadre = respuesta7.id_tipo_espacio;
       });
       setTimeout(() => {
@@ -195,7 +206,7 @@ export class ConsultarunidadComponent implements OnInit {
         this.cmbunidaddependencia = respuesta5;
         this.actualizar.controls['unidaddependencia'].setValue(respuesta.id_unidad_organizacional_padre);
       });
-      this._peticion.getId('municipio/getByIdMunicipio/'+respuesta.id_municipio).subscribe((respuesta4) => {
+      this._peticion.getId('municipio/getByIdMunicipio/' + respuesta.id_municipio).subscribe((respuesta4) => {
         this.iddpto = respuesta4;
       });
       this._peticion.getselect('departamento').subscribe((respuesta3) => {
@@ -203,7 +214,7 @@ export class ConsultarunidadComponent implements OnInit {
         this.actualizar.controls['dptounidad'].setValue(this.iddpto);
       });
       setTimeout(() => {
-        this._peticion.getselect('municipio/'+this.iddpto).subscribe((respuesta2) => {
+        this._peticion.getselect('municipio/' + this.iddpto).subscribe((respuesta2) => {
           this.cmbmunicipiound = respuesta2;
           this.actualizar.controls['municipiound'].setValue(respuesta.id_municipio);
         });
@@ -226,7 +237,7 @@ export class ConsultarunidadComponent implements OnInit {
           cantidad: item.cantidad_unidad_organizacional_caracteristica
         });
       }
-      
+
       setTimeout(() => {
         if (this.Usuario.permisos?.modificar != 'si') {
           this.txtformulario = 'Información del';
@@ -243,14 +254,14 @@ export class ConsultarunidadComponent implements OnInit {
         }
       }, 200);
     });
-    this.mostrar = true;    
+    this.mostrar = true;
   }
 
   eliminarUnidad(id: number): void {
     const dialogRef = this.confirmacion.open(ConfirmarComponent, { maxWidth: "600px", data: { title: 'CONFIRMACION', message: 'Esta seguro de eliminar este registro?' } });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this._peticion.delete('unidadorganizacional/'+id).subscribe((respuesta) => {
+        this._peticion.delete('unidadorganizacional/' + id).subscribe((respuesta) => {
           if (respuesta.message === "Registro eliminado con exito") {
             this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
             this.visible = false;
@@ -265,7 +276,7 @@ export class ConsultarunidadComponent implements OnInit {
   agregarcaracteristica(): void {
     if (this.actualizar.value.cantidad > 0) {
       for (let item of this.caracteristicaslista) {
-        if(this.actualizar.value.caracteristica === item.value) {
+        if (this.actualizar.value.caracteristica === item.value) {
           this.toastr.error('Esta caracteristica ya esta en la lista', 'Error', { timeOut: 2500 });
           return;
         }
@@ -278,13 +289,13 @@ export class ConsultarunidadComponent implements OnInit {
         cantidad_unidad_organizacional_caracteristica: this.actualizar.value.cantidad
       });
       for (let item of this.cmbcaracteristica) {
-          if (item.value === this.actualizar.value.caracteristica) {
-            this.caracteristicaslista.push({
-              value: item.value,
-              label: item.label,
-              cantidad: this.actualizar.value.cantidad,
-            });
-          };
+        if (item.value === this.actualizar.value.caracteristica) {
+          this.caracteristicaslista.push({
+            value: item.value,
+            label: item.label,
+            cantidad: this.actualizar.value.cantidad,
+          });
+        };
       };
     } else {
       this.toastr.warning('Ingrese una cantidad mayor a 0', 'Alerta', { timeOut: 2500 });
@@ -334,7 +345,7 @@ export class ConsultarunidadComponent implements OnInit {
           caracteristicas: this.caracteristicaspush
         };
         this._peticion.update('unidadorganizacional', this.objetounidad).subscribe((respuesta) => {
-          if(respuesta.message === 'Registro actualizado con exito') {
+          if (respuesta.message === 'Registro actualizado con exito') {
             this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
             this.txtunidad = this.actualizar.value.nombre;
             this.chequeo = false;
@@ -345,22 +356,22 @@ export class ConsultarunidadComponent implements OnInit {
       };
     }, 100);
   }
-  
+
   selectipoespaciodep(): void {
     if (this.Usuario.permisos?.modificar === 'si') {
       setTimeout(() => {
-        this._peticion.getselect('unidadorganizacional/combo/'+this.actualizar.value.tipoespaciodep).subscribe((respuesta) => {
+        this._peticion.getselect('unidadorganizacional/combo/' + this.actualizar.value.tipoespaciodep).subscribe((respuesta) => {
           this.cmbunidaddependencia = respuesta;
           this.actualizar.controls['unidaddependencia'].setValue(this.cmbunidaddependencia[0].value);
         });
       }, 100);
     }
   }
- 
+
   selectMunicipio(): void {
     if (this.Usuario.permisos?.modificar === 'si') {
       setTimeout(() => {
-        this._peticion.getselect('municipio/'+this.actualizar.value.dptounidad).subscribe((respuesta) => {
+        this._peticion.getselect('municipio/' + this.actualizar.value.dptounidad).subscribe((respuesta) => {
           this.cmbmunicipiound = respuesta;
           this.actualizar.controls['municipiound'].setValue(this.cmbmunicipiound[0].value);
         });
@@ -375,7 +386,7 @@ export class ConsultarunidadComponent implements OnInit {
       return;
     };
     this.chequeo = true;
-    this._peticion.getvalidar('unidadorganizacional/validatename/'+this.actualizar.value.nombre.toLowerCase()).subscribe((respuesta) => {
+    this._peticion.getvalidar('unidadorganizacional/validatename/' + this.actualizar.value.nombre.toLowerCase()).subscribe((respuesta) => {
       if (!respuesta || this.actualizar.value.nombre === this.txtunidad) {
         this.urlimagen = './../../../../../../assets/img/iconos/Verificacion.svg';
         this.valido = true;
