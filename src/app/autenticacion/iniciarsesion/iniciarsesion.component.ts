@@ -12,11 +12,16 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class IniciarsesionComponent implements OnInit {
 
-  error = false;
+  // error = false;
+  // Almacena un string para ver el campo tipo texto o password
   tipoinput!: string;
+  // Almacena el usuario que esta ingresando en el input de usuario
   usuario: string;
+  // Almacena la clave que esta ingresando en el input de password
   clave: string;
+  // El id_rol que tiene el usuario que esta autenticando
   id_rol: number;
+  // Almacena la respuesta JSON que obtiene de la API login/menu?id_rol=
   logueo: any;
 
   constructor(
@@ -26,6 +31,7 @@ export class IniciarsesionComponent implements OnInit {
     private toastr: ToastrService,
     private recaptchaV3Service: ReCaptchaV3Service,
   ) {
+    // Inicializacion de variables
     this.id_rol = 0;
     this.tipoinput = 'password';
     this.usuario = "";
@@ -38,6 +44,7 @@ export class IniciarsesionComponent implements OnInit {
   iniciarSesion(): void {
     // Se validara el token del captcha de google
     this.recaptchaV3Service.execute('importantAction').subscribe((token: string) => {
+      // Si el token viene vacio lo redirecciona a 'iniciarsesion'
       if (token == "") {
         this.router.navigate(['iniciarsesion']);
       } else {
@@ -93,22 +100,31 @@ export class IniciarsesionComponent implements OnInit {
           return;
         }
       }
+      // Si el usuario y contraseña son correctos realiza la peticion a la API
         this._peticion.login('login/menu?id_rol=' + this.id_rol).subscribe((respuesta) => {
           this.logueo = respuesta;
+          // Si el token viene vacio muestra mensaje de error
           if (this.logueo.token === '') {
             this.toastr.warning('Error en la aplicación, contactese con el administrador del sistema', 'Alerta', { timeOut: 3000 });
           } else {
+            // Si el login es exitoso muestra mensaje de loguin exitoso y almacena en variables globales los datos de login para ser usuados en algunas parte de otros compoentenes
             this.toastr.success('Login exitoso', 'Exitoso', { timeOut: 1500 });
             this._peticion.token = this.logueo.token;
+            // Almacene los datos del login
             this.autenticacion.datosLogin = this.logueo.componente;
+            // Almacena el rol del login
             this.autenticacion.datosLogin.rol = this.id_rol;
+            // Almacena las funcionalidades activas en la varible global 
             this.autenticacion.funcionalidadActiva = this.autenticacion.datosLogin[0].funcionalidad[0].nombre_funcionalidad;
+            // Almacena los permnisos que obtiene el usuario en varible global
             this.autenticacion.permisos = this.autenticacion.datosLogin[0].funcionalidad[0].permisosRol;
             for (let item of this.autenticacion.datosLogin) {
               item.estado = true;
             }
+            // Vuelve los inputs a vacio
             this.usuario = '';
             this.clave = '';
+            // Reliza el ruteo en caso que todo este ook
             this.router.navigate([this.autenticacion.datosLogin[0].funcionalidad[0].url_funcionalidad]);
           }
         });
@@ -116,7 +132,7 @@ export class IniciarsesionComponent implements OnInit {
     });
   }
 
-
+// Funcion que permite ver el password u ocultarlo
   cambiarTipo(): void {
     if (this.tipoinput === 'password') {
       this.tipoinput = 'text';

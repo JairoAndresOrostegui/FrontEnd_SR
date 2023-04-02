@@ -12,20 +12,27 @@ import { RestService } from 'src/app/servicios/rest.service';
   styleUrls: ['./caracteristicasunidad.component.css']
 })
 export class CaracteristicasunidadComponent implements OnInit {
-
+  // FormBuilder para radioButtons
   buscar: FormGroup;
+  // FormBuilder para los datos a crear
   actualizar: FormGroup;
+  // Variable que almacena el nombre de la caracteristica
   txtcaracteristica?: string;
+  // Objeto que almacena los campos a actualizar
   update?: {};
+  // Variables que muestran u ocultan los formularios
   vereditar = false;
   verbuscar = false;
-  volver = false;
+  volver = false
   chequeo = false;
   busqueda = true;
   valido = true;
   mostrarCrear = true;
+  // Variable que almacena la ruta de la imagen
   urlimagen?: string;
+  // Variable que almacena el nombre del fomulario 'Crear' u 'Actualizar'
   txtformulario?: string;
+  // Variable que almacena el nombre del boton 'Crear' u 'Actualizar' 
   txtboton?: string;
 
   constructor(
@@ -35,15 +42,23 @@ export class CaracteristicasunidadComponent implements OnInit {
     private peticion: RestService,
     public confirmacion: MatDialog
     ) {
+      // Se iniciliza las variables
       this.txtformulario = 'Actualizar';
       this.txtboton = 'Actualizar';
-      this.buscar = this.fb.group ({ entrada: [''], filtro: ['nombre'] });
-      this.actualizar = this.fb.group ({ idactualizar: [''], nombreactualizar: ['', Validators.required], estadoactualizar: ['activo', Validators.required] });
+      // Se crean los FormBuilder
+      this.buscar = this.fb.group ({ 
+        entrada: [''], 
+        filtro: ['nombre'] });
+      this.actualizar = this.fb.group ({ 
+        idactualizar: [''], 
+        nombreactualizar: ['', Validators.required], 
+        estadoactualizar: ['activo', Validators.required] 
+      });
   }
 
   ngOnInit(): void {
   }
-
+  // Metodo para el boton de regresar
   regresar(): void {
     this.busqueda = true;
     this.vereditar = false;
@@ -51,7 +66,7 @@ export class CaracteristicasunidadComponent implements OnInit {
     this.volver = false;
     this.mostrarCrear = true;
   }
-
+  // Metodo para el boton de Crear Caracteristica de unidad
   iniciarCrear(): void {
     this.busqueda = false;
     this.vereditar = true;
@@ -65,7 +80,7 @@ export class CaracteristicasunidadComponent implements OnInit {
     this.actualizar.reset();
     this.actualizar.controls['estadoactualizar'].setValue('activo');
   }
-
+  // Metodo para realizar la busqueda segun el filtro seleccionado
   buscarCaracteristica(): void {
     this.txtformulario = 'Actualizar';
     this.txtboton = 'Actualizar';
@@ -90,7 +105,7 @@ export class CaracteristicasunidadComponent implements OnInit {
       });
     };
   };
-
+  // Metodo que carga los datos almacenados en la BD para luego actualizarlos
   mostrarCaracteristica(id: string): void {
     this.chequeo = false;
     this.verbuscar = false;
@@ -105,7 +120,7 @@ export class CaracteristicasunidadComponent implements OnInit {
       this.actualizar.controls['estadoactualizar'].setValue(respuesta.estado_caracteristica);
     });
   }
-
+  // Metodo que actualiza los datos segun los valores cambiados por el usuario
   actualizarCaracteristica(): void {
     this.chequeo = false;
     this.busqueda = false;
@@ -151,7 +166,7 @@ export class CaracteristicasunidadComponent implements OnInit {
       }
     }, 100);
   }
-
+  // Metodo que verifica que no se ingresen datos repetidos
   verificarCaracteristica(): void {
     if (this.actualizar.value.nombreactualizar === '') {
       this.chequeo = false;
@@ -169,7 +184,7 @@ export class CaracteristicasunidadComponent implements OnInit {
       }
     })
   }
-
+  // Metodo que elimina la caracteristica
   eliminarCaracteristica(id: number): void {
     const dialogRef = this.confirmacion.open(ConfirmarComponent, { maxWidth: "600px", data: { title: 'CONFIRMACION', message: 'Esta seguro de eliminar esta caracteristica?' } });
     dialogRef.afterClosed().subscribe(res => {

@@ -9,20 +9,33 @@ import { RestService } from 'src/app/servicios/rest.service';
   styleUrls: ['./crearreserva.component.css']
 })
 export class CrearreservaComponent implements OnInit {
-
+  // FormBuilder que almacena los formControlName de los inputs
   crearreserva: FormGroup;
+  // Variable que almacena las cedes
   sedes: any;
+  // Variable que almacena el tipo de espacio
   cbtipoespacio?: any;
+  // Variable que almacena la lista de unidades
   listaUnidades?: any;
+  // Variable que almacena los programas
   cbprograma: any;
+  // Variable que almacena los grupos
   cbgrupos?: any;
+  // Variable que almacena los usuarios
   cbusuarios?: any;
+  // Variable que almacena los submodulos
   cbsubmodulo?: any;
+  // Variable que almacena el estado disponible o no disponible
   cbdisponibles?: any;
+  // Variable que almacena las caracteristicas
   cbcaracteristicas?: any;
+  // Variable que almacena un objeto en caso que no exista registros
   cbvacio = [{ value: 0, label: 'No existen registros' }]
+  // Variable que almacena el id de la sede
   idsede?: Number;
+  // Variable que almacena el estado para mostrar u ocultar el form
   visible = false;
+  // Variable que almacena el objeto para crear el registro
   objetoreserva?: {};
   // Temporal
   cbencargado?: any;
@@ -116,32 +129,39 @@ export class CrearreservaComponent implements OnInit {
       capacidad: 1,
       observaciones: ['']
     });
+    // Petición que llama y pide el tipo de espacio lo almacena en la variable y le establece el valor inicial que se encuentre ne la BD
     this.peticion.getselect('tipoespacio/combo').subscribe((respuesta) => {
       this.cbtipoespacio = respuesta;
       this.crearreserva.controls['tipo'].setValue(this.cbtipoespacio[0].value);
     });
+    // Petición que llama y pide sedes lo almacena en la variable y le establece el valor inicial que se encuentre ne la BD
     this.peticion.getselect('unidadorganizacional/combo/'+9).subscribe((respuesta) => {
       this.sedes = respuesta;
       this.crearreserva.controls['sede'].setValue(this.sedes[0].value);
     });
+    // Petición que llama y pide programa lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
     this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
       this.cbprograma = this.programas;
       this.crearreserva.controls['programa'].setValue(this.cbprograma[0].value);
     });
+    // Petición que llama y pid eel grupo y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
     this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
       this.cbgrupos = this.grupos;
       this.crearreserva.controls['grupo'].setValue(this.cbgrupos[0].value);
     });
+    // Petición que llama y pide el mdoulo y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
     this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
       this.cbsubmodulo = this.submodulos;
       this.crearreserva.controls['submodulo'].setValue(this.cbsubmodulo[0].value);
     });
+    // Petición que llama y pide el el usuario y encargado  y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
     this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
       this.cbusuarios = this.usuario;
       this.crearreserva.controls['usuariopersona'].setValue(this.cbusuarios[0].value);
       this.cbencargado = this.encargados;
       this.crearreserva.controls['encargado'].setValue(this.cbencargado[0].value);
     });
+    // Petición que llama y pide las caracteristicas y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
     this.peticion.getselect('caracteristica/combo').subscribe((respuesta) => {
       this.cbcaracteristicas = respuesta;
       this.cbcaracteristicas.unshift({ value: 0, label: 'No aplica' });
@@ -151,7 +171,7 @@ export class CrearreservaComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  // Metodo que busca los espacios disponibles segun los datos ingresados en el formulario
   buscarEspacios(): void {
     if (this.crearreserva.invalid) {
       for (const control of Object.keys(this.crearreserva.controls)) {
@@ -171,6 +191,7 @@ export class CrearreservaComponent implements OnInit {
       capacidad_unidad_organizacional: this.crearreserva.value.capacidad,
       estado: this.crearreserva.value.estado
     }
+    // Realiza la busqueda segun el objeto que ingreso el usuario
     this.peticion.postreserva('unidadorganizacional/reserva', this.objetoreserva).subscribe((respuesta) => {
       if (this.crearreserva.value.estado === 'disponible') {
         this.listaUnidades = respuesta.reservaDisponible;
@@ -183,7 +204,7 @@ export class CrearreservaComponent implements OnInit {
       this.crearreserva.controls['disponibles'].setValue(this.listaUnidades[0].value);
     });
   }
-
+  // Crea la reserva segun el dato escogido por el usuario ingresado
   crearReserva() {
     if (this.crearreserva.invalid) {
       for (const control of Object.keys(this.crearreserva.controls)) {
@@ -225,7 +246,6 @@ export class CrearreservaComponent implements OnInit {
         reserva_dia_hora_fin: this.crearreserva.value.horafin
       }
     }
-    console.log(this.objetoreserva)
     this.peticion.create('reserva', this.objetoreserva).subscribe((respuesta) => {
       if (respuesta.message === 'Registro guardado con exito') {
         this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });

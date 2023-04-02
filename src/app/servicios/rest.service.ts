@@ -28,11 +28,10 @@ export class RestService {
     return this.http.get<Login2>(this.apiurl + url)
   }
 
-  //Llenar los Select para los combobox
+  //Llenar los Select para los combobox de sede
   public getSede(url: string) {
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.token });
     const requestOptions = { headers: headers };
-    // console.log('desde api')
     return this.http.get<Unidad>(this.apiurl + url, requestOptions);
   }
 

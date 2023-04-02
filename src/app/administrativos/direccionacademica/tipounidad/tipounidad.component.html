@@ -9,18 +9,21 @@
 <div class="centrar-fila mt-6 responsivo">
   <div *ngIf="busqueda">
     <form class="centrar-columna" [formGroup]="buscar">
+      <!-- RaddioButtons de Tipo Espacio y Estado -->
       <div class="centrar mb-6 fuente-pequeña separacion-radio">
         <input type="radio" formControlName="filtro" value="nombre">
         <label class="centrar">Tipo de espacio</label>
         <input type="radio" formControlName="filtro" value="estado">
         <label class="centrar">Estado</label>
       </div>
+      <!-- Campo de Buscar con su boton -->
       <div class="centrar-fila mt-6 fuente-pequeña">
         <label>Buscar:</label>
         <input class="entrada-texto fondo-neutro-gris2" formControlName="entrada">
         <button (click)="buscarTipoEspacio()" class="icono icono-buscar contorno-nulo fusion-boton" matTooltip="Buscar tipo de espacio físico"></button>
       </div>
     </form>
+    <!-- Tabla que muestra todo el contenido -->
     <table *ngIf="verbuscar" class="espacio-trabajo centrar-texto" cellpadding="7">
       <tr class="fuente-pequeña">
         <th>Tipo de espacio</th>
@@ -40,7 +43,7 @@
       </tr>
     </table>
   </div>
-
+  <!-- Tabla para crear el tipo de espacio -->
   <form *ngIf="vereditar" [formGroup]="actualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5 mb-6">
     <div class="centrar-fila mb-6">
       <h2 class="centrar-texto fuente-grande">{{ txtformulario }} tipo de espacio:</h2>

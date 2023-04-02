@@ -1,5 +1,6 @@
 <form [formGroup]="crearsede" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5">
   <div class="fila">
+    <!-- Tipo de espacio -->
     <div class="centrar-fila">
       <label class="fuente-pequeña">Tipo de espacio:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -11,6 +12,7 @@
       </mat-form-field>
       <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Tipo espacio"></button>
     </div>
+    <!-- Nombre -->
     <div>
       <div class="centrar-fila margen-label-usuario">
         <label class="fuente-pequeña">Nombre:</label>
@@ -23,6 +25,7 @@
     </div>
   </div>
   <div class="fila">
+    <!-- Piso -->
     <div>
       <div class="centrar-fila">
         <label class="fuente-pequeña">Piso:</label>
@@ -32,6 +35,7 @@
       <span *ngIf="crearsede.get('piso')?.hasError('required') && crearsede.get('piso')?.touched"
         class="fuente-pequeña centrar-fila color-alerta-rojo">Este campo es requerido</span>
     </div>
+    <!-- Capacidad -->
     <div>
       <div class="centrar-fila">
         <label class="fuente-pequeña">Capacidad:</label>
@@ -43,6 +47,7 @@
         class="fuente-pequeña centrar-fila color-alerta-rojo">Este campo es requerido</span>
   </div>
   <div class="fila">
+    <!-- Tipo Unidad Dependencia -->
     <div class="centrar-fila">
       <label class="fuente-pequeña">Tipo Unidad Dependencia:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -54,6 +59,7 @@
       </mat-form-field>
       <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Tipo de dependencia"></button>
     </div>
+    <!-- Unidad Dependencia -->
     <div class="centrar-fila">
       <label class="fuente-pequeña">Unidad Dependencia:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -67,6 +73,7 @@
     </div>
   </div>
   <div class="fila">
+    <!-- Departamento Unidad -->
     <div class="centrar-fila">
       <label class="fuente-pequeña">Departamento Unidad:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -78,6 +85,7 @@
       </mat-form-field>
       <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Departamento unidad"></button>
     </div>
+    <!-- Municipio Unidad -->
     <div class="centrar-fila">
       <label class="fuente-pequeña">Municipio Unidad:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -90,6 +98,7 @@
       <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Municipio unidad"></button>
     </div>
   </div>
+  <!-- Crear nuevas caracteristicas -->
   <div class="centrar-fila">
     <table cellpadding="7">
       <tr class="fuente-pequeña">
@@ -99,6 +108,7 @@
       </tr>
       <tr>
         <td>
+          <!-- Trae todas las caracteristicas -->
           <mat-form-field appearance="fill" class="centrar-select">
             <mat-select formControlName="caracteristica">
               <mat-option *ngFor="let item of cmbcaracteristica" [value]="item.value">
@@ -111,6 +121,7 @@
           <input type="number" min="0" class="input-numerico entrada-texto" formControlName="cantidad">
         </td>
         <td>
+          <!-- Boton de mas para crear -->
           <button class="icono icono-agregar contorno-nulo fusion-boton" (click)="agregarcaracteristica()" matTooltip="Agregar"></button>
         </td>
       </tr>
@@ -123,6 +134,7 @@
       </tr>
     </table>
   </div>
+  <!-- Boton de crer unidad -->
   <div class="centrar-fila boton-crear">
      <button (click)="crearUnidad()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">Crear</button>
   </div>

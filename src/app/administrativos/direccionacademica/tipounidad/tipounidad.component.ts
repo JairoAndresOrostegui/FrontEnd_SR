@@ -12,20 +12,30 @@ import { RestService } from 'src/app/servicios/rest.service';
   styleUrls: ['./tipounidad.component.css']
 })
 export class TipounidadComponent implements OnInit {
-
+  // Variable que almacena los formControlName de los radio button seleccionado
   buscar: FormGroup;
+  // Variable que almacena los formControlName de lo datos a ingresar
   actualizar: FormGroup;
+  // Variable que almacena el tipo de espacio que trae de la BD
   txttipoespacio?: string;
+  // Varible que almacena el objeto a actualizar
   update?: {};
+  // Variable que muestra u ocultan los formularios del HTMKL
   vereditar = false;
   verbuscar = false;
-  volver = false;
-  chequeo = false;
   busqueda = true;
-  valido = true;
   mostrarCrear = true;
+  // Varible del boton retroceder
+  volver = false;
+  // 
+  chequeo = false;
+  // Variable para condicional
+  valido = true;
+  // Variable que almacena la URL d ela imagen chulito o rechazo
   urlimagen?: string;
+  // Variable que almacena el nombre del formulario dependiendo si es crear o actualizar
   txtformulario?: string;
+  // Variable que almacena el nombre del boton dependiendo si es crear o actualizar
   txtboton?: string;
 
   constructor(
@@ -35,9 +45,12 @@ export class TipounidadComponent implements OnInit {
     private peticion: RestService,
     public confirmacion: MatDialog
     ) {
+      // Variables inicializadas
       this.txtformulario = 'Actualizar';
       this.txtboton = 'Actualizar';
+      // FormBuilder de los radioButton
       this.buscar = this.fb.group ({ entrada: [''], filtro: ['nombre'] });
+      // FormBuilder del Formulario de los input
       this.actualizar = this.fb.group ({ 
         idactualizar: [''], 
         nombreactualizar: ['', Validators.required], 
@@ -45,8 +58,9 @@ export class TipounidadComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
   }
-
+  // Boton regresar
   regresar(): void {
     this.busqueda = true;
     this.vereditar = false;
@@ -54,7 +68,7 @@ export class TipounidadComponent implements OnInit {
     this.volver = false;
     this.mostrarCrear = true;
   }
-
+  // Metodo para crear nuevo registro
   iniciarCrear(): void {
     this.busqueda = false;
     this.vereditar = true;
@@ -68,7 +82,8 @@ export class TipounidadComponent implements OnInit {
     this.actualizar.reset();
     this.actualizar.controls['estadoactualizar'].setValue('activo');
   }
-
+  // Metodo de la lupa que busca el espacio por defecto si es vacio muestra todos los espacio
+  // Si no realiza el filtrado con los datos ingresados en el input
   buscarTipoEspacio(): void {
     this.txtformulario = 'Actualizar';
     this.txtboton = 'Actualizar';
@@ -93,7 +108,7 @@ export class TipounidadComponent implements OnInit {
       });
     };
   };
-
+  // Metodo que muestra los datos de un espacio en especifico 
   mostrarTipoEspacio(id: string): void {
     this.chequeo = false;
     this.verbuscar = false;
@@ -108,7 +123,7 @@ export class TipounidadComponent implements OnInit {
       this.actualizar.controls['estadoactualizar'].setValue(respuesta.estado_tipo_espacio);
     });
   }
-
+  // Metodo para actualizar o crear una unidad
   actualizarTipoEspacio(): void {
     this.chequeo = false;
     this.busqueda = false;
@@ -154,7 +169,7 @@ export class TipounidadComponent implements OnInit {
       }
     }, 100);
   }
-
+  // Verifica que si se crea un tipo espacio ya registrado NO se pueda volver a crear el mismo tipo espacion con el mismo nombre
   verificarTipoEspacio(): void {
     if (this.actualizar.value.nombreactualizar === '') {
       this.chequeo = false;
@@ -172,7 +187,7 @@ export class TipounidadComponent implements OnInit {
       }
     })
   }
-
+  // Elimina el tipo de espacio
   eliminarTipoEspacio(id: number): void {
     const dialogRef = this.confirmacion.open(ConfirmarComponent, { maxWidth: "600px", data: { title: 'CONFIRMACION', message: 'Esta seguro de eliminar este tipo de espacio fisico?' } });
     dialogRef.afterClosed().subscribe(res => {

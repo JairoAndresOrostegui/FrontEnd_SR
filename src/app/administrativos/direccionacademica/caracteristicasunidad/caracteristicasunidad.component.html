@@ -9,16 +9,19 @@
 <div class="centrar-fila mt-6 responsivo">
   <div *ngIf="busqueda">
     <form class="centrar-columna" [formGroup]="buscar">
+      <!-- RadioButtons -->
       <div class="centrar mb-6 fuente-pequeña separacion-radio">
         <input type="radio" formControlName="filtro" value="nombre"><label class="centrar">Característica</label>
         <input type="radio" formControlName="filtro" value="estado"><label class="centrar">Estado</label>
       </div>
+      <!-- Input de Buscar y botón de lupa -->
       <div class="centrar-fila mt-6 fuente-pequeña">
         <label>Buscar:</label>
         <input class="entrada-texto fondo-neutro-gris2" formControlName="entrada">
         <button (click)="buscarCaracteristica()" class="icono icono-buscar contorno-nulo fusion-boton" matTooltip="Buscar característica"></button>
       </div>
     </form>
+    <!-- Tabla que muestra los datos -->
     <table *ngIf="verbuscar" class="espacio-trabajo centrar-texto" cellpadding="7">
       <tr class="fuente-pequeña">
         <th>Nombre</th>
@@ -38,7 +41,7 @@
       </tr>
     </table>
   </div>
-
+<!-- Formulario para actualizar o crear caracteristica -->
   <form *ngIf="vereditar" [formGroup]="actualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5 mb-6">
     <div class="centrar-fila mb-6">
       <h2 class="centrar-texto fuente-grande">{{ txtformulario }} característica:</h2>
@@ -62,6 +65,7 @@
       </mat-form-field>
       <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Estado"></button>
     </div>
+    <!-- Boton de crear o actualizar -->
     <div class="centrar-fila">
       <button (click)="actualizarCaracteristica()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">{{txtboton}}</button>
     </div>

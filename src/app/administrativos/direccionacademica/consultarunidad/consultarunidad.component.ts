@@ -12,32 +12,52 @@ import { RestService } from 'src/app/servicios/rest.service';
   styleUrls: ['./consultarunidad.component.css']
 })
 export class ConsultarunidadComponent implements OnInit {
-
+  // Form de buscar para aplicar los filtros del radioButtons
   buscar: FormGroup;
+  // Form de actualizar el formularios
   actualizar: FormGroup;
+  // Variable que almacena los datos del tipo de espacio
   cmbtipoespacio: any;
+  // Variable que almacena los datos del tipo de unidad
   cmbdptounidad: any;
+  // Variable que almacena los datos del municipio
   cmbmunicipiound: any;
+  // Variable que almacena los datos de la caracteristica
   cmbcaracteristica: any;
+  // Variable que almacena los datos de tipo espacio combo
   cmbtipoespaciodep: any;
+  // Variable que almacena los datos de unidad de dependencia
   cmbunidaddependencia: any;
+  // Variable que almacena la lista de caracteristicas
   caracteristicaslista: any;
+  // Variable que almacena el objeto de caracteristicas
   caracteristicaspush: any;
+  // Variable que almacena el objeto ingresado
   objetounidad?: {};
+  // Variables que permite ocultar u mostrar el formulario
   visible = false;
   mostrar = false;
   chequeo = false;
   valido = false;
-  urlimagen = '';
-  txtunidad?: string;
-  iddpto?: Number;
-  idtipoespaciopadre?: Number;
-  txtformulario: string;
   verBuscar = false;
-  comboBoxSede: any;
   verComboBoxSede = true;
+  // Variable que almacena la ruta de la imagen
+  urlimagen = '';
+  // Variable que lamacenea el nombre de la unidad organizacional
+  txtunidad?: string;
+  // Variable que almacena el id del departamento
+  iddpto?: Number;
+  // Variable que almacena el id del tipo espacio padre
+  idtipoespaciopadre?: Number;
+  // Variable que almacena el nombre del formulario
+  txtformulario: string;
+  // Variable que almacena la sede para mostrar el comboBox
+  comboBoxSede: any;
+  // Variable que inicializa en caso que no tenga caracteristicas la API
   cbvacio = [{ value: 0, label: 'No existen registros' }]
+  // Variable que almacena la sede
   sedes: any;
+  // Variable que almacena los id de sede
   idSede: any;
   idSede2: any;
 
@@ -52,11 +72,13 @@ export class ConsultarunidadComponent implements OnInit {
     this.caracteristicaspush = [];
     this.sedes = this.cbvacio;
     //this.Usuario.datosRol = [];
+    // FormBuilder de los radioButtons
     this.buscar = this.fb.group({
       entrada: [''],
       filtro: ['sede'],
       sede: ['']
     });
+    // FormBuilder del formulario
     this.actualizar = this.fb.group({
       idUnidad: 0,
       nombre: ['', Validators.required],
@@ -71,11 +93,12 @@ export class ConsultarunidadComponent implements OnInit {
       tipoespaciodep: [''],
       estado: [''],
     });
+    // Inicializamos el comboBox inicial
     setTimeout(() => {
       // Pido las sedes que tiene asignadas el rol del usuario
       this._peticion.getselect('unidadrol?id_rol=' + this.Usuario.datosLogin.rol).subscribe((respuesta) => {
         this.sedes = respuesta;
-
+        // Miramos si el valor retornado por la APi contiene datos
         if (this.sedes.length > 0) {
           this.comboBoxSede = respuesta;
           this.buscar.controls['sede'].setValue(this.comboBoxSede[0].value);
@@ -86,7 +109,7 @@ export class ConsultarunidadComponent implements OnInit {
       });
     }, 50);
   };
-
+  // Muestra u Oculta segun el radiooButton seleccionado
   cambioRadio() {
     switch (this.buscar.controls['filtro'].value) {
       case 'tipo':
@@ -130,32 +153,28 @@ export class ConsultarunidadComponent implements OnInit {
     }
   }
 
-
+  // Filtra y muestra segun la sede que se seleccione
   filtrarSede() {
     setTimeout(() => {
       if (this.buscar.value.sede != 0) {
         this._peticion.getSede('unidadorganizacional/buscar?type=sede&search=' + this.buscar.value.sede).subscribe((respuesta) => {
           if (respuesta.message === 'No hay registros') {
-            console.log('Primero')
             this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
             this.visible = false;
-            console.log('Segundo')
           } else {
             this.Usuario.datosUnidad = respuesta;
             this.visible = true;
           }
-          console.log('tercero')
         })
       }
     }, 300);
   }
 
+  // Iniciamos el radioInicial
   ngOnInit(): void {
     this.cambioRadio()
-    console.log(this.Usuario.permisos?.eliminar)
-
   }
-
+// Metodo para buscar la unidad y le aplica el filtro que se seleccione en el radioButton
   buscarUnidad(): void {
     this.mostrar = false;
     if (this.buscar.value.entrada === '') {
@@ -175,7 +194,7 @@ export class ConsultarunidadComponent implements OnInit {
       });
     }
   };
-
+  // Despliega la unidad que se ha seleccionado y carga todos los valores que ya esten almacenados
   mostrarUnidad(id: string): void {
     this.caracteristicaslista = [];
     this.caracteristicaspush = [];
@@ -256,7 +275,7 @@ export class ConsultarunidadComponent implements OnInit {
     });
     this.mostrar = true;
   }
-
+  // Elimina la unidad
   eliminarUnidad(id: number): void {
     const dialogRef = this.confirmacion.open(ConfirmarComponent, { maxWidth: "600px", data: { title: 'CONFIRMACION', message: 'Esta seguro de eliminar este registro?' } });
     dialogRef.afterClosed().subscribe(res => {
@@ -272,7 +291,7 @@ export class ConsultarunidadComponent implements OnInit {
       };
     });
   }
-
+  // Metodo que permite agregar nuevas caracteristicas a la unidad seleccionadoa
   agregarcaracteristica(): void {
     if (this.actualizar.value.cantidad > 0) {
       for (let item of this.caracteristicaslista) {
@@ -301,7 +320,7 @@ export class ConsultarunidadComponent implements OnInit {
       this.toastr.warning('Ingrese una cantidad mayor a 0', 'Alerta', { timeOut: 2500 });
     }
   }
-
+  // Metodo que permite eliminar caracteristicas en la unidad seleccionada
   eliminarcaracteristica(itemr: string): void {
     const dialogRef = this.confirmacion.open(ConfirmarComponent, { maxWidth: "600px", data: { title: 'CONFIRMACION', message: 'Esta seguro de eliminar esta caracteristica?' } });
     dialogRef.afterClosed().subscribe(res => {
@@ -322,7 +341,7 @@ export class ConsultarunidadComponent implements OnInit {
       };
     });
   }
-
+  // Metodo que permite guardar y actualizar con los registros nuevos que fueran modificado
   actualizarUnidad(): void {
     if (this.actualizar.invalid) {
       for (const control of Object.keys(this.actualizar.controls)) {
@@ -356,7 +375,7 @@ export class ConsultarunidadComponent implements OnInit {
       };
     }, 100);
   }
-
+  // Muetra el tipo de unidad de dependencia que se encuentre alamacenado en la api y la almacena en una variable para ser usada en el comboBox
   selectipoespaciodep(): void {
     if (this.Usuario.permisos?.modificar === 'si') {
       setTimeout(() => {
@@ -367,7 +386,7 @@ export class ConsultarunidadComponent implements OnInit {
       }, 100);
     }
   }
-
+  // Muetra el municipio que se encuentre alamacenado en la api y la almacena en una variable para ser usada en el comboBox
   selectMunicipio(): void {
     if (this.Usuario.permisos?.modificar === 'si') {
       setTimeout(() => {
@@ -378,7 +397,7 @@ export class ConsultarunidadComponent implements OnInit {
       }, 50);
     }
   }
-
+// Verifica que no se repitan datos al momento de almacenarlos en la BD
   verificarUnidad(): void {
     if (this.actualizar.value.nombre === '') {
       this.chequeo = false;

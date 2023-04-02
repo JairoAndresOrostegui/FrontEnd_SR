@@ -1,5 +1,6 @@
 <div>
   <form (change)="cambioRadio()" class="centrar-columna" [formGroup]="buscar">
+    <!-- Rabio buttons para filtrar -->
     <div class="centrar fuente-pequeña separacion-radio">
       <input type="radio" formControlName="filtro" value="tipo">
       <label class="centrar">Tipo de unidad</label>
@@ -33,6 +34,7 @@
     </div>
     <div></div>
   </form>
+  <!-- Se muestra la tabla -->
   <table *ngIf="visible" class="espacio-trabajo centrar-texto" cellpadding="7">
     <tr class="fuente-pequeña">
       <th>Tipo de unidad</th>
@@ -62,6 +64,7 @@
     </tr>
   </table>
 </div>
+<!-- Form para actualizar el dato en especifico -->
 <form *ngIf="mostrar" [formGroup]="actualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5">
   <div class="centrar-fila">
     <h2 class="centrar-texto fuente-grande">{{ txtformulario }} unidad organizacional:</h2>
@@ -211,6 +214,7 @@
       </tr>
     </table>
   </div>
+  <!-- Boton para actualizar el datos seleccionado -->
   <div *ngIf="Usuario.permisos?.modificar === 'si'" class="centrar-fila boton-crear">
     <button (click)="actualizarUnidad()"
       class="fondo-basico-magenta contorno-nulo color-basico-blanco boton-principal fusion-boton">Actualizar</button>
