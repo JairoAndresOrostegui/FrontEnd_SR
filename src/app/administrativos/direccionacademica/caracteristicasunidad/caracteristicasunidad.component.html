@@ -1,12 +1,15 @@
 <div *ngIf="volver" class="centrar-fila mb-6">
-  <button (click)="regresar()" class="icono icono-regresar contorno-nulo fusion-boton" matTooltip="Regresar"></button>
+  <button (click)="regresar()" class="icono icono-regresar contorno-nulo fusion-boton" matTooltip="Regresa a la vista de consulta"></button>
 </div>
+
 <div *ngIf="mostrarCrear">
   <div *ngIf="Usuario.permisos?.agregar === 'si'" class="centrar-fila mb-6">
     <button (click)="iniciarCrear()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">Crear característica</button>
   </div>
 </div>
+
 <div class="centrar-fila mt-6 responsivo">
+
   <div *ngIf="busqueda">
     <form class="centrar-columna" [formGroup]="buscar">
       <div class="centrar mb-6 fuente-pequeña separacion-radio">
@@ -16,7 +19,10 @@
       <div class="centrar-fila mt-6 fuente-pequeña">
         <label>Buscar:</label>
         <input class="entrada-texto fondo-neutro-gris2" formControlName="entrada">
-        <button (click)="buscarCaracteristica()" class="icono icono-buscar contorno-nulo fusion-boton" matTooltip="Buscar característica"></button>
+        <button (click)="buscarCaracteristica()" class="icono icono-buscar contorno-nulo fusion-boton" matTooltip="Busca una característica con las coincidencias 
+                de los caracteres que se ingresen en el campo de texto, si se deja vacio: trae todos los registros por defecto, para el caso del filtro estado,
+                se debe escribir activo o inactivo completamente para que funcione.
+                Nota: No distingue combinar mayúsculas y minúsculas"></button>
       </div>
     </form>
     <table *ngIf="verbuscar" class="espacio-trabajo centrar-texto" cellpadding="7">
@@ -28,12 +34,13 @@
       </tr>
       <tr *ngFor="let item of this.Usuario.datosCaracteristica" class="fuente-cuerpo-tabla borde-tabla">
         <td>{{ item.nombre_caracteristica }}</td>
-        <td [ngClass]="{'color-alerta-verde':item.estado_caracteristica==='Activo','color-alerta-amarillo':item.estado_caracteristica==='Inactivo'}" class="negrilla">{{ item.estado_caracteristica }}</td>
+        <td [ngClass]="{'color-alerta-verde':item.estado_caracteristica==='Activo','color-alerta-amarillo':item.estado_caracteristica==='Inactivo'}">{{ item.estado_caracteristica }}</td>
         <td *ngIf="Usuario.permisos?.modificar === 'si'" class="espacio-pequeño">
-          <button (click)="mostrarCaracteristica(item.id_caracteristica)" class="icono icono-editar contorno-nulo fusion-boton" matTooltip="Editar característica"></button>
+          <button (click)="mostrarCaracteristica(item.id_caracteristica)" class="icono icono-editar contorno-nulo fusion-boton" matTooltip="Dirige a la vista de edición"></button>
         </td>
         <td *ngIf="Usuario.permisos?.eliminar === 'si'" class="espacio-pequeño">
-          <button (click)="eliminarCaracteristica(item.id_caracteristica)" class="icono icono-eliminar contorno-nulo fusion-boton" matTooltip="Eliminar característica"></button>
+          <button (click)="eliminarCaracteristica(item.id_caracteristica)" class="icono icono-eliminar contorno-nulo fusion-boton" matTooltip="Elimina una característica,
+                  no funciona si la característica ya tiene algun registro asociado"></button>
         </td>
       </tr>
     </table>
@@ -47,8 +54,9 @@
     <div class="centrar-fila tamaño-input">
       <label class="fuente-pequeña">Característica:</label>
       <input class="entrada-texto fondo-basico-blanco" formControlName="nombreactualizar">
+      <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Nombre de la característica que puede tener una unidad organizacional,
+              no puede existir dos características con el mismo nombre"></button>
       <img *ngIf="chequeo" class="icono icono-validar" [src]='urlimagen'>
-      <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Caracteristicas unidad"></button>
     </div>
     <span *ngIf="actualizar.get('nombreactualizar')?.hasError('required') && actualizar.get('nombreactualizar')?.touched"
           class="fuente-pequeña mb-6 campo-requerido color-contraste-amarillo">Este campo es requerido</span>
@@ -60,10 +68,12 @@
           <mat-option value="inactivo">{{'inactivo'.toUpperCase()}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Estado"></button>
+      <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Estado inicial en el que se encuentra la característica,
+              activo: puede usarse para asignarse a una unidad, inactivo: se oculta y no se puede asignar a una unidad."></button>
     </div>
     <div class="centrar-fila">
-      <button (click)="actualizarCaracteristica()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">{{txtboton}}</button>
+      <button (click)="actualizarCaracteristica()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">{{ txtboton }}</button>
     </div>
   </form>
+
 </div>

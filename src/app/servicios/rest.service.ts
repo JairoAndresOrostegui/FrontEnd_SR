@@ -1,13 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Login } from '../modelos/autenticacion/login';
 import { Login2 } from '../modelos/autenticacion/login2';
 import { Rol } from '../modelos/autenticacion/rol';
 import { Respuesta, Select } from '../modelos/genericos/listas';
 import { ObtenerReserva } from '../modelos/reservas/reserva';
-import { Reservas } from '../modelos/reservas/reserva2';
-import { Reservas3 } from '../modelos/reservas/reserva3';
 import { Unidad } from '../modelos/unidadesOrganizacionales/unidad';
 import { Caracteristica, Tipoespaciofisico } from '../modelos/unidadesOrganizacionales/unidad';
 
