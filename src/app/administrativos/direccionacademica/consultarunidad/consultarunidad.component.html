@@ -1,5 +1,16 @@
 <div>
   <form (change)="cambioRadio()" class="centrar-columna" [formGroup]="buscar">
+    <!-- ComboBox Sede -->
+    <div class="centrar-fila">
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="sede">
+          <mat-option *ngFor="let item of cmbSedes" [value]="item.value"
+            (onSelectionChange)="filtrarSede()">
+            {{ item.label.toUpperCase() }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
     <!-- Rabio buttons para filtrar -->
     <div class="centrar fuente-pequeña separacion-radio">
       <input type="radio" formControlName="filtro" value="tipo">
@@ -8,11 +19,10 @@
       <label class="centrar">Nombre</label>
       <input type="radio" formControlName="filtro" value="capacidad">
       <label class="centrar">Capacidad</label>
-      <input type="radio" formControlName="filtro" value="caracteristica"><label class="centrar">Caracteristica</label>
+      <input type="radio" formControlName="filtro" value="caracteristica">
+      <label class="centrar">Caracteristica</label>
       <input type="radio" formControlName="filtro" value="estado">
       <label class="centrar">Estado</label>
-      <input type="radio" formControlName="filtro" value="sede">
-      <label class="centrar">Sede</label>
     </div>
     <!-- Buscar -->
     <div class="centrar-fila mt-3 fuente-pequeña" *ngIf="verBuscar">
@@ -21,18 +31,6 @@
       <button (click)="buscarUnidad()" class="icono icono-buscar contorno-nulo fusion-boton"
         matTooltip="Buscar"></button>
     </div>
-    <!-- ComboBox Sede -->
-    <div *ngIf="verComboBoxSede" class="centrar-fila">
-      <mat-form-field appearance="fill" class="centrar-select">
-        <mat-select formControlName="sede">
-          <mat-option *ngFor="let item of comboBoxSede" [value]="item.value"
-            (onSelectionChange)="filtrarSede()">
-            {{ item.label.toUpperCase() }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div></div>
   </form>
   <!-- Se muestra la tabla -->
   <table *ngIf="visible" class="espacio-trabajo centrar-texto" cellpadding="7">

@@ -52,6 +52,13 @@ td {
   justify-content: center;
 }
 
+.mb-3 {
+  margin-top: -15px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: flex-end;
+}
+
 @media (max-width: 1250px){
   .fila {
     display: flex;

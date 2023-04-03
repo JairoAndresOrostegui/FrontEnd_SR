@@ -40,7 +40,6 @@ export class ConsultarunidadComponent implements OnInit {
   chequeo = false;
   valido = false;
   verBuscar = false;
-  verComboBoxSede = true;
   // Variable que almacena la ruta de la imagen
   urlimagen = '';
   // Variable que lamacenea el nombre de la unidad organizacional
@@ -52,7 +51,7 @@ export class ConsultarunidadComponent implements OnInit {
   // Variable que almacena el nombre del formulario
   txtformulario: string;
   // Variable que almacena la sede para mostrar el comboBox
-  comboBoxSede: any;
+  cmbSedes: any;
   // Variable que inicializa en caso que no tenga caracteristicas la API
   cbvacio = [{ value: 0, label: 'No existen registros' }]
   // Variable que almacena la sede
@@ -60,7 +59,6 @@ export class ConsultarunidadComponent implements OnInit {
   // Variable que almacena los id de sede
   idSede: any;
   idSede2: any;
-
 
   constructor(private fb: FormBuilder,
     private toastr: ToastrService,
@@ -93,60 +91,46 @@ export class ConsultarunidadComponent implements OnInit {
       tipoespaciodep: [''],
       estado: [''],
     });
-    // Inicializamos el comboBox inicial
-    setTimeout(() => {
-      // Pido las sedes que tiene asignadas el rol del usuario
-      this._peticion.getselect('unidadrol?id_rol=' + this.Usuario.datosLogin.rol).subscribe((respuesta) => {
-        this.sedes = respuesta;
-        // Miramos si el valor retornado por la APi contiene datos
-        if (this.sedes.length > 0) {
-          this.comboBoxSede = respuesta;
-          this.buscar.controls['sede'].setValue(this.comboBoxSede[0].value);
-        } else {
-          this.comboBoxSede = this.cbvacio;
-          this.buscar.controls['sede'].setValue(this.comboBoxSede[0].value);
-        }
-      });
-    }, 50);
+    // Inicializamos el comboBox de sedes con las que el usuario tenga acceso de informacion
+    this._peticion.getselect('unidadrol?id_rol=' + this.Usuario.datosLogin.rol).subscribe((respuesta) => {
+      this.sedes = respuesta;
+      // Miramos si el valor retornado por la APi contiene datos
+      if (this.sedes.length > 0) {
+        this.cmbSedes = respuesta;
+        this.buscar.controls['sede'].setValue(this.cmbSedes[0].value);
+      } else {
+        this.cmbSedes = this.cbvacio;
+        this.buscar.controls['sede'].setValue(this.cmbSedes[0].value);
+      }
+    });
   };
   // Muestra u Oculta segun el radiooButton seleccionado
   cambioRadio() {
     switch (this.buscar.controls['filtro'].value) {
       case 'tipo':
         this.verBuscar = true;
-        this.verComboBoxSede = false
         this.visible = false;
         this.mostrar = false;
         break;
       case 'nombre':
         this.verBuscar = true;
-        this.verComboBoxSede = false
         this.visible = false;
         this.mostrar = false;
         break;
       case 'capacidad':
         this.verBuscar = true;
-        this.verComboBoxSede = false
         this.visible = false;
         this.mostrar = false;
         break;
       case 'caracteristica':
         this.verBuscar = true;
-        this.verComboBoxSede = false
         this.visible = false;
         this.mostrar = false;
         break;
       case 'estado':
         this.verBuscar = true;
-        this.verComboBoxSede = false
         this.visible = false;
         this.mostrar = false;
-        break;
-      case 'sede':
-        this.verBuscar = false;
-        this.verComboBoxSede = true;
-        this.visible = false;
-        // this.filtrarSede();
         break;
       default:
         return;
@@ -165,9 +149,9 @@ export class ConsultarunidadComponent implements OnInit {
             this.Usuario.datosUnidad = respuesta;
             this.visible = true;
           }
-        })
+        });
       }
-    }, 300);
+    }, 100);
   }
 
   // Iniciamos el radioInicial

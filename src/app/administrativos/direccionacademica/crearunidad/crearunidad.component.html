@@ -5,7 +5,7 @@
       <label class="fuente-pequeña">Tipo de espacio:</label>
       <mat-form-field appearance="fill" class="centrar-select">
         <mat-select formControlName="tipoespacio">
-          <mat-option *ngFor="let item of cmbtipoespacio" [value]="item.value">
+          <mat-option *ngFor="let item of cmbtipoespacio" [value]="item.value" (onSelectionChange)="cambiarTipoDependencia()">
             {{item.label.toUpperCase()}}
           </mat-option>
         </mat-select>
@@ -20,8 +20,10 @@
         <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Nombre del espacio"></button>
         <img *ngIf="chequeo" class="icono" [src]='urlimagen'>
       </div>
-      <span *ngIf="crearsede.get('nombre')?.hasError('required') && crearsede.get('nombre')?.touched"
-        class="fuente-pequeña centrar-fila color-alerta-rojo">Este campo es requerido</span>
+      <div class="mb-3">
+        <span *ngIf="crearsede.get('nombre')?.hasError('required') && crearsede.get('nombre')?.touched"
+              class="fuente-pequeña centrar-fila color-contraste-amarillo">Este campo es requerido</span>
+      </div>
     </div>
   </div>
   <div class="fila">
@@ -32,8 +34,10 @@
         <input type="number" min="0" class="input-texto entrada-texto" placeholder="Piso" formControlName="piso">
         <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Piso"></button>
       </div>
-      <span *ngIf="crearsede.get('piso')?.hasError('required') && crearsede.get('piso')?.touched"
-        class="fuente-pequeña centrar-fila color-alerta-rojo">Este campo es requerido</span>
+      <div class="mb-3">
+        <span *ngIf="crearsede.get('piso')?.hasError('required') && crearsede.get('piso')?.touched"
+              class="fuente-pequeña centrar-fila color-contraste-amarillo">Este campo es requerido</span>
+      </div>
     </div>
     <!-- Capacidad -->
     <div>
@@ -42,9 +46,11 @@
         <input type="number" min="0" class="input-texto entrada-texto" placeholder="Capacidad del espacio" formControlName="capacidad">
         <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Capacidad"></button>
       </div>
+      <div class="mb-3">
+        <span *ngIf="crearsede.get('capacidad')?.hasError('required') && crearsede.get('capacidad')?.touched"
+              class="fuente-pequeña centrar-fila color-contraste-amarillo">Este campo es requerido</span>
+      </div>
     </div>
-    <span *ngIf="crearsede.get('capacidad')?.hasError('required') && crearsede.get('capacidad')?.touched"
-        class="fuente-pequeña centrar-fila color-alerta-rojo">Este campo es requerido</span>
   </div>
   <div class="fila">
     <!-- Tipo Unidad Dependencia -->
@@ -125,8 +131,6 @@
           <button class="icono icono-agregar contorno-nulo fusion-boton" (click)="agregarcaracteristica()" matTooltip="Agregar"></button>
         </td>
       </tr>
-      <span *ngIf="crearsede.get('cantidad')?.hasError('required') && crearsede.get('cantidad')?.touched"
-          class="fuente-pequeña centrar-fila color-alerta-rojo">Indique la cantidad</span>
       <tr *ngFor="let item of caracteristicaslista;" class="fuente-cuerpo-tabla borde-tabla">
         <td>{{ item.label.toUpperCase() }}</td>
         <td>{{ item.cantidad }}</td>
@@ -136,6 +140,6 @@
   </div>
   <!-- Boton de crer unidad -->
   <div class="centrar-fila boton-crear">
-     <button (click)="crearUnidad()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">Crear</button>
+     <button (click)="crearUnidad()" class="fondo-basico-magenta contorno-nulo color-basico-blanco boton-principal fusion-boton">Crear</button>
   </div>
 </form>

@@ -41,7 +41,7 @@ table {
   margin-top: -15px;
   margin-bottom: 25px;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 @media (max-width: 1200px) {
