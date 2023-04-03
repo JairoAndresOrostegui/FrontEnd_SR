@@ -12,60 +12,67 @@ import { RestService } from 'src/app/servicios/rest.service';
   styleUrls: ['./tipounidad.component.css']
 })
 export class TipounidadComponent implements OnInit {
-  // Variable que almacena los formControlName de los radio button seleccionado
+  // FormBuilder para radioButtons
   buscar: FormGroup;
-  // Variable que almacena los formControlName de lo datos a ingresar
+  // FormBuilder para los datos a crear y actualizar
   actualizar: FormGroup;
   // Variable que almacena el tipo de espacio y su estado
   txttipoespacio?: string;
   txtestadotipo?: string;
-  // Varible que almacena el objeto a actualizar
+  // Objeto que almacena los campos a crear o actualizar
   update?: {};
-  // Variable que muestra u ocultan los formularios del HTMKL
-  vereditar = false;
-  verbuscar = false;
-  busqueda = true;
-  mostrarCrear = true;
-  // Varible del boton retroceder
-  volver = false;
-  // 
-  chequeo = false;
-  // Variable para condicional
-  valido = true;
-  // Variable que almacena la URL d ela imagen chulito o rechazo
+  // Variables que muestran u ocultan los formularios
+  vereditar: boolean; // false oculta, true muestra - Formulario de Editar o Crear
+  verbuscar: boolean; // false oculta, true muestra - Tabla de datos
+  busqueda: boolean; // false oculta, true muestra - Formulario de busqueda y tabla de datos
+  mostrarCrear: boolean; // false oculta, true muestra - Boton Crear
+  volver: boolean; // false oculta, true muestra - Boton Regresar = icono: flecha
+  // Variable que muestra u oculta el icono que valida el nombre del registro
+  chequeo: boolean; // false oculta, true muestra
+  // Variable de control de condicional
+  valido: boolean;
+  // Variable que almacena la ruta de la imagen
   urlimagen?: string;
-  // Variable que almacena el nombre del formulario dependiendo si es crear o actualizar
+  // Variable que almacena el nombre del fomulario 'Crear' o 'Actualizar'
   txtformulario?: string;
-  // Variable que almacena el nombre del boton dependiendo si es crear o actualizar
+  // Variable que almacena el nombre del boton 'Crear' o 'Actualizar'
   txtboton?: string;
 
   constructor(
+    // Se inyectan las dependencias requeridas
     private fb: FormBuilder,
     public Usuario: DatosUsuario,
     private toastr: ToastrService,
     private _peticion: RestService,
     public confirmacion: MatDialog
-    ) {
-      // Variables inicializadas
-      this.txtformulario = 'Actualizar';
-      this.txtboton = 'Actualizar';
-      // FormBuilder de los radioButton
-      this.buscar = this.fb.group ({
-        entrada: [''],
-        filtro: ['nombre']
-      });
-      // FormBuilder del Formulario de creacion y actualizacion
-      this.actualizar = this.fb.group ({ 
-        idactualizar: [''], 
-        nombreactualizar: ['', Validators.required], 
-        estadoactualizar: ['activo', Validators.required]
-      });
+  ) {
+    // Variables inicializadas
+    this.txtformulario = 'Actualizar';
+    this.txtboton = 'Actualizar';
+    this.vereditar = false;
+    this.verbuscar = false;
+    this.busqueda = true;
+    this.mostrarCrear = true;
+    this.volver = false;
+    this.chequeo = false;
+    this.valido = true;
+    // Se crean los FormBuilder iniciales de los radioButtons y el input de buscar
+    this.buscar = this.fb.group({
+      entrada: [''],
+      filtro: ['nombre']
+    });
+    // Se crean los FormBuilder de crear o actualizar los datos de caracteristicas de unidad
+    this.actualizar = this.fb.group({
+      idactualizar: [''],
+      nombreactualizar: ['', Validators.required],
+      estadoactualizar: ['activo', Validators.required]
+    });
   }
 
   ngOnInit(): void {
   }
 
-  // Boton regresar
+  // Funcion del boton regresar. Cambia los estados de los campos que desea ocultar o mostrar
   regresar(): void {
     this.busqueda = true;
     this.vereditar = false;
@@ -74,7 +81,8 @@ export class TipounidadComponent implements OnInit {
     this.mostrarCrear = true;
     this.urlimagen = '';
   }
-  // Metodo para crear nuevo registro
+
+  // Funcion para establecer los estados y variables en la modalidad de Crear Caracteristica
   iniciarCrear(): void {
     this.busqueda = false;
     this.vereditar = true;
@@ -88,34 +96,36 @@ export class TipounidadComponent implements OnInit {
     this.actualizar.reset();
     this.actualizar.controls['estadoactualizar'].setValue('activo');
   }
-  // Metodo de la lupa que busca el espacio por defecto si es vacio muestra todos los espacio
-  // Si no realiza el filtrado con los datos ingresados en el input
+
+  // Funcion para realizar la busqueda segun el filtro seleccionado
   buscarTipoEspacio(): void {
     this.txtformulario = 'Actualizar';
     this.txtboton = 'Actualizar';
     this.vereditar = false;
     this.volver = false;
     this.busqueda = true;
+    // Si el filtro es vacio muestra todos los datos en la api 'tipoespacio' y los almacena en la variable global 'this.Usuario.datosTipoEspacio'
     if (this.buscar.value.entrada === '') {
       this._peticion.gettipoespacio('tipoespacio').subscribe((respuesta) => {
-            this.Usuario.datosTipoEspacio = respuesta;
-            this.verbuscar = true;
+        this.Usuario.datosTipoEspacio = respuesta;
+        this.verbuscar = true;
       });
     } else {
-      this._peticion.gettipoespacio('tipoespacio/buscar?type='+this.buscar.value.filtro+'&search='+this.buscar.value.entrada)
-          .subscribe((respuesta) => {
-            if (respuesta.message != 'No hay registros') {
-              this.Usuario.datosTipoEspacio = respuesta;
-              this.verbuscar = true;
-            } else {
-              this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
-              this.verbuscar = false;
-            };
-      });
+      // Si el filtro no esta vacio, envia el nombre de busqueda y el valor de entrada del input y retorna los datos segun los parametros de filtro que se envio
+      this._peticion.gettipoespacio('tipoespacio/buscar?type=' + this.buscar.value.filtro + '&search=' + this.buscar.value.entrada)
+        .subscribe((respuesta) => {
+          if (respuesta.message != 'No hay registros') {
+            this.Usuario.datosTipoEspacio = respuesta;
+            this.verbuscar = true;
+          } else {
+            this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
+            this.verbuscar = false;
+          };
+        });
     };
   };
 
-  // Funcion que muestra los datos de un espacio en especifico 
+  // Funcion que carga los datos del registro seleccionado para actualizar
   mostrarTipoEspacio(id: number): void {
     this.chequeo = false;
     this.verbuscar = false;
@@ -123,7 +133,8 @@ export class TipounidadComponent implements OnInit {
     this.vereditar = true;
     this.volver = true;
     this.mostrarCrear = false;
-    this._peticion.gettipoespacio('tipoespacio/'+id).subscribe((respuesta) => {
+     // Carga los datos del registro seleccionado y lo renderiza en el formulario en su respectivo campo
+    this._peticion.gettipoespacio('tipoespacio/' + id).subscribe((respuesta) => {
       this.actualizar.controls['idactualizar'].setValue(id)
       this.actualizar.controls['nombreactualizar'].setValue(respuesta.nombre_tipo_espacio);
       this.txttipoespacio = respuesta.nombre_tipo_espacio.toLowerCase();
@@ -132,47 +143,52 @@ export class TipounidadComponent implements OnInit {
     });
   }
 
-  // Metodo para actualizar o crear una unidad
+  // Funcion que actualiza los datos, segun los valores cambiados por el usuario
   actualizarTipoEspacio(): void {
     this.busqueda = false;
+    // Verifica que el campo nombre no este vacio
     if (this.actualizar.value.nombreactualizar === '' || this.actualizar.value.nombreactualizar === null) {
       this.chequeo = false;
       this.actualizar.controls['nombreactualizar'].markAsTouched();
-      return;
+      return; // Si esta vacio, no se puede enviar la peticion y debe informar al usuario que ese campo es requerido
     }
     this.chequeo = true;
+    // Valida las variables de nombre de registro y estado para evitar enviar peticiones innecesarias
     if (this.txttipoespacio === this.actualizar.value.nombreactualizar.toLowerCase()) {
       if (this.txtestadotipo === this.actualizar.value.estadoactualizar.toLowerCase()) {
         if (this.txtboton === 'Crear') {
-          this.toastr.info('Este registro ya ha sido creado', 'Información', { timeOut: 1500 });
+          this.toastr.info('Este registro ya ha sido creado', 'Información', { timeOut: 1500 }); // Muestra el mensaje que informa una creacion de registro duplicada
         } else {
-          this.toastr.info('Debe modificar algun campo para actualizar', 'Información', { timeOut: 1500 });
+          this.toastr.info('Debe modificar algun campo para actualizar', 'Información', { timeOut: 1500 }); // Muestra el mensaje que debe modificar un campo para actualizar
         }
         this.chequeo = false;
       } else {
-        this.actualizarDatos();
+        this.actualizarDatos(); // Invoca la funcion que envia la peticion
       }
-    } else{
-      this._peticion.getvalidar('tipoespacio/validatename/'+this.actualizar.value.nombreactualizar).subscribe((respuesta) => {
+    } else {
+      // Si modifico el nombre valida que no exista en los registros
+      this._peticion.getvalidar('tipoespacio/validatename/' + this.actualizar.value.nombreactualizar).subscribe((respuesta) => {
         if (!respuesta || this.txttipoespacio === this.actualizar.value.nombreactualizar.toLowerCase()) {
-          this.actualizarDatos();
+          this.actualizarDatos(); // Invoca la funcion que envia la peticion
         } else {
           this.urlimagen = './../../assets/img/iconos/cerrar.svg';
-          this.toastr.warning('Ese tipo de espacio ya existe', 'Alerta', { timeOut: 1500 });
+          this.toastr.warning('Ese tipo de espacio ya existe', 'Alerta', { timeOut: 1500 }); // Muestra el mensaje que alerta la existencia de un registro con igual nombre
         }
       });
     }
   }
 
-  // Funcion que envia la peticion de actualizacion a la base de datos
+  // Funcion que envia la peticion de actualizacion al backend
   actualizarDatos(): void {
     this.urlimagen = './../../assets/img/iconos/verificacion.svg';
+    // Si el boton ese Crear, se creara un nuevo registro
     if (this.txtboton === 'Crear') {
       this.update = {
-        id_tipo_espacio: 0,
+        id_tipo_espacio: 0, //El id debe ser 0 para que el backend le asigne el ID autoincrementable
         nombre_tipo_espacio: this.actualizar.value.nombreactualizar.toLowerCase(),
         estado_tipo_espacio: this.actualizar.value.estadoactualizar
       };
+      //Envia la peticion de creacion de registro
       this._peticion.create('tipoespacio', this.update).subscribe((respuesta) => {
         if (respuesta.message === 'Registro guardado con exito') {
           this.toastr.success('Tipo de espacio creado con exito', 'Exitoso', { timeOut: 1500 });
@@ -183,11 +199,13 @@ export class TipounidadComponent implements OnInit {
         };
       });
     } else {
+      // Si el boton es Actualizar, se actualiza un nuevo registro existente
       this.update = {
         id_tipo_espacio: this.actualizar.value.idactualizar,
         nombre_tipo_espacio: this.actualizar.value.nombreactualizar.toLowerCase(),
         estado_tipo_espacio: this.actualizar.value.estadoactualizar
       };
+      //Envia la peticion de creacion de registro
       this._peticion.update('tipoespacio', this.update).subscribe((respuesta) => {
         if (respuesta.message === "Registro actualizado con exito") {
           this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
@@ -200,17 +218,19 @@ export class TipounidadComponent implements OnInit {
     };
   }
 
-  // Elimina el tipo de espacio
+  // Funcion que elimina la caracteristica
   eliminarTipoEspacio(id: number): void {
+    // Llama una ventana modal para confirmar si desea eliminar el registro
     const dialogRef = this.confirmacion.open(ConfirmarComponent, { maxWidth: "600px", data: { title: 'CONFIRMACION', message: 'Esta seguro de eliminar este tipo de espacio físico?' } });
     dialogRef.afterClosed().subscribe(res => {
+      // Si la respuesta es afirmativa procede a borrar el registro
       if (res) {
-        this._peticion.delete('tipoespacio/'+id).subscribe((respuesta) => {
+        this._peticion.delete('tipoespacio/' + id).subscribe((respuesta) => {
           if (respuesta.message === "Registro eliminado con exito") {
             this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
             this.vereditar = false;
             this.volver = false;
-            this.buscarTipoEspacio();
+            this.buscarTipoEspacio(); // Refresca la lista de registros
           } else {
             this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
           }
