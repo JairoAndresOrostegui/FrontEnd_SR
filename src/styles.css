@@ -432,6 +432,11 @@ para facilitar la lectura o con transiciones a blanco para limpiar la carga visu
   height: 30px;
 }
 
+.boton-padding {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 .boton-enlace {
   border: 0;
   background: none;

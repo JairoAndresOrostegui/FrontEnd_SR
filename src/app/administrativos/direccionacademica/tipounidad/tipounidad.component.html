@@ -3,7 +3,7 @@
 </div>
 <div *ngIf="mostrarCrear">
   <div *ngIf="Usuario.permisos?.agregar === 'si'" class="centrar-fila mb-6">
-    <button (click)="iniciarCrear()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">Crear tipo de unidad organizacional</button>
+    <button (click)="iniciarCrear()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal boton-padding fusion-boton">Crear</button>
   </div>
 </div>
 <div class="centrar-fila mt-6 responsivo">
@@ -33,7 +33,7 @@
       </tr>
       <tr *ngFor="let item of this.Usuario.datosTipoEspacio" class="fuente-cuerpo-tabla borde-tabla">
         <td>{{ item.nombre_tipo_espacio }}</td>
-        <td [ngClass]="{'color-alerta-verde':item.estado_tipo_espacio==='Activo','color-alerta-amarillo':item.estado_tipo_espacio==='Inactivo'}" class="negrilla">{{ item.estado_tipo_espacio }}</td>
+        <td [ngClass]="{'color-alerta-verde':item.estado_tipo_espacio==='Activo','color-alerta-amarillo':item.estado_tipo_espacio==='Inactivo'}">{{ item.estado_tipo_espacio }}</td>
         <td *ngIf="Usuario.permisos?.modificar === 'si'" class="espacio-pequeño">
           <button (click)="mostrarTipoEspacio(item.id_tipo_espacio)" class="icono icono-editar contorno-nulo fusion-boton" matTooltip="Editar tipo de espacio"></button>
         </td>
@@ -68,7 +68,7 @@
       <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Estado del espacio"></button>
     </div>
     <div class="centrar-fila">
-      <button (click)="actualizarTipoEspacio()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">{{txtboton}}</button>
+      <button (click)="actualizarTipoEspacio()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal boton-padding fusion-boton">{{txtboton}}</button>
     </div>
   </form>
 </div>

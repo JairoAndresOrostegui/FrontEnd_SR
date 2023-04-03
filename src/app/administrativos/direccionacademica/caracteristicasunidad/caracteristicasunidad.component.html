@@ -4,7 +4,7 @@
 
 <div *ngIf="mostrarCrear">
   <div *ngIf="Usuario.permisos?.agregar === 'si'" class="centrar-fila mb-6">
-    <button (click)="iniciarCrear()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">Crear característica</button>
+    <button (click)="iniciarCrear()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal boton-padding fusion-boton">Crear</button>
   </div>
 </div>
 
@@ -76,7 +76,7 @@
     </div>
     <!-- Boton de crear o actualizar -->
     <div class="centrar-fila">
-      <button (click)="actualizarCaracteristica()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">{{ txtboton }}</button>
+      <button (click)="actualizarCaracteristica()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal boton-padding fusion-boton">{{ txtboton }}</button>
     </div>
   </form>
 

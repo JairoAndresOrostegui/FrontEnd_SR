@@ -16,14 +16,15 @@ export class CaracteristicasunidadComponent implements OnInit {
   buscar: FormGroup;
   // FormBuilder para los datos a crear
   actualizar: FormGroup;
-  // Variable que almacena el nombre de la caracteristica
+  // Variable que almacena el nombre de la caracteristica y su estado
   txtcaracteristica?: string;
+  txtestadocaracteristica?: string;
   // Objeto que almacena los campos a actualizar
   update?: {};
   // Variables que muestran u ocultan los formularios
   vereditar = false;
   verbuscar = false;
-  volver = false
+  volver = false;
   chequeo = false;
   busqueda = true;
   mostrarCrear = true;
@@ -116,8 +117,9 @@ export class CaracteristicasunidadComponent implements OnInit {
     this._peticion.getcaracteristica('caracteristica/'+id).subscribe((respuesta) => {
       this.actualizar.controls['idactualizar'].setValue(id)
       this.actualizar.controls['nombreactualizar'].setValue(respuesta.nombre_caracteristica);
-      this.txtcaracteristica = respuesta.nombre_caracteristica;
+      this.txtcaracteristica = respuesta.nombre_caracteristica.toLowerCase();
       this.actualizar.controls['estadoactualizar'].setValue(respuesta.estado_caracteristica);
+      this.txtestadocaracteristica = respuesta.estado_caracteristica.toLowerCase();
     });
   }
   // Metodo que actualiza los datos segun los valores cambiados por el usuario
@@ -130,42 +132,61 @@ export class CaracteristicasunidadComponent implements OnInit {
       return;
     }
     this.chequeo = true;
-    this._peticion.getvalidar('caracteristica/validatename/'+this.actualizar.value.nombreactualizar).subscribe((respuesta) => {
-      if (!respuesta || this.txtcaracteristica === this.actualizar.value.nombreactualizar) {
-        this.urlimagen = './../../assets/img/iconos/verificacion.svg';
-        if (this.txtboton === 'Crear') {
-          this.update = {
-            id_caracteristica: 0,
-            nombre_caracteristica: this.actualizar.value.nombreactualizar.toLowerCase(),
-            estado_caracteristica: this.actualizar.value.estadoactualizar
-          };
-          this._peticion.create('caracteristica', this.update).subscribe((respuesta) => {
-            if (respuesta.message === 'Registro guardado con exito') {
-              this.toastr.success('Caracteristica creada con exito', 'Exitoso', { timeOut: 1500 });
-            } else {
-              this.toastr.error('Error en la creacion de la caracteristica', 'Error', { timeOut: 1500 });
-            };
-          });
-        } else {
-          this.update = {
-            id_caracteristica: this.actualizar.value.idactualizar,
-            nombre_caracteristica: this.actualizar.value.nombreactualizar.toLowerCase(),
-            estado_caracteristica: this.actualizar.value.estadoactualizar
-          };
-          this._peticion.update('caracteristica', this.update).subscribe((respuesta) => {
-            if (respuesta.message === "Registro actualizado con exito") {
-              this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
-            } else {
-              this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
-            };
-          });
-        };
+    if (this.txtcaracteristica === this.actualizar.value.nombreactualizar.toLowerCase()) {
+      if (this.txtestadocaracteristica === this.actualizar.value.estadoactualizar.toLowerCase()) {
+        this.toastr.info('Debe modificar algun campo para actualizar', 'Información', { timeOut: 1500 });
+        this.chequeo = false;
       } else {
-        this.urlimagen = './../../assets/img/iconos/cerrar.svg';
-        this.toastr.warning('Esa característica ya existe', 'Alerta', { timeOut: 1500 });
+        this.actualizarDatos();
       }
-    });
+    } else{
+      this._peticion.getvalidar('caracteristica/validatename/'+this.actualizar.value.nombreactualizar).subscribe((respuesta) => {
+        if (!respuesta || this.txtcaracteristica === this.actualizar.value.nombreactualizar.toLowerCase()) {
+          this.actualizarDatos();
+        } else {
+          this.urlimagen = './../../assets/img/iconos/cerrar.svg';
+          this.toastr.warning('Esa característica ya existe', 'Alerta', { timeOut: 1500 });
+        }
+      });
+    }
   }
+
+  // Funcion que envia la peticion de actualizacion a la base de datos
+  actualizarDatos(): void {
+    this.urlimagen = './../../assets/img/iconos/verificacion.svg';
+    if (this.txtboton === 'Crear') {
+      this.update = {
+        id_caracteristica: 0,
+        nombre_caracteristica: this.actualizar.value.nombreactualizar.toLowerCase(),
+        estado_caracteristica: this.actualizar.value.estadoactualizar
+      };
+      this._peticion.create('caracteristica', this.update).subscribe((respuesta) => {
+        if (respuesta.message === 'Registro guardado con exito') {
+          this.toastr.success('Caracteristica creada con exito', 'Exitoso', { timeOut: 1500 });
+          this.txtcaracteristica = this.actualizar.value.nombreactualizar.toLowerCase();
+          this.txtestadocaracteristica = this.actualizar.value.estadoactualizar.toLowerCase()
+        } else {
+          this.toastr.error('Error en la creacion de la caracteristica', 'Error', { timeOut: 1500 });
+        };
+      });
+    } else {
+      this.update = {
+        id_caracteristica: this.actualizar.value.idactualizar,
+        nombre_caracteristica: this.actualizar.value.nombreactualizar.toLowerCase(),
+        estado_caracteristica: this.actualizar.value.estadoactualizar
+      };
+      this._peticion.update('caracteristica', this.update).subscribe((respuesta) => {
+        if (respuesta.message === "Registro actualizado con exito") {
+          this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
+          this.txtcaracteristica = this.actualizar.value.nombreactualizar.toLowerCase();
+          this.txtestadocaracteristica = this.actualizar.value.estadoactualizar.toLowerCase()
+        } else {
+          this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
+        };
+      });
+    };
+  }
+
   // Metodo que elimina la caracteristica
   eliminarCaracteristica(id: number): void {
     const dialogRef = this.confirmacion.open(ConfirmarComponent, { maxWidth: "600px", data: { title: 'CONFIRMACION', message: 'Esta seguro de eliminar esta característica?' } });
