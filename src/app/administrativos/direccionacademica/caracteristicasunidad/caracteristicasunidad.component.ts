@@ -23,12 +23,12 @@ export class CaracteristicasunidadComponent implements OnInit {
   update?: {};
   // Variables que muestran u ocultan los formularios
   vereditar: boolean;  // false oculta, true muestra - Formulario de Editar o Crear
-  verbuscar = false;  // false oculta, true muestra - Tabla de datos
-  volver = false;   // false oculta, true muestra - Boton Regresar = icono: flecha
-  busqueda = true;  // false oculta, true muestra - Formulario de busqueda y tabla de datos
-  mostrarCrear = true; // false oculta, true muestra - Boton Crear
+  verbuscar: boolean;  // false oculta, true muestra - Tabla de datos
+  volver: boolean;   // false oculta, true muestra - Boton Regresar = icono: flecha
+  busqueda: boolean;  // false oculta, true muestra - Formulario de busqueda y tabla de datos
+  mostrarCrear: boolean; // false oculta, true muestra - Boton Crear
   // Variable que muestra u oculta el icono que valida el nombre del registro
-  chequeo = false; // false oculta, true muestra
+  chequeo: boolean; // false oculta, true muestra
   // Variable que almacena la ruta de la imagen
   urlimagen?: string;
   // Variable que almacena el nombre del fomulario 'Crear' o 'Actualizar'
@@ -48,6 +48,11 @@ export class CaracteristicasunidadComponent implements OnInit {
       this.txtformulario = 'Actualizar';
       this.txtboton = 'Actualizar';
       this.vereditar = false;
+      this.verbuscar = false;
+      this.volver = false;
+      this.busqueda = true;
+      this.mostrarCrear = true;
+      this.chequeo = false;
       // Se crean los FormBuilder iniciales de los radioButtons y el input de buscar
       this.buscar = this.fb.group ({ 
         entrada: [''], 
