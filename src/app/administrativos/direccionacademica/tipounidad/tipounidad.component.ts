@@ -115,8 +115,8 @@ export class TipounidadComponent implements OnInit {
     };
   };
 
-  // Metodo que muestra los datos de un espacio en especifico 
-  mostrarTipoEspacio(id: string): void {
+  // Funcion que muestra los datos de un espacio en especifico 
+  mostrarTipoEspacio(id: number): void {
     this.chequeo = false;
     this.verbuscar = false;
     this.busqueda = false;
@@ -135,7 +135,7 @@ export class TipounidadComponent implements OnInit {
   // Metodo para actualizar o crear una unidad
   actualizarTipoEspacio(): void {
     this.busqueda = false;
-    if (this.actualizar.value.nombreactualizar === '') {
+    if (this.actualizar.value.nombreactualizar === '' || this.actualizar.value.nombreactualizar === null) {
       this.chequeo = false;
       this.actualizar.controls['nombreactualizar'].markAsTouched();
       return;

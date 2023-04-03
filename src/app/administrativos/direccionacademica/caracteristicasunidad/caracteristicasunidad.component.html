@@ -1,24 +1,24 @@
-<div *ngIf="volver" class="centrar-fila mb-6">
+<div *ngIf="volver" class="centrar-fila">
   <button (click)="regresar()" class="icono icono-regresar contorno-nulo fusion-boton" matTooltip="Regresa a la vista de consulta"></button>
 </div>
 
 <div *ngIf="mostrarCrear">
-  <div *ngIf="Usuario.permisos?.agregar === 'si'" class="centrar-fila mb-6">
+  <div *ngIf="Usuario.permisos?.agregar === 'si'" class="centrar-fila">
     <button (click)="iniciarCrear()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal boton-padding fusion-boton">Crear</button>
   </div>
 </div>
 
-<div class="centrar-fila mt-6 responsivo">
+<div class="centrar-fila responsivo">
 
   <div *ngIf="busqueda">
     <form class="centrar-columna" [formGroup]="buscar">
       <!-- RadioButtons -->
-      <div class="centrar mb-6 fuente-pequeña separacion-radio">
+      <div class="centrar fuente-pequeña separacion-radio">
         <input type="radio" formControlName="filtro" value="nombre"><label class="centrar">Característica</label>
         <input type="radio" formControlName="filtro" value="estado"><label class="centrar">Estado</label>
       </div>
       <!-- Input de Buscar y botón de lupa -->
-      <div class="centrar-fila mt-6 fuente-pequeña">
+      <div class="centrar-fila fuente-pequeña">
         <label>Buscar:</label>
         <input class="entrada-texto fondo-neutro-gris2" formControlName="entrada">
         <button (click)="buscarCaracteristica()" class="icono icono-buscar contorno-nulo fusion-boton" matTooltip="Busca una característica con las coincidencias 
@@ -49,8 +49,8 @@
     </table>
   </div>
 <!-- Formulario para actualizar o crear caracteristica -->
-  <form *ngIf="vereditar" [formGroup]="actualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5 mb-6">
-    <div class="centrar-fila mb-6">
+  <form *ngIf="vereditar" [formGroup]="actualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5">
+    <div class="centrar-fila">
       <h2 class="centrar-texto fuente-grande">{{ txtformulario }} característica:</h2>
     </div>
     <input type="hidden" formControlName="idactualizar">
@@ -61,8 +61,10 @@
               no puede existir dos características con el mismo nombre"></button>
       <img *ngIf="chequeo" class="icono icono-validar" [src]='urlimagen'>
     </div>
-    <span *ngIf="actualizar.get('nombreactualizar')?.hasError('required') && actualizar.get('nombreactualizar')?.touched"
-          class="fuente-pequeña mb-6 campo-requerido color-contraste-amarillo">Este campo es requerido</span>
+    <div class="mb-3">
+      <span *ngIf="actualizar.get('nombreactualizar')?.hasError('required') && actualizar.get('nombreactualizar')?.touched"
+          class="fuente-pequeña campo-requerido color-contraste-amarillo">Este campo es requerido</span>
+    </div>
     <div class="centrar-fila tamaño-input">
       <label class="fuente-pequeña">Estado:</label>
       <mat-form-field appearance="fill" class="centrar-select">

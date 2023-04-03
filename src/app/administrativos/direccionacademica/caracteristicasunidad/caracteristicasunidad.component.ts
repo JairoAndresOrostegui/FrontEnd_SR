@@ -14,25 +14,26 @@ import { RestService } from 'src/app/servicios/rest.service';
 export class CaracteristicasunidadComponent implements OnInit {
   // FormBuilder para radioButtons
   buscar: FormGroup;
-  // FormBuilder para los datos a crear
+  // FormBuilder para los datos a crear y actualizar
   actualizar: FormGroup;
   // Variable que almacena el nombre de la caracteristica y su estado
   txtcaracteristica?: string;
   txtestadocaracteristica?: string;
-  // Objeto que almacena los campos a actualizar
+  // Objeto que almacena los campos a crear o actualizar
   update?: {};
   // Variables que muestran u ocultan los formularios
-  vereditar = false;  // Se inicializa en false para que no se muestre este campo de editar
-  verbuscar = false;  // Se inicializa en false para que no se muestre este campo que muestra todos los campos que trae
-  volver = false;   // Se inicializa en false para que no se muestre este campo. Solamente se muestra cuando se va a crear una caracteristica o actualizar 
-  chequeo = false; // Variable que almacena el estado para mostrar y ocultar un icono-validar, se inicializa en false para que no se muestre. Solamente cuando cambie de estado
-  busqueda = true;  // Se inicializa en false para que no se muestre este campo que muestra todas las busquedas en la BD
-  mostrarCrear = true; // Variable que oculta o muestra el boton de crear, por defecto estara en true
+  vereditar: boolean;  // false oculta, true muestra - Formulario de Editar o Crear
+  verbuscar = false;  // false oculta, true muestra - Tabla de datos
+  volver = false;   // false oculta, true muestra - Boton Regresar = icono: flecha
+  busqueda = true;  // false oculta, true muestra - Formulario de busqueda y tabla de datos
+  mostrarCrear = true; // false oculta, true muestra - Boton Crear
+  // Variable que muestra u oculta el icono que valida el nombre del registro
+  chequeo = false; // false oculta, true muestra
   // Variable que almacena la ruta de la imagen
   urlimagen?: string;
-  // Variable que almacena el nombre del fomulario 'Crear' u 'Actualizar'
+  // Variable que almacena el nombre del fomulario 'Crear' o 'Actualizar'
   txtformulario?: string;
-  // Variable que almacena el nombre del boton 'Crear' u 'Actualizar' 
+  // Variable que almacena el nombre del boton 'Crear' o 'Actualizar' 
   txtboton?: string;
 
   constructor(
@@ -43,14 +44,15 @@ export class CaracteristicasunidadComponent implements OnInit {
     private _peticion: RestService,
     public confirmacion: MatDialog
     ) {
-      // Se iniciliza las variables
+      // Se inicilizan las variables
       this.txtformulario = 'Actualizar';
       this.txtboton = 'Actualizar';
-      // Se crean los FormBuilder iniciales de los radioButtons y el inout de buscar
+      this.vereditar = false;
+      // Se crean los FormBuilder iniciales de los radioButtons y el input de buscar
       this.buscar = this.fb.group ({ 
         entrada: [''], 
         filtro: ['nombre'] });
-        // Se crean los FormBuilder de crear o actualizar los datos caracteristicas de unidad
+        // Se crean los FormBuilder de crear o actualizar los datos de caracteristicas de unidad
       this.actualizar = this.fb.group ({ 
         idactualizar: [''], 
         nombreactualizar: ['', Validators.required], 
@@ -60,6 +62,7 @@ export class CaracteristicasunidadComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
   // Funcion del boton regresar. Cambia los estados de los campos que desea ocultar o mostrar
   regresar(): void {
     this.busqueda = true;
@@ -69,7 +72,8 @@ export class CaracteristicasunidadComponent implements OnInit {
     this.mostrarCrear = true;
     this.urlimagen = '';
   }
-  // Funcion para el boton de Crear Caracteristica
+
+  // Funcion para establecer los estados y variables en la modalidad de Crear Caracteristica
   iniciarCrear(): void {
     this.busqueda = false;
     this.vereditar = true;
@@ -83,6 +87,7 @@ export class CaracteristicasunidadComponent implements OnInit {
     this.actualizar.reset();
     this.actualizar.controls['estadoactualizar'].setValue('activo');
   }
+
   // Funcion para realizar la busqueda segun el filtro seleccionado
   buscarCaracteristica(): void {
     this.txtformulario = 'Actualizar';
@@ -97,7 +102,7 @@ export class CaracteristicasunidadComponent implements OnInit {
             this.verbuscar = true;
       });
     } else {
-      // Si el filtro no esta vacio envia el nombre de busqueda y el valor de entrada del input y retorna los datos segun los parametros de filtro que se envio
+      // Si el filtro no esta vacio, envia el nombre de busqueda y el valor de entrada del input y retorna los datos segun los parametros de filtro que se envio
       this._peticion.getcaracteristica('caracteristica/buscar?type='+this.buscar.value.filtro+'&search='+this.buscar.value.entrada)
           .subscribe((respuesta) => {
             if (respuesta.message != 'No hay registros') {
@@ -109,9 +114,10 @@ export class CaracteristicasunidadComponent implements OnInit {
             };
       });
     };
-  };
-  // Funcion que carga los datos del registro al cual se dio click, al cual se va editar o actualizar
-  mostrarCaracteristica(id: string): void {
+  }
+
+  // Funcion que carga los datos del registro seleccionado para actualizar
+  mostrarCaracteristica(id: number): void {
     this.chequeo = false;
     this.verbuscar = false;
     this.busqueda = false;
@@ -127,46 +133,53 @@ export class CaracteristicasunidadComponent implements OnInit {
       this.txtestadocaracteristica = respuesta.estado_caracteristica.toLowerCase();
     });
   }
+
   // Funcion que actualiza los datos, segun los valores cambiados por el usuario
   actualizarCaracteristica(): void {
     this.busqueda = false;
-    if (this.actualizar.value.nombreactualizar === '') {
+    // Verifica que el campo nombre no este vacio
+    if (this.actualizar.value.nombreactualizar === '' || this.actualizar.value.nombreactualizar === null) {
       this.chequeo = false;
       this.actualizar.controls['nombreactualizar'].markAsTouched();
-      return;
+      return; // Si esta vacio, no se puede enviar la peticion y debe informar al usuario que ese campo es requerido
     }
     this.chequeo = true;
-    // Si no se realizo ninguna modificación muestra el mensaje que debe modificar un campo para actualizar
+    // Valida las variables de nombre de registro y estado para evitar enviar peticiones innecesarias
     if (this.txtcaracteristica === this.actualizar.value.nombreactualizar.toLowerCase()) {
       if (this.txtestadocaracteristica === this.actualizar.value.estadoactualizar.toLowerCase()) {
-        this.toastr.info('Debe modificar algun campo para actualizar', 'Información', { timeOut: 1500 });
+        if (this.txtboton === 'Crear') {
+          this.toastr.info('Este registro ya ha sido creado', 'Información', { timeOut: 1500 }); // Muestra el mensaje que informa una creacion de registro duplicada
+        } else {
+          this.toastr.info('Debe modificar algun campo para actualizar', 'Información', { timeOut: 1500 }); // Muestra el mensaje que debe modificar un campo para actualizar
+        }
         this.chequeo = false;
       } else {
-        this.actualizarDatos();
+        this.actualizarDatos();  // Invoca la funcion que envia la peticion
       }
     } else{
-      // Si modifico algun campo, valida el nombre. Que no se encuentre ya en los registro ingresados. Si no hay ninguno repetido llama la funcion actualizarDatos()
+      // Si modifico el nombre valida que no exista en los registros
       this._peticion.getvalidar('caracteristica/validatename/'+this.actualizar.value.nombreactualizar).subscribe((respuesta) => {
         if (!respuesta || this.txtcaracteristica === this.actualizar.value.nombreactualizar.toLowerCase()) {
-          this.actualizarDatos();
+          this.actualizarDatos(); // Invoca la funcion que envia la peticion
         } else {
           this.urlimagen = './../../assets/img/iconos/cerrar.svg';
-          this.toastr.warning('Esa característica ya existe', 'Alerta', { timeOut: 1500 });
+          this.toastr.warning('Esa característica ya existe', 'Alerta', { timeOut: 1500 }); // Muestra el mensaje que alerta la existencia de un registro con igual nombre
         }
       });
     }
   }
 
-  // Funcion que envia la peticion de actualizacion a la base de datos
+  // Funcion que envia la peticion de actualizacion al backend
   actualizarDatos(): void {
     this.urlimagen = './../../assets/img/iconos/verificacion.svg';
     // Si el boton ese Crear, se creara un nuevo registro
     if (this.txtboton === 'Crear') {
       this.update = {
-        id_caracteristica: 0,
+        id_caracteristica: 0, //El id debe ser 0 para que el backend le asigne el ID autoincrementable
         nombre_caracteristica: this.actualizar.value.nombreactualizar.toLowerCase(),
         estado_caracteristica: this.actualizar.value.estadoactualizar
       };
+      //Envia la peticion de creacion de registro
       this._peticion.create('caracteristica', this.update).subscribe((respuesta) => {
         if (respuesta.message === 'Registro guardado con exito') {
           this.toastr.success('Característica creada con exito', 'Exitoso', { timeOut: 1500 });
@@ -177,12 +190,13 @@ export class CaracteristicasunidadComponent implements OnInit {
         };
       });
     } else {
-      // Si el boton ese Actualizar, se actualiza un nuevo registro existente
+      // Si el boton es Actualizar, se actualiza un nuevo registro existente
       this.update = {
         id_caracteristica: this.actualizar.value.idactualizar,
         nombre_caracteristica: this.actualizar.value.nombreactualizar.toLowerCase(),
         estado_caracteristica: this.actualizar.value.estadoactualizar
       };
+      //Envia la peticion de creacion de registro
       this._peticion.update('caracteristica', this.update).subscribe((respuesta) => {
         if (respuesta.message === "Registro actualizado con exito") {
           this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
@@ -197,7 +211,7 @@ export class CaracteristicasunidadComponent implements OnInit {
 
   // Funcion que elimina la caracteristica
   eliminarCaracteristica(id: number): void {
-    // Llama una ventana modal para confirmar que si desea eliminar el registro
+    // Llama una ventana modal para confirmar si desea eliminar el registro
     const dialogRef = this.confirmacion.open(ConfirmarComponent, { maxWidth: "600px", data: { title: 'CONFIRMACION', message: 'Esta seguro de eliminar esta característica?' } });
     dialogRef.afterClosed().subscribe(res => {
       // Si la respuesta es afirmativa procede a borrar el registro
@@ -207,7 +221,7 @@ export class CaracteristicasunidadComponent implements OnInit {
             this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
             this.vereditar = false;
             this.volver = false;
-            this.buscarCaracteristica();
+            this.buscarCaracteristica(); // Refresca la lista de registros
           } else {
             this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
           }

@@ -1,23 +1,23 @@
-<div *ngIf="volver" class="centrar-fila mb-6">
+<div *ngIf="volver" class="centrar-fila">
   <button (click)="regresar()" class="icono icono-regresar contorno-nulo fusion-boton" matTooltip="Regresar"></button>
 </div>
 <div *ngIf="mostrarCrear">
-  <div *ngIf="Usuario.permisos?.agregar === 'si'" class="centrar-fila mb-6">
-    <button (click)="iniciarCrear()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal boton-padding fusion-boton">Crear</button>
+  <div *ngIf="Usuario.permisos?.agregar === 'si'" class="centrar-fila">
+    <button (click)="iniciarCrear()" class="fondo-basico-magenta contorno-nulo color-basico-blanco boton-principal boton-padding fusion-boton">Crear</button>
   </div>
 </div>
-<div class="centrar-fila mt-6 responsivo">
+<div class="centrar-fila responsivo">
   <div *ngIf="busqueda">
     <form class="centrar-columna" [formGroup]="buscar">
       <!-- RaddioButtons de Tipo Espacio y Estado -->
-      <div class="centrar mb-6 fuente-pequeña separacion-radio">
+      <div class="centrar fuente-pequeña separacion-radio">
         <input type="radio" formControlName="filtro" value="nombre">
         <label class="centrar">Tipo de espacio</label>
         <input type="radio" formControlName="filtro" value="estado">
         <label class="centrar">Estado</label>
       </div>
       <!-- Campo de Buscar con su boton -->
-      <div class="centrar-fila mt-6 fuente-pequeña">
+      <div class="centrar-fila fuente-pequeña">
         <label>Buscar:</label>
         <input class="entrada-texto fondo-neutro-gris2" formControlName="entrada">
         <button (click)="buscarTipoEspacio()" class="icono icono-buscar contorno-nulo fusion-boton" matTooltip="Buscar tipo de espacio físico"></button>
@@ -44,8 +44,8 @@
     </table>
   </div>
   <!-- Tabla para crear el tipo de espacio -->
-  <form *ngIf="vereditar" [formGroup]="actualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5 mb-6">
-    <div class="centrar-fila mb-6">
+  <form *ngIf="vereditar" [formGroup]="actualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5">
+    <div class="centrar-fila ">
       <h2 class="centrar-texto fuente-grande">{{ txtformulario }} tipo de espacio:</h2>
     </div>
     <input type="hidden" formControlName="idactualizar">
@@ -55,8 +55,10 @@
       <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Tipo de espacio"></button>
       <img *ngIf="chequeo" class="icono icono-validar" [src]='urlimagen'>
     </div>
-    <span *ngIf="actualizar.get('nombreactualizar')?.hasError('required') && actualizar.get('nombreactualizar')?.touched"
-          class="fuente-pequeña mb-6 campo-requerido color-contraste-amarillo">Este campo es requerido</span>
+    <div class="mb-3">
+      <span *ngIf="actualizar.get('nombreactualizar')?.hasError('required') && actualizar.get('nombreactualizar')?.touched"
+          class="fuente-pequeña campo-requerido color-contraste-amarillo">Este campo es requerido</span>
+    </div>
     <div class="centrar-fila tamaño-input">
       <label class="fuente-pequeña">Estado:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -68,7 +70,7 @@
       <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Estado del espacio"></button>
     </div>
     <div class="centrar-fila">
-      <button (click)="actualizarTipoEspacio()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal boton-padding fusion-boton">{{txtboton}}</button>
+      <button (click)="actualizarTipoEspacio()" class="fondo-basico-magenta contorno-nulo color-basico-blanco boton-principal boton-padding fusion-boton">{{txtboton}}</button>
     </div>
   </form>
 </div>
