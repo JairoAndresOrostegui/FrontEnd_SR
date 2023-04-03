@@ -52,8 +52,8 @@
     <div class="centrar-fila tamaño-input">
       <label class="fuente-pequeña">Tipo de espacio:</label>
       <input class="entrada-texto fondo-basico-blanco" formControlName="nombreactualizar">
-      <img *ngIf="chequeo" class="icono icono-validar" [src]='urlimagen'>
       <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Tipo de espacio"></button>
+      <img *ngIf="chequeo" class="icono icono-validar" [src]='urlimagen'>
     </div>
     <span *ngIf="actualizar.get('nombreactualizar')?.hasError('required') && actualizar.get('nombreactualizar')?.touched"
           class="fuente-pequeña mb-6 campo-requerido color-contraste-amarillo">Este campo es requerido</span>

@@ -16,8 +16,9 @@ export class TipounidadComponent implements OnInit {
   buscar: FormGroup;
   // Variable que almacena los formControlName de lo datos a ingresar
   actualizar: FormGroup;
-  // Variable que almacena el tipo de espacio que trae de la BD
+  // Variable que almacena el tipo de espacio y su estado
   txttipoespacio?: string;
+  txtestadotipo?: string;
   // Varible que almacena el objeto a actualizar
   update?: {};
   // Variable que muestra u ocultan los formularios del HTMKL
@@ -42,24 +43,28 @@ export class TipounidadComponent implements OnInit {
     private fb: FormBuilder,
     public Usuario: DatosUsuario,
     private toastr: ToastrService,
-    private peticion: RestService,
+    private _peticion: RestService,
     public confirmacion: MatDialog
     ) {
       // Variables inicializadas
       this.txtformulario = 'Actualizar';
       this.txtboton = 'Actualizar';
       // FormBuilder de los radioButton
-      this.buscar = this.fb.group ({ entrada: [''], filtro: ['nombre'] });
-      // FormBuilder del Formulario de los input
+      this.buscar = this.fb.group ({
+        entrada: [''],
+        filtro: ['nombre']
+      });
+      // FormBuilder del Formulario de creacion y actualizacion
       this.actualizar = this.fb.group ({ 
         idactualizar: [''], 
         nombreactualizar: ['', Validators.required], 
-        estadoactualizar: ['activo', Validators.required] });
+        estadoactualizar: ['activo', Validators.required]
+      });
   }
 
   ngOnInit(): void {
-    
   }
+
   // Boton regresar
   regresar(): void {
     this.busqueda = true;
@@ -67,6 +72,7 @@ export class TipounidadComponent implements OnInit {
     this.verbuscar = false;
     this.volver = false;
     this.mostrarCrear = true;
+    this.urlimagen = '';
   }
   // Metodo para crear nuevo registro
   iniciarCrear(): void {
@@ -91,12 +97,12 @@ export class TipounidadComponent implements OnInit {
     this.volver = false;
     this.busqueda = true;
     if (this.buscar.value.entrada === '') {
-      this.peticion.gettipoespacio('tipoespacio').subscribe((respuesta) => {
+      this._peticion.gettipoespacio('tipoespacio').subscribe((respuesta) => {
             this.Usuario.datosTipoEspacio = respuesta;
             this.verbuscar = true;
       });
     } else {
-      this.peticion.gettipoespacio('tipoespacio/buscar?type='+this.buscar.value.filtro+'&search='+this.buscar.value.entrada)
+      this._peticion.gettipoespacio('tipoespacio/buscar?type='+this.buscar.value.filtro+'&search='+this.buscar.value.entrada)
           .subscribe((respuesta) => {
             if (respuesta.message != 'No hay registros') {
               this.Usuario.datosTipoEspacio = respuesta;
@@ -108,91 +114,98 @@ export class TipounidadComponent implements OnInit {
       });
     };
   };
+
   // Metodo que muestra los datos de un espacio en especifico 
   mostrarTipoEspacio(id: string): void {
     this.chequeo = false;
     this.verbuscar = false;
     this.busqueda = false;
-    this.vereditar = true; 
+    this.vereditar = true;
     this.volver = true;
     this.mostrarCrear = false;
-    this.peticion.gettipoespacio('tipoespacio/'+id).subscribe((respuesta) => {
+    this._peticion.gettipoespacio('tipoespacio/'+id).subscribe((respuesta) => {
       this.actualizar.controls['idactualizar'].setValue(id)
       this.actualizar.controls['nombreactualizar'].setValue(respuesta.nombre_tipo_espacio);
-      this.txttipoespacio = respuesta.nombre_tipo_espacio;
+      this.txttipoespacio = respuesta.nombre_tipo_espacio.toLowerCase();
       this.actualizar.controls['estadoactualizar'].setValue(respuesta.estado_tipo_espacio);
+      this.txtestadotipo = respuesta.estado_tipo_espacio.toLowerCase();
     });
   }
+
   // Metodo para actualizar o crear una unidad
   actualizarTipoEspacio(): void {
-    this.chequeo = false;
     this.busqueda = false;
-    if (this.actualizar.invalid) {
-      for (const control of Object.keys(this.actualizar.controls)) {
-        this.actualizar.controls[control].markAsTouched();
-      };
-      return;
-    };
-    this.verificarTipoEspacio();
-    setTimeout(() => {
-      if (this.valido) {
-        if (this.txtboton === 'Crear') {
-          this.update = {
-            id_tipo_espacio: 0,
-            nombre_tipo_espacio: this.actualizar.value.nombreactualizar.toLowerCase(),
-            estado_tipo_espacio: this.actualizar.value.estadoactualizar
-          };
-          this.verificarTipoEspacio()
-          this.peticion.create('tipoespacio', this.update).subscribe((respuesta) => {
-            if (respuesta.message === 'Registro guardado con exito') {
-              this.toastr.success('Tipo de espacio fisico creada con exito', 'Exitoso', { timeOut: 1500 });
-            } else {
-              this.toastr.error('Error en la creacion del tipo de espacio fisico', 'Error', { timeOut: 1500 });
-            };
-          });
-        } else {
-          this.update = {
-            id_tipo_espacio: this.actualizar.value.idactualizar,
-            nombre_tipo_espacio: this.actualizar.value.nombreactualizar.toLowerCase(),
-            estado_tipo_espacio: this.actualizar.value.estadoactualizar
-          };
-          this.peticion.update('tipoespacio', this.update).subscribe((respuesta) => {
-            if (respuesta.message === "Registro actualizado con exito") {
-              this.toastr.success('Tipo de espacio actualizado con exito', 'Exitoso', { timeOut: 1500 });
-            } else {
-              this.toastr.error('Error en la actualizacion del tipo de espacio', 'Error', { timeOut: 1500 });
-            };
-          });
-        };
-      } else {
-        this.toastr.warning('Ese tipo de espacio ya existe', 'Alerta', { timeOut: 1500 });
-      }
-    }, 100);
-  }
-  // Verifica que si se crea un tipo espacio ya registrado NO se pueda volver a crear el mismo tipo espacion con el mismo nombre
-  verificarTipoEspacio(): void {
     if (this.actualizar.value.nombreactualizar === '') {
       this.chequeo = false;
       this.actualizar.controls['nombreactualizar'].markAsTouched();
       return;
     }
     this.chequeo = true;
-    this.peticion.getvalidar('tipoespacio/validatename/'+this.actualizar.value.nombreactualizar).subscribe((respuesta) => {
-      if (!respuesta || this.txttipoespacio === this.actualizar.value.nombreactualizar) {
-        this.urlimagen = './../../assets/img/iconos/Verificacion.svg';
-        this.valido = true;
+    if (this.txttipoespacio === this.actualizar.value.nombreactualizar.toLowerCase()) {
+      if (this.txtestadotipo === this.actualizar.value.estadoactualizar.toLowerCase()) {
+        if (this.txtboton === 'Crear') {
+          this.toastr.info('Este registro ya ha sido creado', 'Información', { timeOut: 1500 });
+        } else {
+          this.toastr.info('Debe modificar algun campo para actualizar', 'Información', { timeOut: 1500 });
+        }
+        this.chequeo = false;
       } else {
-        this.urlimagen = './../../assets/img/iconos/cerrar.svg';
-        this.valido = false;
+        this.actualizarDatos();
       }
-    })
+    } else{
+      this._peticion.getvalidar('tipoespacio/validatename/'+this.actualizar.value.nombreactualizar).subscribe((respuesta) => {
+        if (!respuesta || this.txttipoespacio === this.actualizar.value.nombreactualizar.toLowerCase()) {
+          this.actualizarDatos();
+        } else {
+          this.urlimagen = './../../assets/img/iconos/cerrar.svg';
+          this.toastr.warning('Ese tipo de espacio ya existe', 'Alerta', { timeOut: 1500 });
+        }
+      });
+    }
   }
+
+  // Funcion que envia la peticion de actualizacion a la base de datos
+  actualizarDatos(): void {
+    this.urlimagen = './../../assets/img/iconos/verificacion.svg';
+    if (this.txtboton === 'Crear') {
+      this.update = {
+        id_tipo_espacio: 0,
+        nombre_tipo_espacio: this.actualizar.value.nombreactualizar.toLowerCase(),
+        estado_tipo_espacio: this.actualizar.value.estadoactualizar
+      };
+      this._peticion.create('tipoespacio', this.update).subscribe((respuesta) => {
+        if (respuesta.message === 'Registro guardado con exito') {
+          this.toastr.success('Tipo de espacio creado con exito', 'Exitoso', { timeOut: 1500 });
+          this.txttipoespacio = this.actualizar.value.nombreactualizar.toLowerCase();
+          this.txtestadotipo = this.actualizar.value.estadoactualizar.toLowerCase()
+        } else {
+          this.toastr.error('Error en la creación del tipoespacio', 'Error', { timeOut: 1500 });
+        };
+      });
+    } else {
+      this.update = {
+        id_tipo_espacio: this.actualizar.value.idactualizar,
+        nombre_tipo_espacio: this.actualizar.value.nombreactualizar.toLowerCase(),
+        estado_tipo_espacio: this.actualizar.value.estadoactualizar
+      };
+      this._peticion.update('tipoespacio', this.update).subscribe((respuesta) => {
+        if (respuesta.message === "Registro actualizado con exito") {
+          this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
+          this.txttipoespacio = this.actualizar.value.nombreactualizar.toLowerCase();
+          this.txtestadotipo = this.actualizar.value.estadoactualizar.toLowerCase()
+        } else {
+          this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
+        };
+      });
+    };
+  }
+
   // Elimina el tipo de espacio
   eliminarTipoEspacio(id: number): void {
-    const dialogRef = this.confirmacion.open(ConfirmarComponent, { maxWidth: "600px", data: { title: 'CONFIRMACION', message: 'Esta seguro de eliminar este tipo de espacio fisico?' } });
+    const dialogRef = this.confirmacion.open(ConfirmarComponent, { maxWidth: "600px", data: { title: 'CONFIRMACION', message: 'Esta seguro de eliminar este tipo de espacio físico?' } });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.peticion.delete('tipoespacio/'+id).subscribe((respuesta) => {
+        this._peticion.delete('tipoespacio/'+id).subscribe((respuesta) => {
           if (respuesta.message === "Registro eliminado con exito") {
             this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
             this.vereditar = false;
