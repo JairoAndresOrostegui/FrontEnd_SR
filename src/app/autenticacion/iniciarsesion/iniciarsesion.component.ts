@@ -76,7 +76,7 @@ export class IniciarsesionComponent implements OnInit {
         } else if ((this.usuario === 'director.colegios') && (this.clave === '123')) {
           this.id_rol = 24;
         } else if ((this.usuario === 'jefe.colegios') && (this.clave === '123')) {
-          this.id_rol = 22;
+          this.id_rol = 23;
         } else if ((this.usuario === 'analista.colegios') && (this.clave === '123')) {
           this.id_rol = 22;
         } else if ((this.usuario === 'director.gruposempresarial') && (this.clave === '123')) {
