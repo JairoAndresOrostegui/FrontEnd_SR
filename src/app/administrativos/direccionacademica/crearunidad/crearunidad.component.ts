@@ -26,11 +26,10 @@ export class CrearunidadComponent implements OnInit {
   caracteristicaspush: any;
   objetounidad?: {};
   chequeo = false;
-  valido = false;
   urlimagen = '';
   
   constructor(
-    private peticion: RestService,
+    private _peticion: RestService,
     private fb: FormBuilder,
     private toastr: ToastrService,
     public confirmacion: MatDialog
@@ -49,23 +48,23 @@ export class CrearunidadComponent implements OnInit {
       });
       this.caracteristicaslista = [];
       this.caracteristicaspush = [];
-      this.peticion.getselect('tipoespacio/combo').subscribe((respuesta) => {
+      this._peticion.getselect('tipoespacio/combo').subscribe((respuesta) => {
         this.tiposdeespacio = respuesta;
         this.cmbtipoespacio = this.tiposdeespacio.filter((item: { value: number, label: string }) => item.value != 1);
         this.crearsede.controls['tipoespacio'].setValue(this.cmbtipoespacio[0].value);
         this.cambiarTipoDependencia();
       });
-      this.peticion.getselect('unidadorganizacional/combo/1').subscribe((respuesta) => {
+      this._peticion.getselect('unidadorganizacional/combo/1').subscribe((respuesta) => {
         this.unidadpadre = respuesta;
       });
-      this.peticion.getselect('unidadorganizacional/combo/2').subscribe((respuesta) => {
+      this._peticion.getselect('unidadorganizacional/combo/2').subscribe((respuesta) => {
         this.unidadespadre = respuesta;
       });
-      this.peticion.getselect('departamento').subscribe((respuesta) => {
+      this._peticion.getselect('departamento').subscribe((respuesta) => {
         this.cmbdptounidad = respuesta;
         this.crearsede.controls['dptounidad'].setValue(this.cmbdptounidad[0].value);
       });
-      this.peticion.getselect('caracteristica/combo').subscribe((respuesta) => {
+      this._peticion.getselect('caracteristica/combo').subscribe((respuesta) => {
         this.cmbcaracteristica = respuesta;
         this.crearsede.controls['caracteristica'].setValue(this.cmbcaracteristica[0].value);
       });
@@ -131,9 +130,11 @@ export class CrearunidadComponent implements OnInit {
       }
       return;
     }
-    this.verificarUnidad();
-    setTimeout(() => {
-      if (this.valido) {
+    this.chequeo = true;
+    this._peticion.getvalidar('unidadorganizacional/validatename?nombre_unidad_organizacional=' + this.crearsede.value.nombre.toLowerCase()
+                              + '&id_sede=' + this.crearsede.value.unidaddependencia).subscribe((respuesta) => {
+      if (!respuesta) {
+        this.urlimagen = './../../assets/img/iconos/verificacion.svg';
         this.objetounidad = {
           id_unidad_organizacional: 0,
           id_tipo_espacio: this.crearsede.value.tipoespacio,
@@ -145,7 +146,7 @@ export class CrearunidadComponent implements OnInit {
           id_unidad_organizacional_padre: this.crearsede.value.unidaddependencia,
           caracteristicas: this.caracteristicaspush
         };
-        this.peticion.create('unidadorganizacional', this.objetounidad).subscribe((respuesta) => {
+        this._peticion.create('unidadorganizacional', this.objetounidad).subscribe((respuesta) => {
           if(respuesta.message === 'Registro guardado con exito') {
             this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
             this.chequeo = false;
@@ -153,9 +154,10 @@ export class CrearunidadComponent implements OnInit {
           };
         });
       } else {
+        this.urlimagen = './../../assets/img/iconos/cerrar.svg';
         this.toastr.warning('Este nombre de unidad ya existe', 'Alerta', { timeOut: 2500 });
       };
-    }, 100);
+    });
   }
 
   cambiarTipoDependencia(): void {
@@ -167,7 +169,7 @@ export class CrearunidadComponent implements OnInit {
         this.cmbtipoespaciodep = this.tiposdeespacio.filter((item: { value: number, label: string }) => item.value === 2);
         this.crearsede.controls['tipoespaciodep'].setValue(this.cmbtipoespaciodep[0].value);
       }
-    }, 100);
+    }, 150);
   }
   
   selectipoespaciodep(): void {
@@ -178,34 +180,16 @@ export class CrearunidadComponent implements OnInit {
         this.cmbunidaddependencia = this.unidadespadre;
       }
       this.crearsede.controls['unidaddependencia'].setValue(this.cmbunidaddependencia[0].value);
-    }, 200);
+    }, 400);
   }
  
   selectMunicipio(): void {
     setTimeout(() => {
-      this.peticion.getselect('municipio/'+this.crearsede.value.dptounidad).subscribe((respuesta) => {
+      this._peticion.getselect('municipio/'+this.crearsede.value.dptounidad).subscribe((respuesta) => {
         this.cmbmunicipiound = respuesta;
         this.crearsede.controls['municipiound'].setValue(this.cmbmunicipiound[0].value);
       });
     }, 100);
-  }
-
-  verificarUnidad(): void {
-    if (this.crearsede.value.nombre === '') {
-      this.chequeo = false;
-      this.crearsede.controls['nombre'].markAsTouched();
-      return;
-    };
-    this.chequeo = true;
-    this.peticion.getvalidar('unidadorganizacional/validatename/' + this.crearsede.value.nombre.toLowerCase()).subscribe((respuesta) => {
-      if (!respuesta) {
-        this.urlimagen = './../../assets/img/iconos/verificacion.svg';
-        this.valido = true;
-      } else {
-        this.urlimagen = './../../assets/img/iconos/cerrar.svg';
-        this.valido = false;
-      };
-    });
   }
 
   limpiarFormulario(): void {

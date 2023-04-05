@@ -1,11 +1,10 @@
 <div>
-  <form (change)="cambioRadio()" class="centrar-columna" [formGroup]="buscar">
+  <form *ngIf="verBuscar" class="centrar-columna" [formGroup]="buscar">
     <!-- ComboBox Sede -->
     <div class="centrar-fila">
       <mat-form-field appearance="fill" class="centrar-select">
         <mat-select formControlName="sede">
-          <mat-option *ngFor="let item of cmbSedes" [value]="item.value"
-            (onSelectionChange)="filtrarSede()">
+          <mat-option *ngFor="let item of cmbSedes" [value]="item.value">
             {{ item.label.toUpperCase() }}
           </mat-option>
         </mat-select>
@@ -25,7 +24,7 @@
       <label class="centrar">Estado</label>
     </div>
     <!-- Buscar -->
-    <div class="centrar-fila mt-3 fuente-pequeña" *ngIf="verBuscar">
+    <div class="centrar-fila mt-3 fuente-pequeña">
       <label>Buscar:</label>
       <input class="entrada-texto fondo-neutro-gris2" formControlName="entrada">
       <button (click)="buscarUnidad()" class="icono icono-buscar contorno-nulo fusion-boton"
@@ -38,7 +37,8 @@
       <th>Tipo de unidad</th>
       <th>Nombre</th>
       <th>Capacidad</th>
-      <th>Caracteristicas</th>
+      <th>Piso</th>
+      <th>Características</th>
       <th>Estado</th>
       <th *ngIf="Usuario.permisos?.eliminar === 'si'">Eliminar</th>
     </tr>
@@ -48,13 +48,14 @@
           class="boton-enlace fuente-link color-basico-magenta fusion-invertida">{{ item.nombre_unidad_organizacional
           }}</button></td>
       <td>{{ item.capacidad_unidad_organizacional }}</td>
+      <td>{{ item.piso_unidad_organizacional }}</td>
       <td>
         <div *ngFor="let unid of item.caracteristicas" class="centrar-texto">
           {{ unid.nombre_caracteristica }}
         </div>
       </td>
       <td [ngClass]="{'color-alerta-verde':item.estado_unidad_organizacional==='Activo','color-alerta-amarillo':item.estado_unidad_organizacional==='Inactivo',
-          'color-alerta-rojo':item.estado_unidad_organizacional==='Bloqueado'}" class="espacio-pequeño negrilla">{{
+          'color-alerta-rojo':item.estado_unidad_organizacional==='Bloqueado'}" class="espacio-pequeño">{{
         item.estado_unidad_organizacional }}</td>
       <td *ngIf="Usuario.permisos?.eliminar === 'si'" class="espacio-pequeño"><button
           (click)="eliminarUnidad(item.id_unidad_organizacional)"
@@ -117,8 +118,7 @@
       <label class="fuente-pequeña">Tipo Unidad Dependencia:</label>
       <mat-form-field appearance="fill" class="centrar-select">
         <mat-select formControlName="tipoespaciodep">
-          <mat-option *ngFor="let item of cmbtipoespaciodep" [value]="item.value"
-            (onSelectionChange)="selectipoespaciodep()">
+          <mat-option *ngFor="let item of cmbtipoespaciodep" [value]="item.value">
             {{item.label.toUpperCase()}}
           </mat-option>
         </mat-select>
