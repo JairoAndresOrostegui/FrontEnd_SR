@@ -36,14 +36,16 @@ export class ConsultarunidadComponent implements OnInit {
   // Variable que almacena el objeto ingresado
   objetounidad?: {};
   // Variables que permite ocultar u mostrar el formulario
-  visible = false;
-  mostrar = false;
-  chequeo = false;
-  valido = false;
-  verBuscar = true;
+  visible: boolean;  // false oculta, true muestra - La Tabla de datos
+  mostrar: boolean;  // false oculta, true muestra - Formulario de actualizar
+  verBuscar: boolean; // false oculta, true muestra - Formulario de busqueda y tabla de datos
+  // Variable que muestra u oculta el icono que valida el nombre del registro
+  chequeo: boolean;  // false oculta, true muestra
+  // 
+  // valido: boolean;
   // Variable que almacena la ruta de la imagen
   urlimagen = '';
-  // Variable que lamacenea el nombre de la unidad organizacional
+  // Variable que amacenea el nombre de la unidad organizacional
   txtunidad?: string;
   // Variable que almacena el id del departamento
   iddpto?: Number;
@@ -61,23 +63,31 @@ export class ConsultarunidadComponent implements OnInit {
   idSede: any;
   idSede2: any;
 
-  constructor(private fb: FormBuilder,
+  constructor(
+     // Se inyectan las dependencias requeridas
+    private fb: FormBuilder,
     private toastr: ToastrService,
     public confirmacion: MatDialog,
     public Usuario: DatosUsuario,
     private _peticion: RestService) {
+      // Se inicilizan las variables
     this.txtformulario = 'Actualizar';
     this.caracteristicaslista = [];
     this.caracteristicaspush = [];
     this.sedes = this.cbvacio;
+    this.visible = false;
+    this.mostrar = false;
+    this.chequeo = false;
+    // this.valido = false; 
+    this.verBuscar = true;
     //this.Usuario.datosRol = [];
-    // FormBuilder de los radioButtons
+    // Se crean los FormBuilder iniciales de los radioButtons y el input de buscar
     this.buscar = this.fb.group({
       entrada: [''],
       filtro: ['nombre'],
       sede: ['']
     });
-    // FormBuilder del formulario
+    // Se crean los FormBuilder de crear o actualizar los datos de consultar unidad
     this.actualizar = this.fb.group({
       idUnidad: 0,
       nombre: ['', Validators.required],
@@ -102,33 +112,38 @@ export class ConsultarunidadComponent implements OnInit {
       } else {
         this.cmbSedes = this.cbvacio;
         this.buscar.controls['sede'].setValue(this.cmbSedes[0].value);
-      }
+      } //** FIN if */
     });
   };
 
-  // Iniciamos el radioInicial
   ngOnInit(): void {
   }
 
-  // Metodo para buscar la unidad y le aplica el filtro que se seleccione en el radioButton
+  // Funcion para realizar la busqueda segun el filtro seleccionado
   buscarUnidad(): void {
     this.mostrar = false;
+    // Si el input es vacio trae todos los datos almacenados
     if (this.buscar.value.entrada === '') {
       this._peticion.getrol('unidadorganizacional?id_sede=' + this.buscar.value.sede).subscribe((respuesta) => {
+        // Si en el Back hay registros muestra la tabla con todos los registros
         if (respuesta.message != 'No hay registros') {
           this.Usuario.datosUnidad = respuesta;
           this.visible = true;
         } else {
+          // Si no hay registros almacenados muestra un error
           this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
           this.visible = false;
         }
       });
     } else {
+      // Si hay algun filtro seleccionado y datos ingresados envia la peticion de busqueda
       this._peticion.getrol('unidadorganizacional/buscar?type=' + this.buscar.value.filtro + '&search=' + this.buscar.value.entrada + '&id_sede=' + this.buscar.value.sede).subscribe((respuesta) => {
+        // Si en el Back hay registros muestra la tabla con todos los registros
         if (respuesta.message != 'No hay registros') {
           this.Usuario.datosUnidad = respuesta;
           this.visible = true;
         } else {
+          // Si no hay registros almacenados muestra un error y oculta la tabla
           this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
           this.Usuario.datosUnidad = '';
           this.visible = false;
@@ -137,7 +152,7 @@ export class ConsultarunidadComponent implements OnInit {
     }
   };
 
-  // Despliega la unidad que se ha seleccionado y carga todos los valores que ya esten almacenados
+  // Funcion que despliega la unidad que se ha seleccionado y carga todos los valores que ya esten almacenados
   mostrarUnidad(id: string): void {
     this.caracteristicaslista = [];
     this.caracteristicaspush = [];
@@ -145,7 +160,9 @@ export class ConsultarunidadComponent implements OnInit {
     this.actualizar.controls['cantidad'].setValue(0);
     this.chequeo = false;
     this.visible = false;
+    // Envia el ID de la unidad seleccionada
     this._peticion.getunidad('unidadorganizacional/' + id).subscribe((respuesta) => {
+      // Almacenamos y renderizamos en cada campo correspondiente
       this.Usuario.datosUnidad = respuesta;
       this.actualizar.controls['idUnidad'].setValue(id);
       this.actualizar.controls['nombre'].setValue(respuesta.nombre_unidad_organizacional);
@@ -154,6 +171,9 @@ export class ConsultarunidadComponent implements OnInit {
       this.actualizar.controls['capacidad'].setValue(respuesta.capacidad_unidad_organizacional);
       this.actualizar.controls['estado'].setValue(respuesta.estado_unidad_organizacional);
       setTimeout(() => {
+        // Campos que requieren mas tiempo decarga
+        // Hacemos llamado a las apis de cada combo y almacenamos y renderizamos en el campo requerido
+        // Combo de tipo espacio
         this._peticion.getselect('tipoespacio/combo').subscribe((respuesta6) => {
           this.tiposdeespacio = respuesta6;
           this.cmbtipoespacio = this.tiposdeespacio.filter((item: { value: number, label: string }) => item.value != 1 && item.value != 2);
@@ -166,6 +186,7 @@ export class ConsultarunidadComponent implements OnInit {
           });
         });
       }, 100);
+      // Combo de de municipio segun el departamento
       this._peticion.getId('municipio/getByIdMunicipio/' + respuesta.id_municipio).subscribe((respuesta4) => {
         this.iddpto = respuesta4;
         this._peticion.getselect('departamento').subscribe((respuesta3) => {
@@ -177,10 +198,12 @@ export class ConsultarunidadComponent implements OnInit {
           });
         });
       });
+      // Traemos las caracteristicas segun el registro 
       this._peticion.getselect('caracteristica/combo').subscribe((respuesta) => {
         this.cmbcaracteristica = respuesta;
         this.actualizar.controls['caracteristica'].setValue(this.cmbcaracteristica[0].value);
       });
+      // Recorremos todos los campos
       for (let item of respuesta.caracteristicas) {
         this.caracteristicaspush.push({
           id_unidad_organizacional_caracteristica: 0,
@@ -214,10 +237,12 @@ export class ConsultarunidadComponent implements OnInit {
     this.mostrar = true;
   }
 
-  // Elimina la unidad
+  // Funcion que elimina la unidad
   eliminarUnidad(id: number): void {
+    // Llama una ventana modal para confirmar si desea eliminar el registro
     const dialogRef = this.confirmacion.open(ConfirmarComponent, { maxWidth: "600px", data: { title: 'CONFIRMACION', message: 'Esta seguro de eliminar este registro?' } });
     dialogRef.afterClosed().subscribe(res => {
+      // Si la respuesta es afirmativa procede a borrar el registro
       if (res) {
         this._peticion.delete('unidadorganizacional/' + id).subscribe((respuesta) => {
           if (respuesta.message === "Registro eliminado con exito") {
@@ -231,15 +256,19 @@ export class ConsultarunidadComponent implements OnInit {
     });
   }
 
-  // Metodo que permite agregar nuevas caracteristicas a la unidad seleccionadoa
+  // Funcion que agregar una nueva caracteristica, con el Boton Verde de +
   agregarcaracteristica(): void {
+    // El valor debe ser mayor a 0
     if (this.actualizar.value.cantidad > 0) {
+      // Recorre toda la lista de caracteristicas que se trae del Back
       for (let item of this.caracteristicaslista) {
+        // Si la caracteristica seleccionada se encuentra ya registrada muestra el mensaje
         if (this.actualizar.value.caracteristica === item.value) {
           this.toastr.error('Esta caracteristica ya esta en la lista', 'Error', { timeOut: 2500 });
           return;
-        }
-      }
+        } // *** Fin del mensaje si se encuentra la caracteristica registrada ***
+      }// *** FIn de recorrer la lista de caracteristicas ***
+      // Si todo es valido almacena en variable todos los datos registrados y realiza un push
       this.caracteristicaspush.push({
         id_unidad_organizacional_caracteristica: 0,
         id_caracteristica: this.actualizar.value.caracteristica,
@@ -247,6 +276,7 @@ export class ConsultarunidadComponent implements OnInit {
         id_unidad_organizacional: this.actualizar.value.idUnidad,
         cantidad_unidad_organizacional_caracteristica: this.actualizar.value.cantidad
       });
+      // Recorremos todas las caracteristicas
       for (let item of this.cmbcaracteristica) {
         if (item.value === this.actualizar.value.caracteristica) {
           this.caracteristicaslista.push({
@@ -254,37 +284,44 @@ export class ConsultarunidadComponent implements OnInit {
             label: item.label,
             cantidad: this.actualizar.value.cantidad,
           });
-        };
-      };
+        };  //* FIN if */
+      }; //* FIN for */
     } else {
+      // Si la cantidad es 0 o meno Muestra el mensaje
       this.toastr.warning('Ingrese una cantidad mayor a 0', 'Alerta', { timeOut: 2500 });
     }
   }
 
-  // Metodo que permite eliminar caracteristicas en la unidad seleccionada
+  // Funcion que elimina la caracteristica
   eliminarcaracteristica(itemr: string): void {
+    // Llama una ventana modal para confirmar si desea eliminar el registro
     const dialogRef = this.confirmacion.open(ConfirmarComponent, { maxWidth: "600px", data: { title: 'CONFIRMACION', message: 'Esta seguro de eliminar esta caracteristica?' } });
     dialogRef.afterClosed().subscribe(res => {
+      // Si la respuesta es afirmativa procede a borrar el registro
       if (res) {
         var indice = 0;
+        // Recorremos todas las caracteriticas
         for (let item of this.caracteristicaspush) {
+          // ALmacenamos el id de la caracteristica a eliminar
           if (item.id_caracteristica === itemr) {
             indice = this.caracteristicaspush.indexOf(item)
-          }
-        };
+          }//** FIN if */
+        }; //** FIN for */
         this.caracteristicaspush.splice(indice, 1);
+        // Recorremos de nuevo todo el arreglo de caracteristicas
         for (let item of this.caracteristicaslista) {
           if (item.value === itemr) {
             indice = this.caracteristicaslista.indexOf(item)
-          }
-        };
+          }//** FIN for */
+        }; //** FIN if */
         this.caracteristicaslista.splice(indice, 1);
       };
     });
   }
 
-  // Metodo que permite guardar y actualizar con los registros nuevos que fueran modificado
+  // Funcion que permite actualizar los registros nuevos que fueran modificado
   actualizarUnidad(): void {
+    // Comprueba que el formulario sea llenado correctamente
     if (this.actualizar.invalid) {
       for (const control of Object.keys(this.actualizar.controls)) {
         this.actualizar.controls[control].markAsTouched();
@@ -292,23 +329,27 @@ export class ConsultarunidadComponent implements OnInit {
       return;
     }
     this.chequeo = true;
+    // Valida las variables de nombre de registro y estado para evitar enviar peticiones innecesarias
     if (this.txtunidad === this.actualizar.value.nombre.toLowerCase()) {
-      this.actualizarDatos();
+      this.actualizarDatos(); // Invoca la funcion que envia la peticion
     } else {
+      // Si modifico el nombre valida que no exista en los registros
       this._peticion.getvalidar('unidadorganizacional/validatename?nombre_unidad_organizacional=' + this.actualizar.value.nombre.toLowerCase()
                               + '&id_sede=' + this.actualizar.value.unidaddependencia).subscribe((respuesta) => {
         if (!respuesta || this.actualizar.value.nombre === this.txtunidad) {
-          this.actualizarDatos()
+          this.actualizarDatos(); // Invoca la funcion que envia la peticion
         } else {
           this.urlimagen = './../../../../../../assets/img/iconos/cerrar.svg';
-          this.toastr.warning('Este nombre de unidad ya existe', 'Alerta', { timeOut: 2500 });
+          this.toastr.warning('Este nombre de unidad ya existe', 'Alerta', { timeOut: 2500 }); // Muestra el mensaje que alerta la existencia de un registro con igual nombre
         };
       });
     }
   }
 
+  // Funcion que envia la peticion de actualizacion al backend
   actualizarDatos(): void {
     this.urlimagen = './../../../../../../assets/img/iconos/Verificacion.svg';
+    // Creamos el objeto a almacenar
         this.objetounidad = {
           id_unidad_organizacional: this.actualizar.value.idUnidad,
           id_tipo_espacio: this.actualizar.value.tipoespacio,
@@ -320,6 +361,7 @@ export class ConsultarunidadComponent implements OnInit {
           id_unidad_organizacional_padre: this.actualizar.value.unidaddependencia,
           caracteristicas: this.caracteristicaspush
         };
+        //Envia la peticion de creacion de registro
         this._peticion.update('unidadorganizacional', this.objetounidad).subscribe((respuesta) => {
           if (respuesta.message === 'Registro actualizado con exito') {
             this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
@@ -329,7 +371,7 @@ export class ConsultarunidadComponent implements OnInit {
         });
   }
 
-  // Muestra el municipio que se encuentre alamacenado en la api y la almacena en una variable para ser usada en el comboBox
+  // Funcion que selecciona el Departamento segun el Municipio que se seleccione
   selectMunicipio(): void {
     if (this.Usuario.permisos?.modificar === 'si') {
       setTimeout(() => {

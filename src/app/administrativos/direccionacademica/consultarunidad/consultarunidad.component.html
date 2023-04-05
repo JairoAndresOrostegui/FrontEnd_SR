@@ -65,11 +65,13 @@
 </div>
 <!-- Form para actualizar el dato en especifico -->
 <form *ngIf="mostrar" [formGroup]="actualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5">
+  <!-- **** TITULO DEL FORMULARIO **** -->
   <div class="centrar-fila">
     <h2 class="centrar-texto fuente-grande">{{ txtformulario }} unidad organizacional:</h2>
   </div>
   <input type="hidden" formControlName="idUnidad">
   <div class="fila">
+    <!-- **** Tipo de espacio **** -->
     <div class="centrar-fila">
       <label class="fuente-pequeña">Tipo de espacio:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -82,6 +84,7 @@
       <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Tipo de espacio"></button>
     </div>
     <div>
+      <!-- **** Nombre **** -->
       <div class="centrar-fila margen-label-usuario">
         <label class="fuente-pequeña">Nombre:</label>
         <input class="input-texto entrada-texto" placeholder="Nombre de la Sede o Aula" formControlName="nombre">
@@ -94,6 +97,7 @@
   </div>
   <div class="fila">
     <div>
+      <!-- **** Piso **** -->
       <div class="centrar-fila">
         <label class="fuente-pequeña">Piso:</label>
         <input type="number" min="0" class="input-texto entrada-texto" placeholder="Piso" formControlName="piso">
@@ -103,6 +107,7 @@
         class="fuente-pequeña centrar-fila color-alerta-rojo">Este campo es requerido</span>
     </div>
     <div>
+      <!-- **** Capacidad **** -->
       <div class="centrar-fila">
         <label class="fuente-pequeña">Capacidad:</label>
         <input type="number" min="0" class="input-texto entrada-texto" placeholder="Capacidad del espacio"
@@ -114,6 +119,7 @@
       class="fuente-pequeña centrar-fila color-alerta-rojo">Este campo es requerido</span>
   </div>
   <div class="fila">
+    <!-- **** Tipo Unidad Dependencia **** -->
     <div class="centrar-fila">
       <label class="fuente-pequeña">Tipo Unidad Dependencia:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -125,6 +131,7 @@
       </mat-form-field>
       <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Tipo unidad dependencia"></button>
     </div>
+    <!-- **** Unidad Dependencia **** -->
     <div class="centrar-fila">
       <label class="fuente-pequeña">Unidad Dependencia:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -138,6 +145,7 @@
     </div>
   </div>
   <div class="fila">
+    <!-- **** Departamento Unidad **** -->
     <div class="centrar-fila">
       <label class="fuente-pequeña">Departamento Unidad:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -149,6 +157,7 @@
       </mat-form-field>
       <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Departamento unidad"></button>
     </div>
+    <!-- **** Municipio unidad **** -->
     <div class="centrar-fila">
       <label class="fuente-pequeña">Municipio Unidad:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -162,6 +171,7 @@
     </div>
   </div>
   <div class="fila">
+    <!-- **** Estado **** -->
     <div class="centrar-fila">
       <label class="fuente-pequeña">Estado:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -176,6 +186,7 @@
     </div>
   </div>
   <div class="centrar-fila">
+    <!-- **** TABLA **** -->
     <table cellpadding="7">
       <tr class="fuente-pequeña">
         <th class="centrar-select-comp">Caracteristica</th>
