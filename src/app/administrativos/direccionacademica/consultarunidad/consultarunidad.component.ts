@@ -18,6 +18,7 @@ export class ConsultarunidadComponent implements OnInit {
   actualizar: FormGroup;
   // Variable que almacena los datos del tipo de espacio
   cmbtipoespacio: any;
+  tiposdeespacio: any;
   // Variable que almacena los datos del tipo de unidad
   cmbdptounidad: any;
   // Variable que almacena los datos del municipio
@@ -39,7 +40,7 @@ export class ConsultarunidadComponent implements OnInit {
   mostrar = false;
   chequeo = false;
   valido = false;
-  verBuscar = false;
+  verBuscar = true;
   // Variable que almacena la ruta de la imagen
   urlimagen = '';
   // Variable que lamacenea el nombre de la unidad organizacional
@@ -73,7 +74,7 @@ export class ConsultarunidadComponent implements OnInit {
     // FormBuilder de los radioButtons
     this.buscar = this.fb.group({
       entrada: [''],
-      filtro: ['sede'],
+      filtro: ['nombre'],
       sede: ['']
     });
     // FormBuilder del formulario
@@ -104,70 +105,16 @@ export class ConsultarunidadComponent implements OnInit {
       }
     });
   };
-  // Muestra u Oculta segun el radiooButton seleccionado
-  cambioRadio() {
-    switch (this.buscar.controls['filtro'].value) {
-      case 'tipo':
-        this.verBuscar = true;
-        this.visible = false;
-        this.mostrar = false;
-        break;
-      case 'nombre':
-        this.verBuscar = true;
-        this.visible = false;
-        this.mostrar = false;
-        break;
-      case 'capacidad':
-        this.verBuscar = true;
-        this.visible = false;
-        this.mostrar = false;
-        break;
-      case 'caracteristica':
-        this.verBuscar = true;
-        this.visible = false;
-        this.mostrar = false;
-        break;
-      case 'estado':
-        this.verBuscar = true;
-        this.visible = false;
-        this.mostrar = false;
-        break;
-      default:
-        return;
-    }
-  }
-
-  // Filtra y muestra segun la sede que se seleccione
-  filtrarSede() {
-    setTimeout(() => {
-      if (this.buscar.value.sede != 0) {
-        this._peticion.getSede('unidadorganizacional/buscar?type=sede&search=' + this.buscar.value.sede).subscribe((respuesta) => {
-          if (respuesta.message === 'No hay registros') {
-            this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
-            this.visible = false;
-          } else {
-            this.Usuario.datosUnidad = respuesta;
-            this.visible = true;
-          }
-        });
-      }
-    }, 100);
-  }
 
   // Iniciamos el radioInicial
   ngOnInit(): void {
-    this.cambioRadio()
   }
-// Metodo para buscar la unidad y le aplica el filtro que se seleccione en el radioButton
+
+  // Metodo para buscar la unidad y le aplica el filtro que se seleccione en el radioButton
   buscarUnidad(): void {
     this.mostrar = false;
     if (this.buscar.value.entrada === '') {
-      this._peticion.getrol('unidadorganizacional').subscribe((respuesta) => {
-        this.Usuario.datosUnidad = respuesta;
-        this.visible = true;
-      });
-    } else {
-      this._peticion.getrol('unidadorganizacional/buscar?type=' + this.buscar.value.filtro + '&search=' + this.buscar.value.entrada).subscribe((respuesta) => {
+      this._peticion.getrol('unidadorganizacional?id_sede=' + this.buscar.value.sede).subscribe((respuesta) => {
         if (respuesta.message != 'No hay registros') {
           this.Usuario.datosUnidad = respuesta;
           this.visible = true;
@@ -176,8 +123,20 @@ export class ConsultarunidadComponent implements OnInit {
           this.visible = false;
         }
       });
+    } else {
+      this._peticion.getrol('unidadorganizacional/buscar?type=' + this.buscar.value.filtro + '&search=' + this.buscar.value.entrada + '&id_sede=' + this.buscar.value.sede).subscribe((respuesta) => {
+        if (respuesta.message != 'No hay registros') {
+          this.Usuario.datosUnidad = respuesta;
+          this.visible = true;
+        } else {
+          this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
+          this.Usuario.datosUnidad = '';
+          this.visible = false;
+        }
+      });
     }
   };
+
   // Despliega la unidad que se ha seleccionado y carga todos los valores que ya esten almacenados
   mostrarUnidad(id: string): void {
     this.caracteristicaslista = [];
@@ -190,38 +149,34 @@ export class ConsultarunidadComponent implements OnInit {
       this.Usuario.datosUnidad = respuesta;
       this.actualizar.controls['idUnidad'].setValue(id);
       this.actualizar.controls['nombre'].setValue(respuesta.nombre_unidad_organizacional);
-      this.txtunidad = respuesta.nombre_unidad_organizacional;
+      this.txtunidad = respuesta.nombre_unidad_organizacional.toLowerCase();
       this.actualizar.controls['piso'].setValue(respuesta.piso_unidad_organizacional);
       this.actualizar.controls['capacidad'].setValue(respuesta.capacidad_unidad_organizacional);
       this.actualizar.controls['estado'].setValue(respuesta.estado_unidad_organizacional);
-      this._peticion.getunidad('unidadorganizacional/' + respuesta.id_unidad_organizacional_padre).subscribe((respuesta7) => {
-        this.idtipoespaciopadre = respuesta7.id_tipo_espacio;
-      });
       setTimeout(() => {
         this._peticion.getselect('tipoespacio/combo').subscribe((respuesta6) => {
-          this.cmbtipoespacio = respuesta6;
-          this.cmbtipoespaciodep = respuesta6;
+          this.tiposdeespacio = respuesta6;
+          this.cmbtipoespacio = this.tiposdeespacio.filter((item: { value: number, label: string }) => item.value != 1 && item.value != 2);
           this.actualizar.controls['tipoespacio'].setValue(respuesta.id_tipo_espacio);
-          this.actualizar.controls['tipoespaciodep'].setValue(this.idtipoespaciopadre);
+          this.cmbtipoespaciodep = this.tiposdeespacio.filter((item: { value: number, label: string }) => item.value === 2);
+          this.actualizar.controls['tipoespaciodep'].setValue(this.cmbtipoespaciodep[0].value);
+          this._peticion.getselect('unidadorganizacional/combo/2').subscribe((respuesta5) => {
+            this.cmbunidaddependencia = respuesta5;
+            this.actualizar.controls['unidaddependencia'].setValue(respuesta.id_unidad_organizacional_padre);
+          });
         });
       }, 100);
-      this._peticion.getselect('unidadorganizacional/combo').subscribe((respuesta5) => {
-        this.cmbunidaddependencia = respuesta5;
-        this.actualizar.controls['unidaddependencia'].setValue(respuesta.id_unidad_organizacional_padre);
-      });
       this._peticion.getId('municipio/getByIdMunicipio/' + respuesta.id_municipio).subscribe((respuesta4) => {
         this.iddpto = respuesta4;
-      });
-      this._peticion.getselect('departamento').subscribe((respuesta3) => {
-        this.cmbdptounidad = respuesta3;
-        this.actualizar.controls['dptounidad'].setValue(this.iddpto);
-      });
-      setTimeout(() => {
-        this._peticion.getselect('municipio/' + this.iddpto).subscribe((respuesta2) => {
-          this.cmbmunicipiound = respuesta2;
-          this.actualizar.controls['municipiound'].setValue(respuesta.id_municipio);
+        this._peticion.getselect('departamento').subscribe((respuesta3) => {
+          this.cmbdptounidad = respuesta3;
+          this.actualizar.controls['dptounidad'].setValue(this.iddpto);
+          this._peticion.getselect('municipio/' + this.iddpto).subscribe((respuesta2) => {
+            this.cmbmunicipiound = respuesta2;
+            this.actualizar.controls['municipiound'].setValue(respuesta.id_municipio);
+          });
         });
-      }, 200);
+      });
       this._peticion.getselect('caracteristica/combo').subscribe((respuesta) => {
         this.cmbcaracteristica = respuesta;
         this.actualizar.controls['caracteristica'].setValue(this.cmbcaracteristica[0].value);
@@ -240,7 +195,6 @@ export class ConsultarunidadComponent implements OnInit {
           cantidad: item.cantidad_unidad_organizacional_caracteristica
         });
       }
-
       setTimeout(() => {
         if (this.Usuario.permisos?.modificar != 'si') {
           this.txtformulario = 'Información del';
@@ -259,6 +213,7 @@ export class ConsultarunidadComponent implements OnInit {
     });
     this.mostrar = true;
   }
+
   // Elimina la unidad
   eliminarUnidad(id: number): void {
     const dialogRef = this.confirmacion.open(ConfirmarComponent, { maxWidth: "600px", data: { title: 'CONFIRMACION', message: 'Esta seguro de eliminar este registro?' } });
@@ -275,6 +230,7 @@ export class ConsultarunidadComponent implements OnInit {
       };
     });
   }
+
   // Metodo que permite agregar nuevas caracteristicas a la unidad seleccionadoa
   agregarcaracteristica(): void {
     if (this.actualizar.value.cantidad > 0) {
@@ -304,6 +260,7 @@ export class ConsultarunidadComponent implements OnInit {
       this.toastr.warning('Ingrese una cantidad mayor a 0', 'Alerta', { timeOut: 2500 });
     }
   }
+
   // Metodo que permite eliminar caracteristicas en la unidad seleccionada
   eliminarcaracteristica(itemr: string): void {
     const dialogRef = this.confirmacion.open(ConfirmarComponent, { maxWidth: "600px", data: { title: 'CONFIRMACION', message: 'Esta seguro de eliminar esta caracteristica?' } });
@@ -325,6 +282,7 @@ export class ConsultarunidadComponent implements OnInit {
       };
     });
   }
+
   // Metodo que permite guardar y actualizar con los registros nuevos que fueran modificado
   actualizarUnidad(): void {
     if (this.actualizar.invalid) {
@@ -333,9 +291,24 @@ export class ConsultarunidadComponent implements OnInit {
       }
       return;
     }
-    this.verificarUnidad();
-    setTimeout(() => {
-      if (this.valido) {
+    this.chequeo = true;
+    if (this.txtunidad === this.actualizar.value.nombre.toLowerCase()) {
+      this.actualizarDatos();
+    } else {
+      this._peticion.getvalidar('unidadorganizacional/validatename?nombre_unidad_organizacional=' + this.actualizar.value.nombre.toLowerCase()
+                              + '&id_sede=' + this.actualizar.value.unidaddependencia).subscribe((respuesta) => {
+        if (!respuesta || this.actualizar.value.nombre === this.txtunidad) {
+          this.actualizarDatos()
+        } else {
+          this.urlimagen = './../../../../../../assets/img/iconos/cerrar.svg';
+          this.toastr.warning('Este nombre de unidad ya existe', 'Alerta', { timeOut: 2500 });
+        };
+      });
+    }
+  }
+
+  actualizarDatos(): void {
+    this.urlimagen = './../../../../../../assets/img/iconos/Verificacion.svg';
         this.objetounidad = {
           id_unidad_organizacional: this.actualizar.value.idUnidad,
           id_tipo_espacio: this.actualizar.value.tipoespacio,
@@ -350,27 +323,13 @@ export class ConsultarunidadComponent implements OnInit {
         this._peticion.update('unidadorganizacional', this.objetounidad).subscribe((respuesta) => {
           if (respuesta.message === 'Registro actualizado con exito') {
             this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
-            this.txtunidad = this.actualizar.value.nombre;
+            this.txtunidad = this.actualizar.value.nombre.toLowerCase();
             this.chequeo = false;
           };
         });
-      } else {
-        this.toastr.warning('Esta caracteristica ya existe', 'Alerta', { timeOut: 2500 });
-      };
-    }, 100);
   }
-  // Muetra el tipo de unidad de dependencia que se encuentre alamacenado en la api y la almacena en una variable para ser usada en el comboBox
-  selectipoespaciodep(): void {
-    if (this.Usuario.permisos?.modificar === 'si') {
-      setTimeout(() => {
-        this._peticion.getselect('unidadorganizacional/combo/' + this.actualizar.value.tipoespaciodep).subscribe((respuesta) => {
-          this.cmbunidaddependencia = respuesta;
-          this.actualizar.controls['unidaddependencia'].setValue(this.cmbunidaddependencia[0].value);
-        });
-      }, 100);
-    }
-  }
-  // Muetra el municipio que se encuentre alamacenado en la api y la almacena en una variable para ser usada en el comboBox
+
+  // Muestra el municipio que se encuentre alamacenado en la api y la almacena en una variable para ser usada en el comboBox
   selectMunicipio(): void {
     if (this.Usuario.permisos?.modificar === 'si') {
       setTimeout(() => {
@@ -381,25 +340,5 @@ export class ConsultarunidadComponent implements OnInit {
       }, 50);
     }
   }
-// Verifica que no se repitan datos al momento de almacenarlos en la BD
-  verificarUnidad(): void {
-    if (this.actualizar.value.nombre === '') {
-      this.chequeo = false;
-      this.actualizar.controls['nombre'].markAsTouched();
-      return;
-    };
-    this.chequeo = true;
-    this._peticion.getvalidar('unidadorganizacional/validatename/' + this.actualizar.value.nombre.toLowerCase()).subscribe((respuesta) => {
-      if (!respuesta || this.actualizar.value.nombre === this.txtunidad) {
-        this.urlimagen = './../../../../../../assets/img/iconos/Verificacion.svg';
-        this.valido = true;
-      } else {
-        this.urlimagen = './../../../../../../assets/img/iconos/cerrar.svg';
-        this.valido = false;
-      };
-    });
-  }
-
-
 
 }
