@@ -10,6 +10,7 @@ import { TipounidadComponent } from './administrativos/direccionacademica/tipoun
 import { CaracteristicasunidadComponent } from './administrativos/direccionacademica/caracteristicasunidad/caracteristicasunidad.component';
 import { InformesreservaComponent } from './administrativos/direccionacademica/informesreserva/informesreserva.component';
 import { ReportesreservaComponent } from './administrativos/direccionacademica/reportesreserva/reportesreserva.component';
+import { SedesComponent } from './administrativos/direccionacademica/sedes/sedes.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/iniciarsesion', pathMatch: 'full'},
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'caracteristicaunidad', component: CaracteristicasunidadComponent},
   { path: 'informesreserva', component: InformesreservaComponent},
   { path: 'reportesreserva', component: ReportesreservaComponent},
+  { path: 'sedes', component: SedesComponent},
   { path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 

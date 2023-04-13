@@ -41,8 +41,6 @@ export class ConsultarunidadComponent implements OnInit {
   verBuscar: boolean; // false oculta, true muestra - Formulario de busqueda y tabla de datos
   // Variable que muestra u oculta el icono que valida el nombre del registro
   chequeo: boolean;  // false oculta, true muestra
-  // 
-  // valido: boolean;
   // Variable que almacena la ruta de la imagen
   urlimagen = '';
   // Variable que amacenea el nombre de la unidad organizacional
@@ -65,11 +63,8 @@ export class ConsultarunidadComponent implements OnInit {
 
   constructor(
      // Se inyectan las dependencias requeridas
-    private fb: FormBuilder,
-    private toastr: ToastrService,
-    public confirmacion: MatDialog,
-    public Usuario: DatosUsuario,
-    private _peticion: RestService) {
+    private fb: FormBuilder, private toastr: ToastrService, public confirmacion: MatDialog,
+    public Usuario: DatosUsuario, private _peticion: RestService) {
       // Se inicilizan las variables
     this.txtformulario = 'Actualizar';
     this.caracteristicaslista = [];
@@ -78,7 +73,6 @@ export class ConsultarunidadComponent implements OnInit {
     this.visible = false;
     this.mostrar = false;
     this.chequeo = false;
-    // this.valido = false; 
     this.verBuscar = true;
     //this.Usuario.datosRol = [];
     // Se crean los FormBuilder iniciales de los radioButtons y el input de buscar

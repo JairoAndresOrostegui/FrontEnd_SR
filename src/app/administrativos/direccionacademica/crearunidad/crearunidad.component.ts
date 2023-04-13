@@ -70,6 +70,7 @@ export class CrearunidadComponent implements OnInit {
         this.tiposdeespacio = respuesta;
         this.cmbtipoespacio = this.tiposdeespacio.filter((item: { value: number, label: string }) => item.value != 1);
         this.crearsede.controls['tipoespacio'].setValue(this.cmbtipoespacio[0].value);
+        
         this.cambiarTipoDependencia();
       });
       // Peticion HTTP al Backend para traer la unidad padre CESDE

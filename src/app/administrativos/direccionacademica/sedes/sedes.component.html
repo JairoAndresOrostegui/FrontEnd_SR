@@ -1,0 +1,185 @@
+<table *ngIf="visible" class="espacio-trabajo centrar-texto" cellpadding="7">
+  <tr class="fuente-pequeña">
+    <th>Nombre</th>
+    <th *ngIf="Usuario.permisos?.eliminar === 'si'">Eliminar</th>
+  </tr>
+  <tr *ngFor="let item of sedes | paginate: { itemsPerPage: page_size, currentPage: page_number }" class="fuente-cuerpo-tabla borde-tabla">
+    <td><button (click)="mostrarUnidad(item.value)" class="boton-enlace fuente-link color-basico-magenta fusion-invertida"
+      matTooltip="Ver sede">{{ item.label }}</button></td>
+    <td *ngIf="Usuario.permisos?.eliminar === 'si'" class="espacio-pequeño"><button
+        (click)="eliminarUnidad(item.value)"
+        class="icono icono-eliminar contorno-nulo fusion-boton" matTooltip="Eliminar"></button></td>
+  </tr>
+</table>
+
+<mat-paginator *ngIf="visible" [length]="sedes?.length" [pageSize]="page_size" [pageSizeOptions]="pageSizeOptions"  (page)="handlePage($event)"></mat-paginator>
+
+<div *ngIf="volver" class="centrar-fila">
+  <button (click)="regresar()" class="icono icono-regresar contorno-nulo fusion-boton" matTooltip="Regresa a la vista de consulta"></button>
+</div>
+
+<form *ngIf="mostrar" [formGroup]="actualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5">
+  <!-- **** TITULO DEL FORMULARIO **** -->
+  <div class="centrar-fila">
+    <h2 class="centrar-texto fuente-grande">{{ txtformulario }} unidad organizacional:</h2>
+  </div>
+  <input type="hidden" formControlName="idUnidad">
+  <div class="fila">
+    <!-- **** Tipo de espacio **** -->
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Tipo de espacio:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="tipoespacio">
+          <mat-option *ngFor="let item of cmbtipoespacio" [value]="item.value">
+            {{item.label.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Tipo de espacio"></button>
+    </div>
+    <div>
+      <!-- **** Nombre **** -->
+      <div class="centrar-fila margen-label-usuario">
+        <label class="fuente-pequeña">Nombre:</label>
+        <input class="input-texto entrada-texto" placeholder="Nombre de la Sede o Aula" formControlName="nombre">
+        <img *ngIf="chequeo" class="icono" [src]='urlimagen'>
+        <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Nombre"></button>
+      </div>
+      <span *ngIf="actualizar.get('nombre')?.hasError('required') && actualizar.get('nombre')?.touched"
+        class="fuente-pequeña centrar-fila color-alerta-rojo">Este campo es requerido</span>
+    </div>
+  </div>
+  <div class="fila">
+    <div>
+      <!-- **** Piso **** -->
+      <div class="centrar-fila">
+        <label class="fuente-pequeña">Piso:</label>
+        <input type="number" min="0" class="input-texto entrada-texto" placeholder="Piso" formControlName="piso">
+        <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Piso"></button>
+      </div>
+      <span *ngIf="actualizar.get('piso')?.hasError('required') && actualizar.get('piso')?.touched"
+        class="fuente-pequeña centrar-fila color-alerta-rojo">Este campo es requerido</span>
+    </div>
+    <div>
+      <!-- **** Capacidad **** -->
+      <div class="centrar-fila">
+        <label class="fuente-pequeña">Capacidad:</label>
+        <input type="number" min="0" class="input-texto entrada-texto" placeholder="Capacidad del espacio"
+          formControlName="capacidad">
+        <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Capacidad"></button>
+      </div>
+    </div>
+    <span *ngIf="actualizar.get('capacidad')?.hasError('required') && actualizar.get('capacidad')?.touched"
+      class="fuente-pequeña centrar-fila color-alerta-rojo">Este campo es requerido</span>
+  </div>
+  <div class="fila">
+    <!-- **** Tipo Unidad Dependencia **** -->
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Tipo Unidad Dependencia:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="tipoespaciodep">
+          <mat-option *ngFor="let item of cmbtipoespaciodep" [value]="item.value">
+            {{item.label.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Tipo unidad dependencia"></button>
+    </div>
+    <!-- **** Unidad Dependencia **** -->
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Unidad Dependencia:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="unidaddependencia">
+          <mat-option *ngFor="let item of cmbunidaddependencia" [value]="item.value">
+            {{item.label.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Unidad de dependencia"></button>
+    </div>
+  </div>
+  <div class="fila">
+    <!-- **** Departamento Unidad **** -->
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Departamento Unidad:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="dptounidad">
+          <mat-option *ngFor="let item of cmbdptounidad" [value]="item.value" (onSelectionChange)="selectMunicipio()">
+            {{item.label.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Departamento unidad"></button>
+    </div>
+    <!-- **** Municipio unidad **** -->
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Municipio Unidad:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="municipiound">
+          <mat-option *ngFor="let item of cmbmunicipiound" [value]="item.value">
+            {{item.label.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Municipio unidad"></button>
+    </div>
+  </div>
+  <div class="fila">
+    <!-- **** Estado **** -->
+    <div class="centrar-fila">
+      <label class="fuente-pequeña">Estado:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="estado">
+          <mat-option value="activo">Activo</mat-option>
+          <mat-option value="inactivo">Inactivo</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button class="icono-ayuda icono contorno-nulo fusion-boton" matTooltip="Estado"></button>
+    </div>
+    <div class="centrar-fila">
+    </div>
+  </div>
+  <div class="centrar-fila">
+    <!-- **** TABLA **** -->
+    <table cellpadding="7">
+      <tr class="fuente-pequeña">
+        <th class="centrar-select-comp">Caracteristica</th>
+        <th>Cantidad</th>
+        <th *ngIf="Usuario.permisos?.modificar === 'si'">Accion</th>
+      </tr>
+      <tr *ngIf="Usuario.permisos?.modificar === 'si'">
+        <td>
+          <mat-form-field appearance="fill" class="centrar-select">
+            <mat-select formControlName="caracteristica">
+              <mat-option *ngFor="let item of cmbcaracteristica" [value]="item.value">
+                {{item.label.toUpperCase()}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
+          <input type="number" min="0" class="input-numerico entrada-texto" formControlName="cantidad">
+        </td>
+        <td>
+          <button class="icono icono-agregar contorno-nulo fusion-boton" (click)="agregarcaracteristica()"
+            matTooltip="Agregar"></button>
+        </td>
+      </tr>
+      <span *ngIf="actualizar.get('cantidad')?.hasError('required') && actualizar.get('cantidad')?.touched"
+        class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Indique la cantidad</span>
+      <tr *ngFor="let item of caracteristicaslista;" class="fuente-cuerpo-tabla borde-tabla">
+        <td>{{ item.label.toUpperCase() }}</td>
+        <td>{{ item.cantidad }}</td>
+        <td *ngIf="Usuario.permisos?.modificar === 'si'">
+          <button class="icono icono-eliminar contorno-nulo fusion-boton" (click)="eliminarcaracteristica(item.value)"
+            matTooltip="Eliminar"></button>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <!-- Boton para actualizar el datos seleccionado -->
+  <div *ngIf="Usuario.permisos?.modificar === 'si'" class="centrar-fila boton-crear">
+    <button (click)="actualizarUnidad()"
+      class="fondo-basico-magenta contorno-nulo color-basico-blanco boton-principal fusion-boton">Actualizar</button>
+  </div>
+</form>

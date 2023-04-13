@@ -10,6 +10,7 @@ import { RecaptchaV3Module, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha';
 //Externas
 import { ToastrModule } from 'ngx-toastr';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgxPaginationModule } from 'ngx-pagination';
 //Propias de angular
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -23,6 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 //Componentes
 import { CabeceraComponent } from './compartidos/cabecera/cabecera.component';
@@ -43,6 +45,7 @@ import { InformesreservaComponent } from './administrativos/direccionacademica/i
 import { ReportesreservaComponent } from './administrativos/direccionacademica/reportesreserva/reportesreserva.component';
 import { ModalgraficotortaComponent } from './compartidos/modales/modalgraficotorta/modalgraficotorta.component';
 import { ModalgraficobarrasComponent } from './compartidos/modales/modalgraficobarras/modalgraficobarras.component';
+import { SedesComponent } from './administrativos/direccionacademica/sedes/sedes.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +67,8 @@ import { ModalgraficobarrasComponent } from './compartidos/modales/modalgraficob
     InformesreservaComponent,
     ReportesreservaComponent,
     ModalgraficotortaComponent,
-    ModalgraficobarrasComponent
+    ModalgraficobarrasComponent,
+    SedesComponent
   ],
   imports: [
     BrowserModule,
@@ -78,9 +82,11 @@ import { ModalgraficobarrasComponent } from './compartidos/modales/modalgraficob
     MatFormFieldModule,
     MatSelectModule,
     MatTooltipModule,
+    MatPaginatorModule,
     HttpClientModule,
     RecaptchaV3Module,
     NgxChartsModule,
+    NgxPaginationModule,
     ToastrModule.forRoot()
   ],
   providers: [
