@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmarComponent } from 'src/app/compartidos/confirmar/confirmar.component';
 import { DatosUsuario } from 'src/app/modelos/modelosData';
@@ -60,11 +61,14 @@ export class ConsultarunidadComponent implements OnInit {
   // Variable que almacena los id de sede
   idSede: any;
   idSede2: any;
+  page_size: number;
+  page_number: number;
+  pageSizeOptions = [5,10,20];
 
   constructor(
      // Se inyectan las dependencias requeridas
     private fb: FormBuilder, private toastr: ToastrService, public confirmacion: MatDialog,
-    public Usuario: DatosUsuario, private _peticion: RestService) {
+    public Usuario: DatosUsuario, private _peticion: RestService, private paginator: MatPaginatorIntl) {
       // Se inicilizan las variables
     this.txtformulario = 'Actualizar';
     this.caracteristicaslista = [];
@@ -74,6 +78,11 @@ export class ConsultarunidadComponent implements OnInit {
     this.mostrar = false;
     this.chequeo = false;
     this.verBuscar = true;
+    this.page_size = 5;
+    this.page_number = 1;
+    paginator.itemsPerPageLabel = 'Registros por página:';
+    paginator.nextPageLabel = 'Siguiente';
+    paginator.previousPageLabel = 'Anterior';
     //this.Usuario.datosRol = [];
     // Se crean los FormBuilder iniciales de los radioButtons y el input de buscar
     this.buscar = this.fb.group({
@@ -109,6 +118,11 @@ export class ConsultarunidadComponent implements OnInit {
       } //** FIN if */
     });
   };
+
+  handlePage(e: PageEvent) {
+    this.page_size = e.pageSize;
+    this.page_number = e.pageIndex + 1;
+  }
 
   ngOnInit(): void {
   }

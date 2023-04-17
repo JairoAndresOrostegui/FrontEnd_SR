@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmarComponent } from 'src/app/compartidos/confirmar/confirmar.component';
 import { DatosUsuario } from 'src/app/modelos/modelosData';
@@ -37,6 +38,9 @@ export class TipounidadComponent implements OnInit {
   txtformulario?: string;
   // Variable que almacena el nombre del boton 'Crear' o 'Actualizar'
   txtboton?: string;
+  page_size: number;
+  page_number: number;
+  pageSizeOptions = [5,10,20];
 
   constructor(
     // Se inyectan las dependencias requeridas
@@ -44,7 +48,8 @@ export class TipounidadComponent implements OnInit {
     public Usuario: DatosUsuario,
     private toastr: ToastrService,
     private _peticion: RestService,
-    public confirmacion: MatDialog
+    public confirmacion: MatDialog,
+    private paginator: MatPaginatorIntl
   ) {
     // Variables inicializadas
     this.txtformulario = 'Actualizar';
@@ -56,6 +61,11 @@ export class TipounidadComponent implements OnInit {
     this.volver = false;
     this.chequeo = false;
     this.valido = true;
+    this.page_size = 5;
+    this.page_number = 1;
+    paginator.itemsPerPageLabel = 'Registros por página:';
+    paginator.nextPageLabel = 'Siguiente';
+    paginator.previousPageLabel = 'Anterior';
     // Se crean los FormBuilder iniciales de los radioButtons y el input de buscar
     this.buscar = this.fb.group({
       entrada: [''],
@@ -67,6 +77,11 @@ export class TipounidadComponent implements OnInit {
       nombreactualizar: ['', Validators.required],
       estadoactualizar: ['activo', Validators.required]
     });
+  }
+
+  handlePage(e: PageEvent) {
+    this.page_size = e.pageSize;
+    this.page_number = e.pageIndex + 1;
   }
 
   ngOnInit(): void {

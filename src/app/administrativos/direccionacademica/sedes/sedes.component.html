@@ -1,17 +1,18 @@
-<table *ngIf="visible" class="espacio-trabajo centrar-texto" cellpadding="7">
-  <tr class="fuente-pequeña">
-    <th>Nombre</th>
-    <th *ngIf="Usuario.permisos?.eliminar === 'si'">Eliminar</th>
-  </tr>
-  <tr *ngFor="let item of sedes | paginate: { itemsPerPage: page_size, currentPage: page_number }" class="fuente-cuerpo-tabla borde-tabla">
-    <td><button (click)="mostrarUnidad(item.value)" class="boton-enlace fuente-link color-basico-magenta fusion-invertida"
-      matTooltip="Ver sede">{{ item.label }}</button></td>
-    <td *ngIf="Usuario.permisos?.eliminar === 'si'" class="espacio-pequeño"><button
-        (click)="eliminarUnidad(item.value)"
-        class="icono icono-eliminar contorno-nulo fusion-boton" matTooltip="Eliminar"></button></td>
-  </tr>
-</table>
-
+<div class="centrar-fila">
+  <table *ngIf="visible" class="espacio-trabajo centrar-texto" cellpadding="7">
+    <tr class="fuente-pequeña">
+      <th>Nombre</th>
+      <th *ngIf="Usuario.permisos?.eliminar === 'si'">Eliminar</th>
+    </tr>
+    <tr *ngFor="let item of sedes | paginate: { itemsPerPage: page_size, currentPage: page_number }" class="fuente-cuerpo-tabla borde-tabla">
+      <td><button (click)="mostrarUnidad(item.value)" class="boton-enlace fuente-link color-basico-magenta fusion-invertida"
+        matTooltip="Ver sede">{{ item.label }}</button></td>
+      <td *ngIf="Usuario.permisos?.eliminar === 'si'" class="espacio-pequeño"><button
+          (click)="eliminarUnidad(item.value)"
+          class="icono icono-eliminar contorno-nulo fusion-boton" matTooltip="Eliminar"></button></td>
+    </tr>
+  </table>
+</div>
 <mat-paginator *ngIf="visible" [length]="sedes?.length" [pageSize]="page_size" [pageSizeOptions]="pageSizeOptions"  (page)="handlePage($event)"></mat-paginator>
 
 <div *ngIf="volver" class="centrar-fila">

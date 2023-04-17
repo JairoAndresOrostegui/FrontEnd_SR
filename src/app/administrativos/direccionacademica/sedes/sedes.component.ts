@@ -42,7 +42,7 @@ export class SedesComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private toastr: ToastrService, public confirmacion: MatDialog,
     public Usuario: DatosUsuario, private _peticion: RestService, private paginator: MatPaginatorIntl) {
-      this.txtformulario = 'Actualizar';
+    this.txtformulario = 'Actualizar';
     this.caracteristicaslista = [];
     this.caracteristicaspush = [];
     this.visible = true;
