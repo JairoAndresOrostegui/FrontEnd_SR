@@ -46,6 +46,7 @@ import { ReportesreservaComponent } from './administrativos/direccionacademica/r
 import { ModalgraficotortaComponent } from './compartidos/modales/modalgraficotorta/modalgraficotorta.component';
 import { ModalgraficobarrasComponent } from './compartidos/modales/modalgraficobarras/modalgraficobarras.component';
 import { SedesComponent } from './administrativos/direccionacademica/sedes/sedes.component';
+import { SpinnerComponent } from './compartidos/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { SedesComponent } from './administrativos/direccionacademica/sedes/sedes
     ReportesreservaComponent,
     ModalgraficotortaComponent,
     ModalgraficobarrasComponent,
-    SedesComponent
+    SedesComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,

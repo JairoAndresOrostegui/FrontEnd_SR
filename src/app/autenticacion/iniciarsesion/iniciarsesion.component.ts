@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class IniciarsesionComponent implements OnInit {
 
+  spinner = false;
   // error = false;
   // Almacena un string para ver el campo tipo texto o password
   tipoinput!: string;
@@ -51,83 +52,89 @@ export class IniciarsesionComponent implements OnInit {
         /*
         logica del login con la api de cesde
         */
-        if ((this.usuario === '') || (this.clave === '')) {
-          this.toastr.warning('Ingrese el usuario y la contraseña', 'Alerta', { timeOut: 1500 })
-          return;
-        } else {
-        if ((this.usuario === 'director.extension') && (this.clave === '123')) {
-          this.id_rol = 9;
-        } else if ((this.usuario === 'analista.extension') && (this.clave === '123')) {
-          this.id_rol = 14;
-        } else if ((this.usuario === 'auxiliar.extension') && (this.clave === '123')) {
-          this.id_rol = 16;
-        } else if ((this.usuario === 'director.plantafisica') && (this.clave === '123')) {
-          this.id_rol = 17;
-        } else if ((this.usuario === 'coordinador.plantafisica') && (this.clave === '123')) {
-          this.id_rol = 18;
-        } else if ((this.usuario === 'auxiliar.plantafisica') && (this.clave === '123')) {
-          this.id_rol = 19;
-        } else if ((this.usuario === 'director.direccionacademica') && (this.clave === '123')) {
-          this.id_rol = 1;
-        } else if ((this.usuario === 'jefe.direccionacademica') && (this.clave === '123')) {
-          this.id_rol = 20;
-        } else if ((this.usuario === 'auxiliar.direccionacademica') && (this.clave === '123')) {
-          this.id_rol = 21;
-        } else if ((this.usuario === 'director.colegios') && (this.clave === '123')) {
-          this.id_rol = 24;
-        } else if ((this.usuario === 'jefe.colegios') && (this.clave === '123')) {
-          this.id_rol = 23;
-        } else if ((this.usuario === 'analista.colegios') && (this.clave === '123')) {
-          this.id_rol = 22;
-        } else if ((this.usuario === 'director.gruposempresarial') && (this.clave === '123')) {
-          this.id_rol = 25;
-        } else if ((this.usuario === 'lider.gruposempresarial') && (this.clave === '123')) {
-          this.id_rol = 28;
-        } else if ((this.usuario === 'gestor.gruposempresarial') && (this.clave === '123')) {
-          this.id_rol = 15;
-        } else if ((this.usuario === 'auxiliar.gruposempresarial') && (this.clave === '123')) {
-          this.id_rol = 13;
-        } else if ((this.usuario === 'director.escuelas') && (this.clave === '123')) {
-          this.id_rol = 4;
-        } else if ((this.usuario === 'jefe.escuelas') && (this.clave === '123')) {
-          this.id_rol = 26;
-        } else if ((this.usuario === 'secretaria.escuelas') && (this.clave === '123')) {
-          this.id_rol = 11;
-        } else if ((this.usuario === 'auxiliar.escuelas') && (this.clave === '123')) {
-          this.id_rol = 12;
-        } else {
-          this.toastr.error('Usuario o contraseña incorrectos', 'Alerta', { timeOut: 1500 });
-          return;
-        }
-      }
-      // Si el usuario y contraseña son correctos realiza la peticion a la API
-        this._peticion.login('login/menu?id_rol=' + this.id_rol).subscribe((respuesta) => {
-          this.logueo = respuesta;
-          // Si el token viene vacio muestra mensaje de error
-          if (this.logueo.token === '') {
-            this.toastr.warning('Error en la aplicación, contactese con el administrador del sistema', 'Alerta', { timeOut: 3000 });
+        //logica provisional
+        this.spinner = true;
+        setTimeout(() => {
+        //
+          if ((this.usuario === '') || (this.clave === '')) {
+            this.toastr.warning('Ingrese el usuario y la contraseña', 'Alerta', { timeOut: 1500 })
+            return;
           } else {
-            // Si el login es exitoso muestra mensaje de loguin exitoso y almacena en variables globales los datos de login para ser usuados en algunas parte de otros compoentenes
-            this.toastr.success('Login exitoso', 'Exitoso', { timeOut: 1500 });
-            this._peticion.token = this.logueo.token;
-            // Almacene los datos del login
-            this.autenticacion.datosLogin = this.logueo.componente;
-            // Almacena el rol del login
-            this.autenticacion.datosLogin.rol = this.id_rol;
-            // Almacena las funcionalidades activas en la varible global 
-            this.autenticacion.funcionalidadActiva = this.autenticacion.datosLogin[0].funcionalidad[0].nombre_funcionalidad;
-            // Almacena los permnisos que obtiene el usuario en varible global
-            this.autenticacion.permisos = this.autenticacion.datosLogin[0].funcionalidad[0].permisosRol;
-            for (let item of this.autenticacion.datosLogin) {
-              item.estado = true;
+            if ((this.usuario === 'director.extension') && (this.clave === '123')) {
+              this.id_rol = 9;
+            } else if ((this.usuario === 'analista.extension') && (this.clave === '123')) {
+              this.id_rol = 14;
+            } else if ((this.usuario === 'auxiliar.extension') && (this.clave === '123')) {
+              this.id_rol = 16;
+            } else if ((this.usuario === 'director.plantafisica') && (this.clave === '123')) {
+              this.id_rol = 17;
+            } else if ((this.usuario === 'coordinador.plantafisica') && (this.clave === '123')) {
+              this.id_rol = 18;
+            } else if ((this.usuario === 'auxiliar.plantafisica') && (this.clave === '123')) {
+              this.id_rol = 19;
+            } else if ((this.usuario === 'director.direccionacademica') && (this.clave === '123')) {
+              this.id_rol = 1;
+            } else if ((this.usuario === 'jefe.direccionacademica') && (this.clave === '123')) {
+              this.id_rol = 20;
+            } else if ((this.usuario === 'auxiliar.direccionacademica') && (this.clave === '123')) {
+              this.id_rol = 21;
+            } else if ((this.usuario === 'director.colegios') && (this.clave === '123')) {
+              this.id_rol = 24;
+            } else if ((this.usuario === 'jefe.colegios') && (this.clave === '123')) {
+              this.id_rol = 23;
+            } else if ((this.usuario === 'analista.colegios') && (this.clave === '123')) {
+              this.id_rol = 22;
+            } else if ((this.usuario === 'director.gruposempresarial') && (this.clave === '123')) {
+              this.id_rol = 25;
+            } else if ((this.usuario === 'lider.gruposempresarial') && (this.clave === '123')) {
+              this.id_rol = 28;
+            } else if ((this.usuario === 'gestor.gruposempresarial') && (this.clave === '123')) {
+              this.id_rol = 15;
+            } else if ((this.usuario === 'auxiliar.gruposempresarial') && (this.clave === '123')) {
+              this.id_rol = 13;
+            } else if ((this.usuario === 'director.escuelas') && (this.clave === '123')) {
+              this.id_rol = 4;
+            } else if ((this.usuario === 'jefe.escuelas') && (this.clave === '123')) {
+              this.id_rol = 26;
+            } else if ((this.usuario === 'secretaria.escuelas') && (this.clave === '123')) {
+              this.id_rol = 11;
+            } else if ((this.usuario === 'auxiliar.escuelas') && (this.clave === '123')) {
+              this.id_rol = 12;
+            } else {
+              this.toastr.error('Usuario o contraseña incorrectos', 'Alerta', { timeOut: 1500 });
+              return;
             }
-            // Vuelve los inputs a vacio
-            this.usuario = '';
-            this.clave = '';
-            // Reliza el ruteo en caso que todo este ook
-            this.router.navigate([this.autenticacion.datosLogin[0].funcionalidad[0].url_funcionalidad]);
+            // Si el usuario y contraseña son correctos realiza la peticion a la API
+            this._peticion.login('login/menu?id_rol=' + this.id_rol).subscribe((respuesta) => {
+              this.logueo = respuesta;
+              // Si el token viene vacio muestra mensaje de error
+              if (this.logueo.token === '') {
+                this.toastr.warning('Error en la aplicación, contactese con el administrador del sistema', 'Alerta', { timeOut: 3000 });
+              } else {
+                // Si el login es exitoso muestra mensaje de loguin exitoso y almacena en variables globales los datos de login para ser usuados en algunas parte de otros compoentenes
+                this.toastr.success('Login exitoso', 'Exitoso', { timeOut: 1500 });
+                this._peticion.token = this.logueo.token;
+                // Almacene los datos del login
+                this.autenticacion.datosLogin = this.logueo.componente;
+                // Almacena el rol del login
+                this.autenticacion.datosLogin.rol = this.id_rol;
+                // Almacena las funcionalidades activas en la varible global 
+                this.autenticacion.funcionalidadActiva = this.autenticacion.datosLogin[0].funcionalidad[0].nombre_funcionalidad;
+                // Almacena los permnisos que obtiene el usuario en varible global
+                this.autenticacion.permisos = this.autenticacion.datosLogin[0].funcionalidad[0].permisosRol;
+                for (let item of this.autenticacion.datosLogin) {
+                  item.estado = true;
+                }
+                // Vuelve los inputs a vacio
+                this.usuario = '';
+                this.clave = '';
+                // Reliza el ruteo en caso que todo este ok
+                this.spinner = false;
+                this.router.navigate([this.autenticacion.datosLogin[0].funcionalidad[0].url_funcionalidad]);         
+              }
+            });
           }
-        });
+        }, 1500);
       }
     });
   }

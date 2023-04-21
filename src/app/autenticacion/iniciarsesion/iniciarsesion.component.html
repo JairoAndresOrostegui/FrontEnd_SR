@@ -1,4 +1,4 @@
-<div class="espacio-minimo">
+<div *ngIf="!spinner" class="espacio-minimo">
   <form class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5 centrar-columna">
 
     <h2 class="fuente-grande">Bienvenidos al sistema de información Cesde</h2>
@@ -23,6 +23,7 @@
     <!-- Boton de ingresar -->
     <button class="boton-principal fuente-pequeña fondo-basico-magenta color-basico-blanco fusion-boton boton-padding contorno-nulo"
       (click)="iniciarSesion()">Ingresar</button>
-
   </form>
 </div>
+
+<app-spinner *ngIf="spinner"></app-spinner>
