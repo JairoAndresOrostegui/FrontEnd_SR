@@ -1,15 +1,16 @@
+<app-spinner *ngIf="spinner"></app-spinner>
+
 <div *ngIf="volver" class="centrar-fila">
   <button (click)="regresar()" class="icono icono-regresar contorno-nulo fusion-boton" matTooltip="Regresa a la vista de consulta"></button>
 </div>
 
-<div *ngIf="mostrarCrear">
+<div *ngIf="mostrarCrear" [ngStyle]="{'display':verFormConsulta}">
   <div *ngIf="Usuario.permisos?.agregar === 'si'" class="centrar-fila">
     <button (click)="iniciarCrear()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal boton-padding fusion-boton">Crear</button>
   </div>
 </div>
 
-<div class="centrar-fila responsivo">
-
+<div class="centrar-fila responsivo" [ngStyle]="{'display':verFormConsulta}">
   <div *ngIf="busqueda">
     <form class="centrar-columna" [formGroup]="buscar">
       <!-- RadioButtons -->
@@ -50,7 +51,7 @@
     <mat-paginator *ngIf="verbuscar" [length]="this.Usuario.datosCaracteristica?.length" [pageSize]="page_size" [pageSizeOptions]="pageSizeOptions"  (page)="handlePage($event)"></mat-paginator>
   </div>
 <!-- Formulario para actualizar o crear caracteristica -->
-  <form *ngIf="vereditar" [formGroup]="actualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5">
+  <form *ngIf="vereditar" [formGroup]="actualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5" [ngStyle]="{'display':verFormActualizar}">
     <div class="centrar-fila">
       <h2 class="centrar-texto fuente-grande">{{ txtformulario }} característica:</h2>
     </div>
@@ -82,5 +83,4 @@
       <button (click)="actualizarCaracteristica()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal boton-padding fusion-boton">{{ txtboton }}</button>
     </div>
   </form>
-
 </div>

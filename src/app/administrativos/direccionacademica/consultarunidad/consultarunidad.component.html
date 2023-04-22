@@ -1,10 +1,16 @@
-<div>
+<app-spinner *ngIf="spinner"></app-spinner>
+
+<div *ngIf="volver" class="centrar-fila" [ngStyle]="{'display':verBtnVolver}">
+  <button (click)="regresar()" class="icono icono-regresar contorno-nulo fusion-boton" matTooltip="Regresar"></button>
+</div>
+
+<div [ngStyle]="{'display':verFormConsulta}">
   <form *ngIf="verBuscar" class="centrar-columna" [formGroup]="buscar">
     <!-- ComboBox Sede -->
     <div class="centrar-fila">
       <mat-form-field appearance="fill" class="centrar-select">
         <mat-select formControlName="sede">
-          <mat-option *ngFor="let item of cmbSedes" [value]="item.value">
+          <mat-option *ngFor="let item of cmbSedes" [value]="item.value" (onSelectionChange)="limpiardata()">
             {{ item.label.toUpperCase() }}
           </mat-option>
         </mat-select>
@@ -27,8 +33,7 @@
     <div class="centrar-fila mt-3 fuente-pequeña">
       <label>Buscar:</label>
       <input class="entrada-texto fondo-neutro-gris2" formControlName="entrada">
-      <button (click)="buscarUnidad()" class="icono icono-buscar contorno-nulo fusion-boton"
-        matTooltip="Buscar"></button>
+      <button (click)="buscarUnidad()" class="icono icono-buscar contorno-nulo fusion-boton" matTooltip="Buscar"></button>
     </div>
   </form>
   <!-- Se muestra la tabla -->
@@ -65,7 +70,7 @@
   <mat-paginator *ngIf="visible" [length]="this.Usuario.datosUnidad?.length" [pageSize]="page_size" [pageSizeOptions]="pageSizeOptions"  (page)="handlePage($event)"></mat-paginator>
 </div>
 <!-- Form para actualizar el dato en especifico -->
-<form *ngIf="mostrar" [formGroup]="actualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5">
+<form *ngIf="mostrar" [formGroup]="actualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5" [ngStyle]="{'display':verFormEdicion}">
   <!-- **** TITULO DEL FORMULARIO **** -->
   <div class="centrar-fila">
     <h2 class="centrar-texto fuente-grande">{{ txtformulario }} unidad organizacional:</h2>

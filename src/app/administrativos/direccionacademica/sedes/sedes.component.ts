@@ -36,6 +36,9 @@ export class SedesComponent implements OnInit {
   iddpto?: Number;
   idtipoespaciopadre?: Number;
   txtformulario: string;
+  verFormConsulta: string;
+  verFormActualizar: string;
+  spinner: boolean;
   page_size: number;
   page_number: number;
   pageSizeOptions = [5,10,20];
@@ -50,6 +53,9 @@ export class SedesComponent implements OnInit {
     this.chequeo = false;
     this.verBuscar = true;
     this.volver = false;
+    this.spinner = false;
+    this.verFormConsulta = 'block';
+    this.verFormActualizar = 'block';
     this.page_size = 5;
     this.page_number = 1;
     paginator.itemsPerPageLabel = 'Registros por página:';
@@ -76,11 +82,17 @@ export class SedesComponent implements OnInit {
   }
 
   refrescar(): void {
+    this.spinner = true;
+    this.verFormConsulta = 'none';
     this._peticion.getselect('unidadorganizacional/combo/2').subscribe((respuesta) => {
-      this.sedes = respuesta;
-      if (this.sedes.length === 0) {
-        this.toastr.error('No hay registros', 'Error', { timeOut: 1500 });
-      }
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormConsulta = 'block';
+        this.sedes = respuesta;
+        if (this.sedes.length === 0) {
+          this.toastr.error('No hay registros', 'Error', { timeOut: 1500 });
+        }
+      }, 300);
     });
   }
 
@@ -90,13 +102,15 @@ export class SedesComponent implements OnInit {
   }
 
   mostrarUnidad(id: string): void {
+    this.spinner = true;
+    this.verFormActualizar = 'none';
+    this.verFormConsulta = 'none';
     this.caracteristicaslista = [];
     this.caracteristicaspush = [];
     this.Usuario.datosUnidad = [];
     this.actualizar.controls['cantidad'].setValue(0);
     this.chequeo = false;
     this.visible = false;
-    this.volver = true;
     this._peticion.getunidad('unidadorganizacional/' + id).subscribe((respuesta) => {
       this.Usuario.datosUnidad = respuesta;
       this.actualizar.controls['idUnidad'].setValue(id);
@@ -124,6 +138,12 @@ export class SedesComponent implements OnInit {
           this._peticion.getselect('municipio/' + this.iddpto).subscribe((respuesta2) => {
             this.cmbmunicipiound = respuesta2;
             this.actualizar.controls['municipiound'].setValue(respuesta.id_municipio);
+            setTimeout(() => {
+              this.verFormActualizar = 'block';
+              this.verFormConsulta = 'block';
+              this.volver = true;
+              this.spinner = false;
+            }, 300);
           });
         });
       });
@@ -187,7 +207,11 @@ export class SedesComponent implements OnInit {
       }
       return;
     }
+    this.spinner = true;
+    this.verFormActualizar = 'none';
+    this.verFormConsulta = 'none';
     this.chequeo = true;
+    this.volver = false;
     if (this.txtunidad === this.actualizar.value.nombre.toLowerCase()) {
       this.actualizarDatos();
     } else {
@@ -196,8 +220,14 @@ export class SedesComponent implements OnInit {
         if (!respuesta || this.actualizar.value.nombre === this.txtunidad) {
           this.actualizarDatos();
         } else {
-          this.urlimagen = './../../../../../../assets/img/iconos/cerrar.svg';
-          this.toastr.warning('Este nombre de unidad ya existe', 'Alerta', { timeOut: 2500 }); // Muestra el mensaje que alerta la existencia de un registro con igual nombre
+          setTimeout(() => {
+            this.verFormActualizar = 'block';
+            this.verFormConsulta = 'block';
+            this.volver = true;
+            this.spinner = false;
+            this.urlimagen = './../../../../../../assets/img/iconos/cerrar.svg';
+            this.toastr.warning('Este nombre de sede ya existe', 'Alerta', { timeOut: 2500 }); // Muestra el mensaje que alerta la existencia de un registro con igual nombre
+          }, 300);
         };
       });
     }
@@ -218,9 +248,25 @@ export class SedesComponent implements OnInit {
     };
     this._peticion.update('unidadorganizacional', this.objetounidad).subscribe((respuesta) => {
       if (respuesta.message === 'Registro actualizado con exito') {
-        this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
-        this.txtunidad = this.actualizar.value.nombre.toLowerCase();
-        this.chequeo = false;
+        setTimeout(() => {
+          this.verFormActualizar = 'block';
+          this.verFormConsulta = 'block';
+          this.volver = true;
+          this.spinner = false;
+          this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
+          this.txtunidad = this.actualizar.value.nombre.toLowerCase();
+          this.chequeo = false;
+        }, 300);
+      } else {
+        setTimeout(() => {
+          this.verFormActualizar = 'block';
+          this.verFormConsulta = 'block';
+          this.volver = true;
+          this.spinner = false;
+          this.toastr.error('Error al actualizar el registro', 'Error', { timeOut: 1500 });
+          this.txtunidad = this.actualizar.value.nombre.toLowerCase();
+          this.chequeo = false;
+        }, 300);
       };
     });
   }
@@ -287,6 +333,9 @@ export class SedesComponent implements OnInit {
   }
 
   regresar(): void {
+    this.spinner = true;
+    this.verFormActualizar = 'none';
+    this.verFormConsulta = 'none';
     this.visible = true;
     this.mostrar = false;
     this.volver = false;
@@ -294,6 +343,13 @@ export class SedesComponent implements OnInit {
     this.caracteristicaspush = [];
     this.Usuario.datosUnidad = [];
     this.urlimagen = '';
+    this.refrescar();
+    setTimeout(() => {
+      this.verFormActualizar = 'block';
+      this.verFormConsulta = 'block';
+      this.visible = true;
+      this.spinner = false;
+    }, 300);
   }
 
 }

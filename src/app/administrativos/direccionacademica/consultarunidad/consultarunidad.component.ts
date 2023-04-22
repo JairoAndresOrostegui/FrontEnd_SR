@@ -64,6 +64,11 @@ export class ConsultarunidadComponent implements OnInit {
   page_size: number;
   page_number: number;
   pageSizeOptions = [5,10,20];
+  spinner: boolean;
+  volver: boolean;
+  verFormConsulta: string;
+  verFormEdicion: string;
+  verBtnVolver: string;
 
   constructor(
      // Se inyectan las dependencias requeridas
@@ -77,7 +82,12 @@ export class ConsultarunidadComponent implements OnInit {
     this.visible = false;
     this.mostrar = false;
     this.chequeo = false;
+    this.spinner = false;
     this.verBuscar = true;
+    this.volver = false;
+    this.verFormConsulta = 'block';
+    this.verFormEdicion = 'none';
+    this.verBtnVolver = 'flex';
     this.page_size = 5;
     this.page_number = 1;
     paginator.itemsPerPageLabel = 'Registros por página:';
@@ -127,34 +137,68 @@ export class ConsultarunidadComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  limpiardata(): void {
+    this.Usuario.datosUnidad = [];
+    this.visible = false;
+  }
+
+  regresar(): void {
+    this.spinner = true;
+    this.mostrar = false;
+    this.verBtnVolver = 'none';
+    setTimeout (() => {
+      this.verFormConsulta = 'block';
+      this.spinner = false;
+      this.verBtnVolver = 'flex';
+      this.volver = false;
+    }, 500);
+  }
+
   // Funcion para realizar la busqueda segun el filtro seleccionado
   buscarUnidad(): void {
+    const idSedeActual = this.buscar.value.sede;
+    this.Usuario.datosUnidad = [];
+    this.spinner = true;
+    this.verFormConsulta = 'none';
     this.mostrar = false;
     // Si el input es vacio trae todos los datos almacenados
     if (this.buscar.value.entrada === '') {
-      this._peticion.getrol('unidadorganizacional?id_sede=' + this.buscar.value.sede).subscribe((respuesta) => {
-        // Si en el Back hay registros muestra la tabla con todos los registros
-        if (respuesta.message != 'No hay registros') {
-          this.Usuario.datosUnidad = respuesta;
-          this.visible = true;
-        } else {
-          // Si no hay registros almacenados muestra un error
-          this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
-          this.visible = false;
-        }
+      this._peticion.getrol('unidadorganizacional?id_sede=' + idSedeActual).subscribe((respuesta) => {
+        setTimeout (() => {
+          if (respuesta.message != 'No hay registros') {
+            // Si en el Back hay registros muestra la tabla con todos los registros
+            this.spinner = false;
+            this.verFormConsulta = 'block';
+            this.visible = true;
+            this.Usuario.datosUnidad = respuesta;
+          } else {
+            // Si no hay registros almacenados muestra un error
+            this.spinner = false;
+            this.verFormConsulta = 'block';
+            this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
+            this.visible = false;
+            this.Usuario.datosUnidad = [];
+          }
+        }, 500);
       });
     } else {
       // Si hay algun filtro seleccionado y datos ingresados envia la peticion de busqueda
       this._peticion.getrol('unidadorganizacional/buscar?type=' + this.buscar.value.filtro + '&search=' + this.buscar.value.entrada + '&id_sede=' + this.buscar.value.sede).subscribe((respuesta) => {
         // Si en el Back hay registros muestra la tabla con todos los registros
         if (respuesta.message != 'No hay registros') {
-          this.Usuario.datosUnidad = respuesta;
+          this.spinner = false;
+          this.verFormConsulta = 'block';
           this.visible = true;
+          this.Usuario.datosUnidad = respuesta;
         } else {
           // Si no hay registros almacenados muestra un error y oculta la tabla
-          this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
-          this.Usuario.datosUnidad = '';
-          this.visible = false;
+          setTimeout (() => {
+            this.spinner = false;
+            this.verFormConsulta = 'block';
+            this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
+            this.visible = false;
+            this.Usuario.datosUnidad = [];
+          }, 500);
         }
       });
     }
@@ -162,12 +206,21 @@ export class ConsultarunidadComponent implements OnInit {
 
   // Funcion que despliega la unidad que se ha seleccionado y carga todos los valores que ya esten almacenados
   mostrarUnidad(id: string): void {
+    this.spinner = true;
+    this.verFormConsulta = 'none';
+    this.verFormEdicion = 'none';
     this.caracteristicaslista = [];
     this.caracteristicaspush = [];
     this.Usuario.datosUnidad = [];
     this.actualizar.controls['cantidad'].setValue(0);
     this.chequeo = false;
     this.visible = false;
+    this.mostrar = true;
+    setTimeout(() => {
+      this.spinner = false;
+      this.volver = true;
+      this.verFormEdicion = 'block';
+    }, 500);
     // Envia el ID de la unidad seleccionada
     this._peticion.getunidad('unidadorganizacional/' + id).subscribe((respuesta) => {
       // Almacenamos y renderizamos en cada campo correspondiente
@@ -242,7 +295,6 @@ export class ConsultarunidadComponent implements OnInit {
         }
       }, 200);
     });
-    this.mostrar = true;
   }
 
   // Funcion que elimina la unidad
@@ -329,6 +381,9 @@ export class ConsultarunidadComponent implements OnInit {
 
   // Funcion que permite actualizar los registros nuevos que fueran modificado
   actualizarUnidad(): void {
+    this.spinner = true;
+    this.verFormEdicion = 'none';
+    this.verBtnVolver = 'none';
     // Comprueba que el formulario sea llenado correctamente
     if (this.actualizar.invalid) {
       for (const control of Object.keys(this.actualizar.controls)) {
@@ -347,8 +402,13 @@ export class ConsultarunidadComponent implements OnInit {
         if (!respuesta || this.actualizar.value.nombre === this.txtunidad) {
           this.actualizarDatos(); // Invoca la funcion que envia la peticion
         } else {
-          this.urlimagen = './../../../../../../assets/img/iconos/cerrar.svg';
-          this.toastr.warning('Este nombre de unidad ya existe', 'Alerta', { timeOut: 2500 }); // Muestra el mensaje que alerta la existencia de un registro con igual nombre
+          setTimeout(() => {
+            this.urlimagen = './../../../../../../assets/img/iconos/cerrar.svg';
+            this.toastr.warning('Este nombre de unidad ya existe', 'Alerta', { timeOut: 2500 }); // Muestra el mensaje que alerta la existencia de un registro con igual nombre
+            this.spinner = false;
+            this.verFormEdicion = 'block';
+            this.verBtnVolver = 'flex';
+          }, 300);
         };
       });
     }
@@ -372,9 +432,14 @@ export class ConsultarunidadComponent implements OnInit {
         //Envia la peticion de creacion de registro
         this._peticion.update('unidadorganizacional', this.objetounidad).subscribe((respuesta) => {
           if (respuesta.message === 'Registro actualizado con exito') {
-            this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
-            this.txtunidad = this.actualizar.value.nombre.toLowerCase();
-            this.chequeo = false;
+            setTimeout(() => {
+              this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
+              this.txtunidad = this.actualizar.value.nombre.toLowerCase();
+              this.chequeo = false;
+              this.spinner = false;
+              this.verFormEdicion = 'block';
+              this.verBtnVolver = 'flex';
+            }, 600);
           };
         });
   }

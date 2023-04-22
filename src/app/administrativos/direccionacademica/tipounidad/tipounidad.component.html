@@ -1,26 +1,31 @@
+<app-spinner *ngIf="spinner"></app-spinner>
+
 <div *ngIf="volver" class="centrar-fila">
   <button (click)="regresar()" class="icono icono-regresar contorno-nulo fusion-boton" matTooltip="Regresar"></button>
 </div>
-<div *ngIf="mostrarCrear">
+
+<div *ngIf="mostrarCrear" [ngStyle]="{'display':verFormConsulta}">
   <div *ngIf="Usuario.permisos?.agregar === 'si'" class="centrar-fila">
     <button (click)="iniciarCrear()" class="fondo-basico-magenta contorno-nulo color-basico-blanco boton-principal boton-padding fusion-boton">Crear</button>
   </div>
 </div>
-<div class="centrar-fila responsivo">
+
+<div class="centrar-fila responsivo" [ngStyle]="{'display':verFormConsulta}">
   <div *ngIf="busqueda">
     <form class="centrar-columna" [formGroup]="buscar">
       <!-- RaddioButtons de Tipo Espacio y Estado -->
       <div class="centrar fuente-pequeña separacion-radio">
-        <input type="radio" formControlName="filtro" value="nombre">
-        <label class="centrar">Tipo de espacio</label>
-        <input type="radio" formControlName="filtro" value="estado">
-        <label class="centrar">Estado</label>
+        <input type="radio" formControlName="filtro" value="nombre"><label class="centrar">Tipo de espacio</label>
+        <input type="radio" formControlName="filtro" value="estado"><label class="centrar">Estado</label>
       </div>
       <!-- Campo de Buscar con su boton -->
       <div class="centrar-fila fuente-pequeña">
         <label>Buscar:</label>
         <input class="entrada-texto fondo-neutro-gris2" formControlName="entrada">
-        <button (click)="buscarTipoEspacio()" class="icono icono-buscar contorno-nulo fusion-boton" matTooltip="Buscar tipo de espacio físico"></button>
+        <button (click)="buscarTipoEspacio()" class="icono icono-buscar contorno-nulo fusion-boton" matTooltip="Busca una tipo de espacio físico con las coincidencias 
+        de los caracteres que se ingresen en el campo de texto, si se deja vacio: trae todos los registros por defecto, para el caso del filtro estado,
+        se debe escribir activo o inactivo completamente para que funcione.
+        Nota: No distingue combinar mayúsculas y minúsculas"></button>
       </div>
     </form>
     <!-- Tabla que muestra todo el contenido -->
@@ -45,7 +50,7 @@
     <mat-paginator *ngIf="verbuscar" [length]="this.Usuario.datosTipoEspacio?.length" [pageSize]="page_size" [pageSizeOptions]="pageSizeOptions"  (page)="handlePage($event)"></mat-paginator>
   </div>
   <!-- Tabla para crear el tipo de espacio -->
-  <form *ngIf="vereditar" [formGroup]="actualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5">
+  <form *ngIf="vereditar" [formGroup]="actualizar" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5" [ngStyle]="{'display':verFormActualizar}">
     <div class="centrar-fila ">
       <h2 class="centrar-texto fuente-grande">{{ txtformulario }} tipo de espacio:</h2>
     </div>

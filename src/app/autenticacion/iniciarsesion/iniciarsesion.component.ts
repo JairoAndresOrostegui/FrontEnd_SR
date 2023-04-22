@@ -134,7 +134,7 @@ export class IniciarsesionComponent implements OnInit {
               }
             });
           }
-        }, 1500);
+        }, 500);
       }
     });
   }

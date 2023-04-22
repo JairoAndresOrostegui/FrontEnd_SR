@@ -42,6 +42,8 @@ export class CrearunidadComponent implements OnInit {
   chequeo = false; // false oculta, true muestra
   // Variable que almacena la ruta de la imagen
   urlimagen = '';
+  verFormCrear: string;
+  spinner: boolean;
   
   constructor(
     // Se inyectan las dependencias requeridas
@@ -50,6 +52,8 @@ export class CrearunidadComponent implements OnInit {
     private toastr: ToastrService,
     public confirmacion: MatDialog
     ) {
+      this.spinner = true;
+      this.verFormCrear = 'none';
       // Se crean los FormBuilder de crear o actualizar los datos crear unidad
       this.crearsede = this.fb.group ({ 
         nombre: ['', Validators.required],
@@ -70,7 +74,6 @@ export class CrearunidadComponent implements OnInit {
         this.tiposdeespacio = respuesta;
         this.cmbtipoespacio = this.tiposdeespacio.filter((item: { value: number, label: string }) => item.value != 1);
         this.crearsede.controls['tipoespacio'].setValue(this.cmbtipoespacio[0].value);
-        
         this.cambiarTipoDependencia();
       });
       // Peticion HTTP al Backend para traer la unidad padre CESDE
@@ -169,6 +172,8 @@ export class CrearunidadComponent implements OnInit {
       return;
     } //** FIN if */
     this.chequeo = true;
+    this.spinner = true;
+    this.verFormCrear = 'none';
     //  Si el formulario es correcto procede a llamar la api que valida que el nombre no se encuentre registrado
     this._peticion.getvalidar('unidadorganizacional/validatename?nombre_unidad_organizacional=' + this.crearsede.value.nombre.toLowerCase()
                               + '&id_sede=' + this.crearsede.value.unidaddependencia).subscribe((respuesta) => {
@@ -200,6 +205,10 @@ export class CrearunidadComponent implements OnInit {
         this.urlimagen = './../../assets/img/iconos/cerrar.svg';
         this.toastr.warning('Este nombre de unidad ya existe', 'Alerta', { timeOut: 2500 });
       };
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 600);
     });
   }
 
@@ -213,6 +222,8 @@ export class CrearunidadComponent implements OnInit {
         this.cmbtipoespaciodep = this.tiposdeespacio.filter((item: { value: number, label: string }) => item.value === 2);
         this.crearsede.controls['tipoespaciodep'].setValue(this.cmbtipoespaciodep[0].value);
       }
+      this.spinner = false;
+      this.verFormCrear = 'block';
     }, 150);
   }
   

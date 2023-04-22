@@ -30,14 +30,15 @@ export class TipounidadComponent implements OnInit {
   volver: boolean; // false oculta, true muestra - Boton Regresar = icono: flecha
   // Variable que muestra u oculta el icono que valida el nombre del registro
   chequeo: boolean; // false oculta, true muestra
-  // Variable de control de condicional
-  valido: boolean;
   // Variable que almacena la ruta de la imagen
   urlimagen?: string;
   // Variable que almacena el nombre del fomulario 'Crear' o 'Actualizar'
   txtformulario?: string;
   // Variable que almacena el nombre del boton 'Crear' o 'Actualizar'
   txtboton?: string;
+  verFormConsulta: string;
+  verFormActualizar: string;
+  spinner: boolean;
   page_size: number;
   page_number: number;
   pageSizeOptions = [5,10,20];
@@ -60,7 +61,9 @@ export class TipounidadComponent implements OnInit {
     this.mostrarCrear = true;
     this.volver = false;
     this.chequeo = false;
-    this.valido = true;
+    this.spinner = false;
+    this.verFormConsulta = 'block';
+    this.verFormActualizar = 'block';
     this.page_size = 5;
     this.page_number = 1;
     paginator.itemsPerPageLabel = 'Registros por página:';
@@ -89,12 +92,16 @@ export class TipounidadComponent implements OnInit {
 
   // Funcion del boton regresar. Cambia los estados de los campos que desea ocultar o mostrar
   regresar(): void {
-    this.busqueda = true;
+    this.spinner = true;
     this.vereditar = false;
     this.verbuscar = false;
     this.volver = false;
-    this.mostrarCrear = true;
-    this.urlimagen = '';
+    setTimeout(() => {
+      this.busqueda = true;
+      this.mostrarCrear = true;
+      this.urlimagen = '';
+      this.spinner = false;
+    }, 300);
   }
 
   // Funcion para establecer los estados y variables en la modalidad de Crear Caracteristica
@@ -114,28 +121,37 @@ export class TipounidadComponent implements OnInit {
 
   // Funcion para realizar la busqueda segun el filtro seleccionado
   buscarTipoEspacio(): void {
+    this.spinner = true;
+    this.verFormConsulta = 'none';
     this.txtformulario = 'Actualizar';
     this.txtboton = 'Actualizar';
     this.vereditar = false;
     this.volver = false;
-    this.busqueda = true;
     // Si el filtro es vacio muestra todos los datos en la api 'tipoespacio' y los almacena en la variable global 'this.Usuario.datosTipoEspacio'
     if (this.buscar.value.entrada === '') {
       this._peticion.gettipoespacio('tipoespacio').subscribe((respuesta) => {
-        this.Usuario.datosTipoEspacio = respuesta;
-        this.verbuscar = true;
+        setTimeout(() => {
+          this.spinner = false;
+          this.verFormConsulta = 'block';
+          this.verbuscar = true;
+          this.Usuario.datosTipoEspacio = respuesta;
+        }, 300);
       });
     } else {
       // Si el filtro no esta vacio, envia el nombre de busqueda y el valor de entrada del input y retorna los datos segun los parametros de filtro que se envio
       this._peticion.gettipoespacio('tipoespacio/buscar?type=' + this.buscar.value.filtro + '&search=' + this.buscar.value.entrada)
         .subscribe((respuesta) => {
-          if (respuesta.message != 'No hay registros') {
-            this.Usuario.datosTipoEspacio = respuesta;
-            this.verbuscar = true;
-          } else {
-            this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
-            this.verbuscar = false;
-          };
+          setTimeout(() => {
+            this.verFormConsulta = 'block';
+            if (respuesta.message != 'No hay registros') {
+              this.verbuscar = true;
+              this.Usuario.datosTipoEspacio = respuesta;
+            } else {
+              this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
+              this.verbuscar = false;
+            };
+            this.spinner = false;
+          }, 300);
         });
     };
   };
@@ -167,14 +183,27 @@ export class TipounidadComponent implements OnInit {
       this.actualizar.controls['nombreactualizar'].markAsTouched();
       return; // Si esta vacio, no se puede enviar la peticion y debe informar al usuario que ese campo es requerido
     }
+    this.spinner = true;
+    this.verFormActualizar = 'none';
+    this.volver = false;
     this.chequeo = true;
     // Valida las variables de nombre de registro y estado para evitar enviar peticiones innecesarias
     if (this.txttipoespacio === this.actualizar.value.nombreactualizar.toLowerCase()) {
       if (this.txtestadotipo === this.actualizar.value.estadoactualizar.toLowerCase()) {
         if (this.txtboton === 'Crear') {
-          this.toastr.info('Este registro ya ha sido creado', 'Información', { timeOut: 1500 }); // Muestra el mensaje que informa una creacion de registro duplicada
+          setTimeout(() => {
+            this.spinner = false;
+            this.volver = true;
+            this.toastr.info('Este registro ya ha sido creado', 'Información', { timeOut: 1500 }); // Muestra el mensaje que informa una creacion de registro duplicada
+            this.verFormActualizar = 'block';
+          }, 300);
         } else {
-          this.toastr.info('Debe modificar algun campo para actualizar', 'Información', { timeOut: 1500 }); // Muestra el mensaje que debe modificar un campo para actualizar
+          setTimeout(() => {
+            this.spinner = false;
+            this.volver = true;
+            this.toastr.info('Debe modificar algun campo para actualizar', 'Información', { timeOut: 1500 }); // Muestra el mensaje que debe modificar un campo para actualizar
+            this.verFormActualizar = 'block';
+          }, 300);
         }
         this.chequeo = false;
       } else {
@@ -186,8 +215,13 @@ export class TipounidadComponent implements OnInit {
         if (!respuesta || this.txttipoespacio === this.actualizar.value.nombreactualizar.toLowerCase()) {
           this.actualizarDatos(); // Invoca la funcion que envia la peticion
         } else {
-          this.urlimagen = './../../assets/img/iconos/cerrar.svg';
-          this.toastr.warning('Ese tipo de espacio ya existe', 'Alerta', { timeOut: 1500 }); // Muestra el mensaje que alerta la existencia de un registro con igual nombre
+          setTimeout(() => {
+            this.spinner = false;
+            this.volver = true;
+            this.urlimagen = './../../assets/img/iconos/cerrar.svg';
+            this.toastr.warning('Ese tipo de espacio ya existe', 'Alerta', { timeOut: 1500 }); // Muestra el mensaje que alerta la existencia de un registro con igual nombre
+            this.verFormActualizar = 'block';
+          }, 300);
         }
       });
     }
@@ -206,11 +240,21 @@ export class TipounidadComponent implements OnInit {
       //Envia la peticion de creacion de registro
       this._peticion.create('tipoespacio', this.update).subscribe((respuesta) => {
         if (respuesta.message === 'Registro guardado con exito') {
-          this.toastr.success('Tipo de espacio creado con exito', 'Exitoso', { timeOut: 1500 });
-          this.txttipoespacio = this.actualizar.value.nombreactualizar.toLowerCase();
-          this.txtestadotipo = this.actualizar.value.estadoactualizar.toLowerCase()
+          setTimeout(() => {
+            this.spinner = false;
+            this.volver = true;
+            this.toastr.success('Tipo de espacio creado con exito', 'Exitoso', { timeOut: 1500 });
+            this.txttipoespacio = this.actualizar.value.nombreactualizar.toLowerCase();
+            this.txtestadotipo = this.actualizar.value.estadoactualizar.toLowerCase();
+            this.verFormActualizar = 'block';
+          }, 300);
         } else {
-          this.toastr.error('Error en la creación del tipoespacio', 'Error', { timeOut: 1500 });
+          setTimeout(() => {
+            this.spinner = false;
+            this.volver = true;
+            this.toastr.error('Error en la creación del tipoespacio', 'Error', { timeOut: 1500 });
+            this.verFormActualizar = 'block';
+          }, 300);
         };
       });
     } else {
@@ -223,11 +267,21 @@ export class TipounidadComponent implements OnInit {
       //Envia la peticion de creacion de registro
       this._peticion.update('tipoespacio', this.update).subscribe((respuesta) => {
         if (respuesta.message === "Registro actualizado con exito") {
-          this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
-          this.txttipoespacio = this.actualizar.value.nombreactualizar.toLowerCase();
-          this.txtestadotipo = this.actualizar.value.estadoactualizar.toLowerCase()
+          setTimeout(() => {
+            this.spinner = false;
+            this.volver = true;
+            this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
+            this.txttipoespacio = this.actualizar.value.nombreactualizar.toLowerCase();
+            this.txtestadotipo = this.actualizar.value.estadoactualizar.toLowerCase();
+            this.verFormActualizar = 'block';
+          }, 300);
         } else {
-          this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
+          setTimeout(() => {
+            this.spinner = false;
+            this.volver = true;
+            this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
+            this.verFormActualizar = 'block';
+          }, 300);
         };
       });
     };

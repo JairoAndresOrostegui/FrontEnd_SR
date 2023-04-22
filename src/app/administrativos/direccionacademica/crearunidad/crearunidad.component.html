@@ -1,4 +1,6 @@
-<form [formGroup]="crearsede" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5">
+<app-spinner *ngIf="spinner"></app-spinner>
+
+<form [formGroup]="crearsede" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5" [ngStyle]="{'display':verFormCrear}">
   <div class="fila">
     <!-- Tipo de espacio -->
     <div class="centrar-fila">
