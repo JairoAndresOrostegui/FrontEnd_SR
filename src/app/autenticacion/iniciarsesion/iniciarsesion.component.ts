@@ -102,6 +102,7 @@ export class IniciarsesionComponent implements OnInit {
               this.id_rol = 12;
             } else {
               this.toastr.error('Usuario o contraseña incorrectos', 'Alerta', { timeOut: 1500 });
+              this.spinner = false;
               return;
             }
             // Si el usuario y contraseña son correctos realiza la peticion a la API

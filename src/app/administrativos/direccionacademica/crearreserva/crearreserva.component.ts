@@ -40,7 +40,7 @@ export class CrearreservaComponent implements OnInit {
   // Temporal
   cbencargado?: any;
 
-  semana: string[] = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+  semana: string[] = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
 
   horainicial = [
     { value: '6:00', viewValue: '6:00' },

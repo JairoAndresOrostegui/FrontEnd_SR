@@ -13,7 +13,7 @@ import { RestService } from 'src/app/servicios/rest.service';
 })
 export class ConsultarreservaComponent implements OnInit {
 
-  miFormulario: FormGroup;
+  buscar: FormGroup;
   visible = false;
   verComboBoxSede = false;
   verAulas = false;
@@ -23,7 +23,16 @@ export class ConsultarreservaComponent implements OnInit {
   verDiaInicio = false;
   verJornada = false;
   verArea = false;
+  // Variable que almacena la sede para mostrar el comboBox
+  cmbSedes: any;
+  sedes: any;
   comboBox?: any;
+  cbvacio: any;
+  espacios: any;
+  cmbEspacios: any[];
+  spinner: boolean;
+  verFormConsulta: string;
+
   comboBoxSede?: any;
   comboBox2?: any;
   comboBox3?: any;
@@ -32,35 +41,74 @@ export class ConsultarreservaComponent implements OnInit {
   comboBox6?: any;
   comboBox7?: any;
   comboUnidadOrganizacional?: any;
+  arregloTipoEspacio = ['aula', 'laboratorio', 'sala de cómputo'];
 
   //Objetos quemados
   // comboBox = [{value: 1, label: 'Algebra 1'},{value: 2, label: 'Algebra 2'},{value: 3, label: 'Estadistica'},{value: 4, label: 'Lógica computacional'}];
 
-  constructor(private fb: FormBuilder,
-              private _peticion: RestService,
-              public Usuario: DatosUsuario,
-              public confirmacion: MatDialog,
-              private toastr: ToastrService ){
-                this.miFormulario = this.fb.group ({
-                  radioButton: ['jornada'],
-                  unidadOrganizacional: [''],
-                  submodulo: [''],
-                  unidadorganizacional: [''],
-                  aulas: [''],
-                  programas: [''],
-                  area: [''],
-                  diaInicio: [''],
-                  jornada: [''],
-                  usuario: [''],
-                });
-                // this._peticion.getselect('tipoespacio/combo').subscribe((respuesta) => {
-                //   this.comboBoxSede = respuesta;
-                //   this.miFormulario.controls['tipoespacio'].setValue(this.comboBoxSede[0].value);
-                // });
-                // this.cambioRadio();
+  constructor(private fb: FormBuilder, private _peticion: RestService, public Usuario: DatosUsuario, public confirmacion: MatDialog, private toastr: ToastrService ){
+    this.spinner = false;
+    this.cmbEspacios = [];
+    this.verFormConsulta = 'block';
+    this.buscar = this.fb.group ({
+      sede: [''],
+      espacios: [''],
+      /*
+      radioButton: ['jornada'],
+      unidadOrganizacional: [''],
+      submodulo: [''],
+      unidadorganizacional: [''],
+      aulas: [''],
+      programas: [''],
+      area: [''],
+      diaInicio: [''],
+      jornada: [''],
+      usuario: [''],*/
+    });
+    // Inicializamos el comboBox de sedes con las que el usuario tenga acceso de informacion
+    this._peticion.getselect('unidadrol?id_rol=' + this.Usuario.datosLogin.rol).subscribe((respuesta) => {
+      this.sedes = respuesta;
+      // Miramos si el valor retornado por la APi contiene datos
+      if (this.sedes.length > 0) {
+        this.cmbSedes = respuesta;
+        this.buscar.controls['sede'].setValue(this.cmbSedes[0].value);
+      } else {
+        this.cmbSedes = this.cbvacio;
+        this.buscar.controls['sede'].setValue(this.cmbSedes[0].value);
+      } //** FIN if */
+    });
+    // this._peticion.getselect('tipoespacio/combo').subscribe((respuesta) => {
+    //   this.comboBoxSede = respuesta;
+    //   this.miFormulario.controls['tipoespacio'].setValue(this.comboBoxSede[0].value);
+    // });
+    // this.cambioRadio();
   };
 
   ngOnInit(){
+  }
+
+  mostrarEspacios(): void {
+    this.spinner = true;
+    this.cmbEspacios = [];
+    this.verFormConsulta = 'none';
+    setTimeout(() => {
+      for (let item of this.arregloTipoEspacio) {
+        this._peticion.getunidad('unidadorganizacional/buscar?type=tipo&search=' + item + '&id_sede=' + this.buscar.value.sede).subscribe((respuesta) => {
+          if (respuesta.message != 'No hay registros') {
+            this.espacios = respuesta;
+            if (this.espacios.length != 0) {
+              for(let item of this.espacios) {
+                this.cmbEspacios.push(item);
+              }
+            }
+          }
+          this.buscar.controls['espacios'].setValue(this.cmbEspacios[0]?.id_unidad_organizacional);
+        });
+        this.spinner = false;
+      }
+      this.verFormConsulta = 'block';
+    }, 300);
+    
   }
 
   filtrarUnidadportipo() {

@@ -183,7 +183,7 @@ export class ConsultarunidadComponent implements OnInit {
       });
     } else {
       // Si hay algun filtro seleccionado y datos ingresados envia la peticion de busqueda
-      this._peticion.getrol('unidadorganizacional/buscar?type=' + this.buscar.value.filtro + '&search=' + this.buscar.value.entrada + '&id_sede=' + this.buscar.value.sede).subscribe((respuesta) => {
+      this._peticion.getunidad('unidadorganizacional/buscar?type=' + this.buscar.value.filtro + '&search=' + this.buscar.value.entrada + '&id_sede=' + this.buscar.value.sede).subscribe((respuesta) => {
         // Si en el Back hay registros muestra la tabla con todos los registros
         if (respuesta.message != 'No hay registros') {
           this.spinner = false;

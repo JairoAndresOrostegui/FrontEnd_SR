@@ -1,6 +1,29 @@
-<div class="centrar color-neutro-gris5">
-  <form [formGroup]="miFormulario" class="centrar-columna">
-    <!-- RadioButtons -->
+<app-spinner *ngIf="spinner"></app-spinner>
+
+<div class="centrar color-neutro-gris5" [ngStyle]="{'display':verFormConsulta}">
+  <form [formGroup]="buscar" class="centrar-columna">
+    <div class="centrar-fila">
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="sede">
+          <mat-option *ngFor="let item of cmbSedes" [value]="item.value" (onSelectionChange)="mostrarEspacios()">
+            {{ item.label.toUpperCase() }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <label class="fuente-pequeña mt-3">Espacios:</label>
+    <div class="centrar-fila">
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="espacios">
+          <mat-option *ngFor="let item of cmbEspacios" [value]="item.id_unidad_organizacional" (onSelectionChange)="buscarReserva()">
+            {{ item.nombre_unidad_organizacional.toUpperCase() }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+    <!-- 
     <div (change)="cambioRadio()" class="centrar mb-6 fuente-pequeña separacion-radio">
       <input formControlName="radioButton" type="radio" value="unidad_organizacional">
       <label class="centrar">Unidad organizacional</label>
@@ -12,13 +35,12 @@
       <label class="centrar">Area</label>
       <input formControlName="radioButton" type="radio" value="jornada">
       <label class="centrar">Jornada</label>
-      <!-- <input formControlName="radioButton" type="radio" value="submodulo">
+      <input formControlName="radioButton" type="radio" value="submodulo">
       <label class="centrar">Submodulo</label>
       <input formControlName="radioButton" type="radio" value="usuario">
-      <label class="centrar">Usuario</label> -->
+      <label class="centrar">Usuario</label>
     </div>
 
-    <!-- ComboBox Sede -->
     <div *ngIf="verComboBoxSede" class="centrar-fila">
       <label class="">Sede</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -29,7 +51,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <!-- ComboBox Tipos de Aulas -->
     <div *ngIf="verTipoAulas" class="centrar-fila">
       <label class="">Tipos de aulas</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -40,7 +61,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <!-- ComboBox Aulas -->
     <div *ngIf="verAulas" class="centrar-fila">
       <label class="">Aulas</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -51,7 +71,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <!-- ComboBox Convenios -->
     <div *ngIf="verConvenios" class="centrar-fila">
       <label class="">Convenios</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -62,7 +81,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <!-- ComboBox Programas -->
     <div *ngIf="verProgramas" class="centrar-fila">
       <label class="">Programas</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -73,7 +91,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <!-- ComboBox Area -->
     <div *ngIf="verArea" class="centrar-fila">
       <label class="">Area</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -84,7 +101,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <!-- ComboBox Dia Inicio -->
     <div *ngIf="verDiaInicio" class="centrar-fila">
       <label class="">Dia Inicio</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -95,7 +111,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <!-- ComboBox Jornada -->
     <div *ngIf="verJornada" class="centrar-fila">
       <label class="">Jornada</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -106,7 +121,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <!-- ComboBox Nombre Usuarios -->
     <div *ngIf="verJornada" class="centrar-fila">
       <label class="">Nombre Usuario</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -142,3 +156,5 @@
     <td>{{ item.reservaDias[0].reserva_dia_hora_fin }}</td>
   </tr>
 </table>
+-->
+
