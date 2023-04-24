@@ -14,41 +14,32 @@ import { RestService } from 'src/app/servicios/rest.service';
 export class ConsultarreservaComponent implements OnInit {
 
   buscar: FormGroup;
-  visible = false;
-  verComboBoxSede = false;
-  verAulas = false;
-  verTipoAulas = false;
-  verConvenios = false;
-  verProgramas = false;
-  verDiaInicio = false;
-  verJornada = false;
-  verArea = false;
+  visible: boolean;
+  
   // Variable que almacena la sede para mostrar el comboBox
   cmbSedes: any;
   sedes: any;
-  comboBox?: any;
   cbvacio: any;
   espacios: any;
+  arrayEspacios: any[];
   cmbEspacios: any[];
   spinner: boolean;
+  idUnidadReserva?: number;
   verFormConsulta: string;
 
-  comboBoxSede?: any;
-  comboBox2?: any;
-  comboBox3?: any;
-  comboBox4?: any;
-  comboBox5?: any;
-  comboBox6?: any;
-  comboBox7?: any;
-  comboUnidadOrganizacional?: any;
   arregloTipoEspacio = ['aula', 'laboratorio', 'sala de cómputo'];
+  semana: string[] = ['Hora', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  hora = ['06:00', '06:45', '07:30', '08:15', '09:00', '09:45', '10:30', '11:15', '12:00', '12:45', '13:30', '14:15', '15:00', '15:45',
+                '16:30','17:15', '18:15', '19:00', '19:55', '20:40', '21:25', '22:10'];
 
   //Objetos quemados
   // comboBox = [{value: 1, label: 'Algebra 1'},{value: 2, label: 'Algebra 2'},{value: 3, label: 'Estadistica'},{value: 4, label: 'Lógica computacional'}];
 
   constructor(private fb: FormBuilder, private _peticion: RestService, public Usuario: DatosUsuario, public confirmacion: MatDialog, private toastr: ToastrService ){
     this.spinner = false;
+    this.visible = false;
     this.cmbEspacios = [];
+    this.arrayEspacios = [];
     this.verFormConsulta = 'block';
     this.buscar = this.fb.group ({
       sede: [''],
@@ -90,6 +81,7 @@ export class ConsultarreservaComponent implements OnInit {
   mostrarEspacios(): void {
     this.spinner = true;
     this.cmbEspacios = [];
+    this.arrayEspacios = [];
     this.verFormConsulta = 'none';
     setTimeout(() => {
       for (let item of this.arregloTipoEspacio) {
@@ -98,17 +90,19 @@ export class ConsultarreservaComponent implements OnInit {
             this.espacios = respuesta;
             if (this.espacios.length != 0) {
               for(let item of this.espacios) {
-                this.cmbEspacios.push(item);
+                this.arrayEspacios.push(item);
               }
             }
           }
-          this.buscar.controls['espacios'].setValue(this.cmbEspacios[0]?.id_unidad_organizacional);
         });
-        this.spinner = false;
       }
+    }, 100);
+    setTimeout(() => {
+      this.cmbEspacios = this.arrayEspacios;
+      this.spinner = false;
       this.verFormConsulta = 'block';
+      this.buscar.controls['espacios'].setValue(this.cmbEspacios[0]?.id_unidad_organizacional);
     }, 300);
-    
   }
 
   filtrarUnidadportipo() {
@@ -124,7 +118,28 @@ export class ConsultarreservaComponent implements OnInit {
     // }, 50)
   }
 
+  obtenerIdReserva(id: number): void {
+    setTimeout (() => {
+      this.idUnidadReserva = id;
+    }, 150);
+  }
+
   buscarReserva(): void {
+    this.spinner = true;
+    this.verFormConsulta = 'none';
+    setTimeout (() => {
+      this._peticion.gettodasreserva('reserva/buscar?type=unidad_organizacional&search=' + this.idUnidadReserva).subscribe((respuesta) => {
+        this.Usuario.datosReserva = respuesta
+        if (this.Usuario.datosReserva.message != 'No hay registros') {
+          
+        } else {
+          this.toastr.error('No hay registros', 'Error', { timeOut: 1500 });
+        }
+        this.spinner = false;
+        this.verFormConsulta = 'block';
+        console.log(respuesta);
+      });
+    }, 400);
     // setTimeout (() => {
     //   this._peticion.gettodasreserva('reserva/buscar?type=' + this.miFormulario.value.radioButton + '&search=' + this.miFormulario.value.submodulo).subscribe((respuesta) => {
     //     console.log(respuesta)

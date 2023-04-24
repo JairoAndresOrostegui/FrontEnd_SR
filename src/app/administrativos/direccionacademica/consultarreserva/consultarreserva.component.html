@@ -15,14 +15,26 @@
     <div class="centrar-fila">
       <mat-form-field appearance="fill" class="centrar-select">
         <mat-select formControlName="espacios">
-          <mat-option *ngFor="let item of cmbEspacios" [value]="item.id_unidad_organizacional" (onSelectionChange)="buscarReserva()">
+          <mat-option *ngFor="let item of cmbEspacios" [value]="item.id_unidad_organizacional" (onSelectionChange)="obtenerIdReserva(item.id_unidad_organizacional)">
             {{ item.nombre_unidad_organizacional.toUpperCase() }}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
+    <div class="centrar-fila mt-3 fuente-pequeña">
+      <button (click)="buscarReserva()" class="icono icono-buscar contorno-nulo fusion-boton" matTooltip="Buscar resreva en este espacio"></button>
+    </div>
   </form>
 </div>
+
+<table  class="espacio-trabajo centrar-texto" cellpadding="7">
+  <tr *ngFor="let item of semana" class="fuente-pequeña">
+    <th>{{ item }}</th>
+  </tr>
+  <tr *ngFor="let item of hora" class="fuente-cuerpo-tabla borde-tabla">
+    <td>{{ item }}</td>
+  </tr>
+</table>
     <!-- 
     <div (change)="cambioRadio()" class="centrar mb-6 fuente-pequeña separacion-radio">
       <input formControlName="radioButton" type="radio" value="unidad_organizacional">

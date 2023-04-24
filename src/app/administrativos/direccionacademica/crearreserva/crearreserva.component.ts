@@ -65,7 +65,8 @@ export class CrearreservaComponent implements OnInit {
     { value: '20:40', viewValue: '20:40' },
     { value: '21:25', viewValue: '21:25' },
     { value: '22:10', viewValue: '22:10' },
-  ]
+  ];
+
   horafinal = [
     { value: '6:45', viewValue: '6:45' },
     { value: '7:30', viewValue: '7:30' },
@@ -89,7 +90,7 @@ export class CrearreservaComponent implements OnInit {
     { value: '21:25', viewValue: '21:25' },
     { value: '22:10', viewValue: '22:10' },
     { value: '22:55', viewValue: '22:55' }
-  ]
+  ];
 
   //Objetos quemados
   //Submodulos
