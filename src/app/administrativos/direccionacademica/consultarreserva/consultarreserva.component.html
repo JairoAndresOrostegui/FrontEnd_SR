@@ -31,8 +31,20 @@
   <tr class="fuente-pequeña">
     <th *ngFor="let item of semana">{{ item }}</th>
   </tr>
-  <tr *ngFor="let item of hora" class="fuente-cuerpo-tabla borde-tabla">
-    <td>{{ item }}</td>
+  <tr *ngFor="let item of objReserva; let i = index" class="fuente-cuerpo-tabla borde-tabla color-alerta-verde">
+    <td>{{ hora[i] }}</td>
+    <td *ngIf="item[0] === 0">Libre</td>
+    <td *ngIf="item[0] != 0" [ngClass]="{'color-alerta-rojo':item[0] != 0}">Reservado</td>
+    <td *ngIf="item[1] === 0">Libre</td>
+    <td *ngIf="item[1] != 0" [ngClass]="{'color-alerta-rojo':item[1] != 0}">Reservado</td>
+    <td *ngIf="item[2] === 0">Libre</td>
+    <td *ngIf="item[2] != 0" [ngClass]="{'color-alerta-rojo':item[2] != 0}">Reservado</td>
+    <td *ngIf="item[3] === 0">Libre</td>
+    <td *ngIf="item[3] != 0" [ngClass]="{'color-alerta-rojo':item[3] != 0}">Reservado</td>
+    <td *ngIf="item[4] === 0">Libre</td>
+    <td *ngIf="item[4] != 0" [ngClass]="{'color-alerta-rojo':item[4] != 0}">Reservado</td>
+    <td *ngIf="item[5] === 0">Libre</td>
+    <td *ngIf="item[5] != 0" [ngClass]="{'color-alerta-rojo':item[5] != 0}">Reservado</td>
   </tr>
 </table>
     <!-- 

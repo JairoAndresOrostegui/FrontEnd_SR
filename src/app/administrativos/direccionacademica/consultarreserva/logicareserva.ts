@@ -6,7 +6,7 @@ import { Injectable } from "@angular/core";
 
 export class logicaReserva {
 
-  crearObjeto(reserva: any): void {
+  crearObjeto(reserva: any): any[] {
     var arraySemana= new Array(22);
     for(let i = 0; i < 22; i++) {
       arraySemana[i] = new Array(6);
@@ -1618,7 +1618,7 @@ export class logicaReserva {
         }
       }
     }
-    console.log(arraySemana);
+    return arraySemana;
   }
 
 }

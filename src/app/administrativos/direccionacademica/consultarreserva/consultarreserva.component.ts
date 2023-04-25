@@ -23,11 +23,13 @@ export class ConsultarreservaComponent implements OnInit {
   espacios: any;
   arrayEspacios: any[];
   cmbEspacios: any[];
+  objReserva: any[];
   spinner: boolean;
   idUnidadReserva?: number;
   verFormConsulta: string;
 
   arregloTipoEspacio = ['aula', 'laboratorio', 'sala de cómputo'];
+  
   semana: string[] = ['Hora', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   hora = ['06:00', '06:45', '07:30', '08:15', '09:00', '09:45', '10:30', '11:15', '12:00', '12:45', '13:30', '14:15', '15:00', '15:45',
                 '16:30','17:15', '18:15', '19:00', '19:55', '20:40', '21:25', '22:10'];
@@ -41,6 +43,7 @@ export class ConsultarreservaComponent implements OnInit {
     this.visible = false;
     this.cmbEspacios = [];
     this.arrayEspacios = [];
+    this.objReserva = [];
     this.verFormConsulta = 'block';
     this.buscar = this.fb.group ({
       sede: [''],
@@ -134,7 +137,7 @@ export class ConsultarreservaComponent implements OnInit {
       this._peticion.gettodasreserva('reserva/buscar?type=unidad_organizacional&search=' + this.idUnidadReserva).subscribe((respuesta) => {
         this.Usuario.datosReserva = respuesta
         if (this.Usuario.datosReserva.message != 'No hay registros') {
-          this.logReserva.crearObjeto(this.Usuario.datosReserva);
+          this.objReserva = this.logReserva.crearObjeto(this.Usuario.datosReserva);
         } else {
           this.toastr.error('No hay registros', 'Error', { timeOut: 1500 });
         }
