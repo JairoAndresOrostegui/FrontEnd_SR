@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { ConfirmarComponent } from 'src/app/compartidos/confirmar/confirmar.component';
 import { DatosUsuario } from 'src/app/modelos/modelosData';
 import { RestService } from 'src/app/servicios/rest.service';
+import { logicaReserva } from './logicareserva';
 
 @Component({
   selector: 'app-consultarreserva',
@@ -35,7 +35,8 @@ export class ConsultarreservaComponent implements OnInit {
   //Objetos quemados
   // comboBox = [{value: 1, label: 'Algebra 1'},{value: 2, label: 'Algebra 2'},{value: 3, label: 'Estadistica'},{value: 4, label: 'Lógica computacional'}];
 
-  constructor(private fb: FormBuilder, private _peticion: RestService, public Usuario: DatosUsuario, public confirmacion: MatDialog, private toastr: ToastrService ){
+  constructor(private fb: FormBuilder, private _peticion: RestService, public Usuario: DatosUsuario, public confirmacion: MatDialog,
+              private toastr: ToastrService, private logReserva: logicaReserva ){
     this.spinner = false;
     this.visible = false;
     this.cmbEspacios = [];
@@ -80,6 +81,7 @@ export class ConsultarreservaComponent implements OnInit {
 
   mostrarEspacios(): void {
     this.spinner = true;
+    this.visible = false;
     this.cmbEspacios = [];
     this.arrayEspacios = [];
     this.verFormConsulta = 'none';
@@ -125,19 +127,20 @@ export class ConsultarreservaComponent implements OnInit {
   }
 
   buscarReserva(): void {
+    this.visible = false;
     this.spinner = true;
     this.verFormConsulta = 'none';
     setTimeout (() => {
       this._peticion.gettodasreserva('reserva/buscar?type=unidad_organizacional&search=' + this.idUnidadReserva).subscribe((respuesta) => {
         this.Usuario.datosReserva = respuesta
         if (this.Usuario.datosReserva.message != 'No hay registros') {
-          
+          this.logReserva.crearObjeto(this.Usuario.datosReserva);
         } else {
           this.toastr.error('No hay registros', 'Error', { timeOut: 1500 });
         }
         this.spinner = false;
+        this.visible = true;
         this.verFormConsulta = 'block';
-        console.log(respuesta);
       });
     }, 400);
     // setTimeout (() => {

@@ -27,9 +27,9 @@
   </form>
 </div>
 
-<table  class="espacio-trabajo centrar-texto" cellpadding="7">
-  <tr *ngFor="let item of semana" class="fuente-pequeña">
-    <th>{{ item }}</th>
+<table *ngIf="visible" class="espacio-trabajo centrar-texto" cellpadding="7">
+  <tr class="fuente-pequeña">
+    <th *ngFor="let item of semana">{{ item }}</th>
   </tr>
   <tr *ngFor="let item of hora" class="fuente-cuerpo-tabla borde-tabla">
     <td>{{ item }}</td>
