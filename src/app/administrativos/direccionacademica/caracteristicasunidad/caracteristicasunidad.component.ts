@@ -244,7 +244,11 @@ export class CaracteristicasunidadComponent implements OnInit {
             this.spinner = false;
             this.volver = true;
             this.toastr.success('Característica creada con exito', 'Exitoso', { timeOut: 1500 });
-            this.txtcaracteristica = this.actualizar.value.nombreactualizar.toLowerCase();
+            if (this.txtboton === 'Crear') {
+              this.txtcaracteristica = '';
+            } else {
+              this.txtcaracteristica = this.actualizar.value.nombreactualizar.toLowerCase();
+            }
             this.txtestadocaracteristica = this.actualizar.value.estadoactualizar.toLowerCase();
             this.verFormActualizar = 'block';
           }, 300);

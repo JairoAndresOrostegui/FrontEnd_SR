@@ -49,7 +49,7 @@
     </tr>
     <tr *ngFor="let item of Usuario.datosUnidad | paginate: { itemsPerPage: page_size, currentPage: page_number }" class="fuente-cuerpo-tabla borde-tabla">
       <td>{{ item.nombre_tipo_espacio }}</td>
-      <td><button (click)="mostrarUnidad(item.id_unidad_organizacional)"
+      <td><button (click)="mostrarUnidad(item.id_unidad_organizacional)" matTooltip="Consultar unidad"
           class="boton-enlace fuente-link color-basico-magenta fusion-invertida">{{ item.nombre_unidad_organizacional
           }}</button></td>
       <td>{{ item.capacidad_unidad_organizacional }}</td>

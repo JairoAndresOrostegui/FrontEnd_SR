@@ -10,15 +10,22 @@ export interface UserData {
   id_persona:                   number;
   primer_nombre_persona:        string;
   primer_apellido_persona:      string;
+  id_rol:                       number;
   nombre_rol:                   string;
   id_unidad_organizacional:     number;
   nombre_unidad_organizacional: string;
+  nivel_rol:                    number;
+  rol_estapcio:                 Rol_espacio[];
   componente:                   Componente[];
+}
+
+export interface Rol_espacio {
+  value:   number;
+  label:   string;
 }
 
 export interface Componente {
   nombre_componente:  string;
-  estado:             boolean;
   funcionalidad:      Funcionalidad[];
 }
 

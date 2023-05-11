@@ -1,12 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Login2 } from '../modelos/autenticacion/login2';
 import { Rol } from '../modelos/autenticacion/rol';
 import { Respuesta, Select } from '../modelos/genericos/listas';
 import { ObtenerReserva } from '../modelos/reservas/reserva';
 import { Unidad } from '../modelos/unidadesOrganizacionales/unidad';
 import { Caracteristica, Tipoespaciofisico } from '../modelos/unidadesOrganizacionales/unidad';
+import { Login } from '../modelos/autenticacion/login';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +21,8 @@ export class RestService {
   ) { }
 
   //Confirma las credenciales de autenticacion y trae toda su informaion y menu
-  public login(url: string) {
-    return this.http.get<Login2>(this.apiurl + url)
+  public login(url: string, body: any) {
+    return this.http.post<Login>(this.apiurl + url, body)
   }
 
   //Llenar los Select para los combobox de sede

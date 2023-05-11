@@ -221,6 +221,7 @@ export class TipounidadComponent implements OnInit {
             this.urlimagen = './../../assets/img/iconos/cerrar.svg';
             this.toastr.warning('Ese tipo de espacio ya existe', 'Alerta', { timeOut: 1500 }); // Muestra el mensaje que alerta la existencia de un registro con igual nombre
             this.verFormActualizar = 'block';
+            this.txttipoespacio = '';
           }, 300);
         }
       });
@@ -244,7 +245,11 @@ export class TipounidadComponent implements OnInit {
             this.spinner = false;
             this.volver = true;
             this.toastr.success('Tipo de espacio creado con exito', 'Exitoso', { timeOut: 1500 });
-            this.txttipoespacio = this.actualizar.value.nombreactualizar.toLowerCase();
+            if (this.txtboton === 'Crear') {
+              this.txttipoespacio = '';
+            } else {
+              this.txttipoespacio = this.actualizar.value.nombreactualizar.toLowerCase();
+            }
             this.txtestadotipo = this.actualizar.value.estadoactualizar.toLowerCase();
             this.verFormActualizar = 'block';
           }, 300);
