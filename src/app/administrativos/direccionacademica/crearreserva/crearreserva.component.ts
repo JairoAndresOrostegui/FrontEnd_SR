@@ -40,65 +40,69 @@ export class CrearreservaComponent implements OnInit {
   // Temporal
   cbencargado?: any;
 
-  semana: string[] = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
+  semana: string[] = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
 
   horainicial = [
-    { value: '6:00', viewValue: '6:00' },
-    { value: '6:45', viewValue: '6:45' },
-    { value: '7:30', viewValue: '7:30' },
-    { value: '8:15', viewValue: '8:15' },
-    { value: '9:00', viewValue: '9:00' },
-    { value: '9:45', viewValue: '9:45' },
-    { value: '10:30', viewValue: '10:30' },
-    { value: '11:15', viewValue: '11:15' },
-    { value: '12:00', viewValue: '12:00' },
-    { value: '12:45', viewValue: '12:45' },
-    { value: '13:30', viewValue: '13:30' },
-    { value: '14:15', viewValue: '14:15' },
-    { value: '15:00', viewValue: '15:00' },
-    { value: '15:45', viewValue: '15:45' },
-    { value: '16:30', viewValue: '16:30' },
-    { value: '17:15', viewValue: '17:15' },
-    { value: '18:15', viewValue: '18:15' },
-    { value: '19:00', viewValue: '19:00' },
-    { value: '19:55', viewValue: '19:55' },
-    { value: '20:40', viewValue: '20:40' },
-    { value: '21:25', viewValue: '21:25' },
-    { value: '22:10', viewValue: '22:10' },
+    { value: 600, viewValue: '6:00' },
+    { value: 645, viewValue: '6:45' },
+    { value: 730, viewValue: '7:30' },
+    { value: 815, viewValue: '8:15' },
+    { value: 900, viewValue: '9:00' },
+    { value: 945, viewValue: '9:45' },
+    { value: 1030, viewValue: '10:30' },
+    { value: 1115, viewValue: '11:15' },
+    { value: 1200, viewValue: '12:00' },
+    { value: 1245, viewValue: '12:45' },
+    { value: 1330, viewValue: '13:30' },
+    { value: 1415, viewValue: '14:15' },
+    { value: 1500, viewValue: '15:00' },
+    { value: 1545, viewValue: '15:45' },
+    { value: 1630, viewValue: '16:30' },
+    { value: 1715, viewValue: '17:15' },
+    { value: 1815, viewValue: '18:15' },
+    { value: 1900, viewValue: '19:00' },
+    { value: 1955, viewValue: '19:55' },
+    { value: 2040, viewValue: '20:40' },
+    { value: 2125, viewValue: '21:25' },
+    { value: 2210, viewValue: '22:10' }
   ];
 
   horafinal = [
-    { value: '6:45', viewValue: '6:45' },
-    { value: '7:30', viewValue: '7:30' },
-    { value: '8:15', viewValue: '8:15' },
-    { value: '9:00', viewValue: '9:00' },
-    { value: '9:45', viewValue: '9:45' },
-    { value: '10:30', viewValue: '10:30' },
-    { value: '11:15', viewValue: '11:15' },
-    { value: '12:00', viewValue: '12:00' },
-    { value: '12:45', viewValue: '12:45' },
-    { value: '13:30', viewValue: '13:30' },
-    { value: '14:15', viewValue: '14:15' },
-    { value: '15:00', viewValue: '15:00' },
-    { value: '15:45', viewValue: '15:45' },
-    { value: '16:30', viewValue: '16:30' },
-    { value: '17:15', viewValue: '17:15' },
-    { value: '18:00', viewValue: '18:00' },
-    { value: '19:00', viewValue: '19:00' },
-    { value: '19:45', viewValue: '19:45' },
-    { value: '20:40', viewValue: '20:40' },
-    { value: '21:25', viewValue: '21:25' },
-    { value: '22:10', viewValue: '22:10' },
-    { value: '22:55', viewValue: '22:55' }
+    { value: 645, viewValue: '6:45' },
+    { value: 730, viewValue: '7:30' },
+    { value: 815, viewValue: '8:15' },
+    { value: 900, viewValue: '9:00' },
+    { value: 945, viewValue: '9:45' },
+    { value: 1030, viewValue: '10:30' },
+    { value: 1115, viewValue: '11:15' },
+    { value: 1200, viewValue: '12:00' },
+    { value: 1245, viewValue: '12:45' },
+    { value: 1330, viewValue: '13:30' },
+    { value: 1415, viewValue: '14:15' },
+    { value: 1500, viewValue: '15:00' },
+    { value: 1545, viewValue: '15:45' },
+    { value: 1630, viewValue: '16:30' },
+    { value: 1715, viewValue: '17:15' },
+    { value: 1815, viewValue: '18:15' },
+    { value: 1900, viewValue: '19:00' },
+    { value: 1955, viewValue: '19:55' },
+    { value: 2040, viewValue: '20:40' },
+    { value: 2125, viewValue: '21:25' },
+    { value: 2210, viewValue: '22:10' },
+    { value: 2255, viewValue: '22:55' }
   ];
+
+  verificarHora(): void {
+    if(this.crearreserva.value.horafin <= this.crearreserva.value.horainicio) {
+      this.toastr.warning('La hora fin debe ser mayor a la hora de inicio.', 'Exitoso', { timeOut: 1500 });
+    }
+  }
 
   //Objetos quemados
   //Submodulos
   submodulos = [{ value: 1, label: 'Algebra 1' }, { value: 2, label: 'Algebra 2' }, { value: 3, label: 'Estadistica' }, { value: 4, label: 'Lógica computacional' }];
   //Programa
   programas = [{ value: 1, label: 'Ingeniería Industrial' }, { value: 2, label: 'Ingeniería Mecánica' }, { value: 3, label: 'Ingeniería Robótica y Mecatrónica' }, { value: 4, label: 'Ingeniería de Sistemas' }];
-  // Sede
-  sede = [{ value: 1, label: 'Medellín' }, { value: 2, label: 'Bogotá' }, { value: 2, label: 'Oriente' }, { value: 3, label: 'Suroeste' }, { value: 4, label: 'Norte' }, { value: 5, label: 'Apartadó' }];
   // Grupos
   grupos = [{ value: 1, label: '1A' }, { value: 2, label: '2V' }, { value: 3, label: '4C' }, { value: 4, label: '6H' }];
   // Usuario
@@ -113,8 +117,8 @@ export class CrearreservaComponent implements OnInit {
     this.crearreserva = this.fb.group({
       fechainicio: ['', Validators.required],
       fechafin: ['', Validators.required],
-      horainicio: ['6:00'],
-      horafin: ['6:45'],
+      horainicio: [600],
+      horafin: [645],
       estado: ['disponible'],
       sede: '',
       programa: [''],
