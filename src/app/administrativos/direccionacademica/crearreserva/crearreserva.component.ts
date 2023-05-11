@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { DatosUsuario } from 'src/app/modelos/modelosData';
 import { RestService } from 'src/app/servicios/rest.service';
 
 @Component({
@@ -102,16 +103,17 @@ export class CrearreservaComponent implements OnInit {
   //Submodulos
   submodulos = [{ value: 1, label: 'Algebra 1' }, { value: 2, label: 'Algebra 2' }, { value: 3, label: 'Estadistica' }, { value: 4, label: 'Lógica computacional' }];
   //Programa
-  programas = [{ value: 1, label: 'Ingeniería Industrial' }, { value: 2, label: 'Ingeniería Mecánica' }, { value: 3, label: 'Ingeniería Robótica y Mecatrónica' }, { value: 4, label: 'Ingeniería de Sistemas' }];
+  programas = [{ value: 'CN', label: 'Ingeniería Industrial' }, { value: 'UL', label: 'Ingeniería de Sistemas' }];
   // Grupos
-  grupos = [{ value: 1, label: '1A' }, { value: 2, label: '2V' }, { value: 3, label: '4C' }, { value: 4, label: '6H' }];
-  // Usuario
-  usuario = [{value: 1, label: 'David Alvarez'}];
+  grupos = [{ value: 1, label: '1A' }, { value: 2, label: '1B' }, { value: 3, label: '2A' }, { value: 4, label: '2B' }];
   // Encargados
-  encargados = [{value: 1, label: 'Carlos Docente'},{value: 2, label: 'Manuel Docente'},{value: 3, label: 'Jorge Docente'}]
+  encargados = [{value: 1, label: 'Carlos Docente'},{value: 2, label: 'Jaime Docente'},{value: 3, label: 'Jorge Docente'}];
+
+  cbniveles = [{ value: 1, label: '1' }, { value: 2, label: '2' }];
+  listaUnidades1 = [{ value: 1, label: 'Aula 225' }, { value: 2, label: 'Laboratorio 1' }];
 
 
-  constructor(private fb: FormBuilder,
+  constructor(private fb: FormBuilder, private autenticacion: DatosUsuario,
     private toastr: ToastrService,
     private peticion: RestService) {
     this.crearreserva = this.fb.group({
@@ -125,6 +127,7 @@ export class CrearreservaComponent implements OnInit {
       tipo: '',
       submodulo: '',
       dia: [''],
+      nivel: [1],
       grupo: [''],
       usuariopersona: [''],
       encargado: [''],
@@ -134,16 +137,18 @@ export class CrearreservaComponent implements OnInit {
       capacidad: 1,
       observaciones: ['']
     });
-    // Petición que llama y pide el tipo de espacio lo almacena en la variable y le establece el valor inicial que se encuentre ne la BD
-    this.peticion.getselect('tipoespacio/combo').subscribe((respuesta) => {
-      this.cbtipoespacio = respuesta;
-      this.crearreserva.controls['tipo'].setValue(this.cbtipoespacio[0].value);
-    });
+    //Se muestran los tipo de espacio almacenados la BD para el usuario actual
+    this.cbtipoespacio = this.autenticacion.datosLogin.User.rol_espacio;
+    this.crearreserva.controls['tipo'].setValue(this.cbtipoespacio[0].value);
     // Petición que llama y pide sedes lo almacena en la variable y le establece el valor inicial que se encuentre ne la BD
-    this.peticion.getselect('unidadorganizacional/combo/'+9).subscribe((respuesta) => {
+    /*this.peticion.getselect('unidadorganizacional/combo/'+9).subscribe((respuesta) => {
       this.sedes = respuesta;
       this.crearreserva.controls['sede'].setValue(this.sedes[0].value);
-    });
+    });*/
+    this.sedes = this.autenticacion.datosLogin.User.unidad_rol;
+    this.crearreserva.controls['sede'].setValue(this.sedes[0].value);
+    this.cbusuarios = [{ value: this.autenticacion.datosLogin.User.id_usuario, label: this.autenticacion.datosLogin.User.nombre_rol }];
+    this.crearreserva.controls['usuariopersona'].setValue(this.cbusuarios[0].value);
     // Petición que llama y pide programa lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
     this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
       this.cbprograma = this.programas;
@@ -161,8 +166,8 @@ export class CrearreservaComponent implements OnInit {
     });
     // Petición que llama y pide el el usuario y encargado  y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
     this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
-      this.cbusuarios = this.usuario;
-      this.crearreserva.controls['usuariopersona'].setValue(this.cbusuarios[0].value);
+      /*this.cbusuarios = this.usuario;
+      this.crearreserva.controls['usuariopersona'].setValue(this.cbusuarios[0].value);*/
       this.cbencargado = this.encargados;
       this.crearreserva.controls['encargado'].setValue(this.cbencargado[0].value);
     });
@@ -183,7 +188,7 @@ export class CrearreservaComponent implements OnInit {
         this.crearreserva.controls[control].markAsTouched();
       }
       return;
-    }
+    };/*
     this.objetoreserva = {
       id_unidad_organizacional_padre: this.crearreserva.value.sede,
       id_tipo_espacio: this.crearreserva.value.tipo,
@@ -195,7 +200,8 @@ export class CrearreservaComponent implements OnInit {
       id_caracteristica: this.crearreserva.value.caracteristica,
       capacidad_unidad_organizacional: this.crearreserva.value.capacidad,
       estado: this.crearreserva.value.estado
-    }
+    };
+    console.log(this.objetoreserva);
     // Realiza la busqueda segun el objeto que ingreso el usuario
     this.peticion.postreserva('unidadorganizacional/reserva', this.objetoreserva).subscribe((respuesta) => {
       if (this.crearreserva.value.estado === 'disponible') {
@@ -207,7 +213,9 @@ export class CrearreservaComponent implements OnInit {
         this.listaUnidades = this.cbvacio;
       }
       this.crearreserva.controls['disponibles'].setValue(this.listaUnidades[0].value);
-    });
+    });*/
+    this.listaUnidades = this.listaUnidades1;
+    this.crearreserva.controls['disponibles'].setValue(this.listaUnidades[0].value);
   }
   // Crea la reserva segun el dato escogido por el usuario ingresado
   crearReserva() {
@@ -222,27 +230,25 @@ export class CrearreservaComponent implements OnInit {
       return;
     }
     const objetogrupo = this.grupos.filter( item =>  item.value === this.crearreserva.value.grupo);
-    const objetonombreusuarioreserva = this.encargados.filter( item => item.value === this.crearreserva.value.encargado);
-    const objetocolaborador = this.usuario.filter( item => item.value === this.crearreserva.value.usuariopersona)
+    const objetocolaborador = this.encargados.filter( item => item.value === this.crearreserva.value.encargado)
     const objetoprograma = this.programas.filter( item => item.value === this.crearreserva.value.programa);
     this.objetoreserva = {
       id_reserva:0,
       id_unidad_organizacional: this.crearreserva.value.disponibles,
-      identificador_grupo: this.crearreserva.value.grupo,
+      identificador_grupo: 0,
       nombre_grupo: objetogrupo[0].label,
-      id_usuario_reserva: objetogrupo[0].value,
-      nombre_usuario_reserva: objetonombreusuarioreserva[0].label,
+      id_usuario_reserva: this.crearreserva.value.usuariopersona,
       fecha_inicio_reserva: this.crearreserva.value.fechainicio,
       fecha_fin_reserva: this.crearreserva.value.fechafin,
       descripcion_reserva: this.crearreserva.value.observaciones,
       estado_reserva: this.crearreserva.value.estado,
       id_usuario_colaborador: objetocolaborador[0].value,
       nombre_usuario_colaborador: objetocolaborador[0].label,
-      nivel: 99,
-      codigo_programa: objetoprograma[0].label,
+      nivel: this.crearreserva.value.nivel,
+      codigo_programa: objetoprograma[0].value,
       nombre_programa: objetoprograma[0].label,
-      id_rol: 99,
-      escuela: 99,
+      submodulo: this.crearreserva.value.submodulo,
+      id_rol: this.autenticacion.datosLogin.rol,
       reservaDia: {
         id_reserva: 0,
         reserva_dia_dia: this.crearreserva.value.dia,

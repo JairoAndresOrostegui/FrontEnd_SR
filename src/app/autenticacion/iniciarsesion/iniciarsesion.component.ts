@@ -67,7 +67,9 @@ export class IniciarsesionComponent implements OnInit {
                 this._peticion.token = this.logueo.token;
                 // Almacene los datos del login
                 this.autenticacion.datosLogin = this.logueo.user.componente;
-                // Almacena el rol del login=
+                // Almacena las unidades del usuario
+                this.autenticacion.datosLogin.User = this.logueo.user;
+                // Almacena el rol del login
                 this.autenticacion.datosLogin.rol = this.logueo.user.id_rol;
                 // Almacena las funcionalidades activas en la varible global 
                 this.autenticacion.funcionalidadActiva = this.autenticacion.datosLogin[0].funcionalidad[0].nombre_funcionalidad;

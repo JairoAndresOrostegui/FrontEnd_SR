@@ -1,1 +1,49 @@
-<p>actualizarreserva works!</p>
+<app-spinner *ngIf="spinner"></app-spinner>
+
+<div class="centrar color-neutro-gris5" [ngStyle]="{'display':verFormConsulta}">
+  <form [formGroup]="buscar" class="centrar-columna">
+    <div class="centrar-fila">
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="sede">
+          <mat-option *ngFor="let item of cmbSedes" [value]="item.value" (onSelectionChange)="mostrarEspacios()">
+            {{ item.label.toUpperCase() }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <label class="fuente-pequeña mt-3">Espacios:</label>
+    <div class="centrar-fila">
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="espacios">
+          <mat-option *ngFor="let item of cmbEspacios" [value]="item.id_unidad_organizacional" (onSelectionChange)="obtenerIdReserva(item.id_unidad_organizacional)">
+            {{ item.nombre_unidad_organizacional.toUpperCase() }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="centrar-fila mt-3 fuente-pequeña">
+      <button (click)="buscarReserva()" class="icono icono-buscar contorno-nulo fusion-boton" matTooltip="Buscar resreva en este espacio"></button>
+    </div>
+  </form>
+</div>
+
+<table *ngIf="visible" class="espacio-trabajo centrar-texto" cellpadding="7">
+  <tr class="fuente-pequeña">
+    <th *ngFor="let item of semana">{{ item }}</th>
+  </tr>
+  <tr *ngFor="let item of objReserva; let i = index" class="fuente-cuerpo-tabla borde-tabla color-alerta-verde">
+    <td>{{ hora[i] }}</td>
+    <td *ngIf="item[0] === 0">Libre</td>
+    <td *ngIf="item[0] != 0" [ngClass]="{'color-alerta-rojo':item[0] != 0}">Reservado</td>
+    <td *ngIf="item[1] === 0">Libre</td>
+    <td *ngIf="item[1] != 0" [ngClass]="{'color-alerta-rojo':item[1] != 0}">Reservado</td>
+    <td *ngIf="item[2] === 0">Libre</td>
+    <td *ngIf="item[2] != 0" [ngClass]="{'color-alerta-rojo':item[2] != 0}">Reservado</td>
+    <td *ngIf="item[3] === 0">Libre</td>
+    <td *ngIf="item[3] != 0" [ngClass]="{'color-alerta-rojo':item[3] != 0}">Reservado</td>
+    <td *ngIf="item[4] === 0">Libre</td>
+    <td *ngIf="item[4] != 0" [ngClass]="{'color-alerta-rojo':item[4] != 0}">Reservado</td>
+    <td *ngIf="item[5] === 0">Libre</td>
+    <td *ngIf="item[5] != 0" [ngClass]="{'color-alerta-rojo':item[5] != 0}">Reservado</td>
+  </tr>
+</table>

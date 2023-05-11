@@ -33,7 +33,11 @@
 
 .caja {
   height: 97px;
-  width: 395px;
+  width: 33vw;
+}
+
+.boton-principal {
+  width: 80px;
 }
 
 table {
@@ -46,5 +50,9 @@ table {
     flex-direction: column;
     align-items: center;
     margin: 0;
+  }
+  .caja {
+    height: 97px;
+    width: 40vw;
   }
 }
