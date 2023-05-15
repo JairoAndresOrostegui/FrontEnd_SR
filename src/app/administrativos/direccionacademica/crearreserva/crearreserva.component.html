@@ -3,7 +3,7 @@
     <div>
       <div class="centrar-fila">
         <label class="fuente-pequeña">Fecha de inicio(*):</label>
-        <input type="date" class="entrada-texto fondo-basico-blanco" formControlName="fechainicio">
+        <input type="date" class="entrada-texto fondo-basico-blanco" formControlName="fechainicio" min="2023-06-18">
       </div>
       <span *ngIf="crearreserva.get('fechainicio')?.hasError('required') && crearreserva.get('fechainicio')?.touched"
           class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Este campo es requerido</span>
@@ -11,7 +11,7 @@
     <div>
       <div class="centrar-fila">
         <label class="fuente-pequeña">Fecha de finalización(*):</label>
-        <input type="date" class="entrada-texto fondo-basico-blanco" formControlName="fechafin">
+        <input type="date" class="entrada-texto fondo-basico-blanco" formControlName="fechafin" min="2023-06-18">
       </div>
       <span *ngIf="crearreserva.get('fechafin')?.hasError('required') && crearreserva.get('fechafin')?.touched"
           class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Este campo es requerido</span>
@@ -131,14 +131,18 @@
     </div>
   </div>
   <div class="fila">
-    <div class="centrar-fila">
-      <label class="fuente-pequeña">Dia:</label>
-      <mat-form-field appearance="fill" class="centrar-select">
-        <mat-label>Dia de la semana</mat-label>
-        <mat-select formControlName="dia" multiple>
-          <mat-option *ngFor="let item of semana" [value]="item">{{item}}</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <div class="centrar-columna">
+      <div class="centrar-fila">
+        <label class="fuente-pequeña">Dia:</label>
+        <mat-form-field appearance="fill" class="centrar-select">
+          <mat-label>Dia de la semana</mat-label>
+          <mat-select formControlName="dia" multiple>
+            <mat-option *ngFor="let item of semana" [value]="item">{{item}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <span *ngIf="crearreserva.get('dia')?.hasError('required') && crearreserva.get('dia')?.touched"
+          class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">Este campo es requerido</span>
     </div>
     <div class="centrar-fila">
       <label class="fuente-pequeña">Característica:</label>
@@ -155,6 +159,8 @@
     <div class="centrar-fila">
       <label class="fuente-pequeña">Capacidad mínima:</label>
       <input class="entrada-texto fondo-basico-blanco" min="1" formControlName="capacidad" type="number">
+      <span *ngIf="crearreserva.get('capacidad')?.hasError('required') && crearreserva.get('capacidad')?.touched"
+          class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">La capacidad debe ser mínimo: 1</span>
     </div>
     <div class="centrar-fila">
       <label class="fuente-pequeña">Encargado:</label>

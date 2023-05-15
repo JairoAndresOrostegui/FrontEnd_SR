@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DatosUsuario } from 'src/app/modelos/modelosData';
+import { ReservaDia } from 'src/app/modelos/reservas/reserva';
 import { RestService } from 'src/app/servicios/rest.service';
 
 @Component({
@@ -101,14 +102,14 @@ export class CrearreservaComponent implements OnInit {
 
   //Objetos quemados
   //Submodulos
-  submodulos = [{ value: 1, label: 'Algebra 1' }, { value: 2, label: 'Algebra 2' }, { value: 3, label: 'Estadistica' }, { value: 4, label: 'Lógica computacional' }];
+  submodulos = [{ value: 'Algebra 1', label: 'Algebra 1' }, { value: 'Algebra 2', label: 'Algebra 2' },
+                { value: 'Estadística', label: 'Estadística' }, { value: 'Lógica computacional', label: 'Lógica computacional' }];
   //Programa
   programas = [{ value: 'CN', label: 'Ingeniería Industrial' }, { value: 'UL', label: 'Ingeniería de Sistemas' }];
   // Grupos
   grupos = [{ value: 1, label: '1A' }, { value: 2, label: '1B' }, { value: 3, label: '2A' }, { value: 4, label: '2B' }];
   // Encargados
   encargados = [{value: 1, label: 'Carlos Docente'},{value: 2, label: 'Jaime Docente'},{value: 3, label: 'Jorge Docente'}];
-
   cbniveles = [{ value: 1, label: '1' }, { value: 2, label: '2' }];
   listaUnidades1 = [{ value: 1, label: 'Aula 225' }, { value: 2, label: 'Laboratorio 1' }];
 
@@ -126,7 +127,7 @@ export class CrearreservaComponent implements OnInit {
       programa: [''],
       tipo: '',
       submodulo: '',
-      dia: [''],
+      dia: ['', Validators.required],
       nivel: [1],
       grupo: [''],
       usuariopersona: [''],
@@ -150,27 +151,27 @@ export class CrearreservaComponent implements OnInit {
     this.cbusuarios = [{ value: this.autenticacion.datosLogin.User.id_usuario, label: this.autenticacion.datosLogin.User.nombre_rol }];
     this.crearreserva.controls['usuariopersona'].setValue(this.cbusuarios[0].value);
     // Petición que llama y pide programa lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
-    this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
+    //this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
       this.cbprograma = this.programas;
       this.crearreserva.controls['programa'].setValue(this.cbprograma[0].value);
-    });
+    //});
     // Petición que llama y pid eel grupo y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
-    this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
+    //this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
       this.cbgrupos = this.grupos;
       this.crearreserva.controls['grupo'].setValue(this.cbgrupos[0].value);
-    });
+    //});
     // Petición que llama y pide el mdoulo y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
-    this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
+    //this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
       this.cbsubmodulo = this.submodulos;
       this.crearreserva.controls['submodulo'].setValue(this.cbsubmodulo[0].value);
-    });
+    //});
     // Petición que llama y pide el el usuario y encargado  y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
-    this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
-      /*this.cbusuarios = this.usuario;
+    /*this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
+      this.cbusuarios = this.usuario;
       this.crearreserva.controls['usuariopersona'].setValue(this.cbusuarios[0].value);*/
       this.cbencargado = this.encargados;
       this.crearreserva.controls['encargado'].setValue(this.cbencargado[0].value);
-    });
+    //});
     // Petición que llama y pide las caracteristicas y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
     this.peticion.getselect('caracteristica/combo').subscribe((respuesta) => {
       this.cbcaracteristicas = respuesta;
@@ -189,6 +190,26 @@ export class CrearreservaComponent implements OnInit {
       }
       return;
     };/*
+    if (this.crearreserva.value.horainicio >= this.crearreserva.value.horafin) {
+      this.toastr.warning('La hora de inicio debe ser menor que la hora final', 'Alerta', { timeOut: 1500 });
+      return;
+    }
+    if (this.crearreserva.value.fechainicio > this.crearreserva.value.fechafin) {
+      this.toastr.warning('La fecha de inicio debe ser menor o igual a la fecha final', 'Alerta', { timeOut: 1500 });
+      return;
+    }
+    if (this.crearreserva.value.fechainicio < '2023-06-17') {
+      this.toastr.warning('Solo se pueden hacer reservas despues del 18 de Junio del 2023', 'Alerta', { timeOut: 1500 });
+      return;
+    }
+    if (this.crearreserva.value.capacidad < 1) {
+      this.toastr.warning('La capacidad debe ser un número entero mayor a 0', 'Alerta', { timeOut: 1500 });
+      return;
+    }
+    if (this.crearreserva.value.dia.length === 0) {
+      this.toastr.warning('Debe escoger al menos un día', 'Alerta', { timeOut: 1500 });
+      return;
+    }
     this.objetoreserva = {
       id_unidad_organizacional_padre: this.crearreserva.value.sede,
       id_tipo_espacio: this.crearreserva.value.tipo,
@@ -198,10 +219,9 @@ export class CrearreservaComponent implements OnInit {
       reserva_dia_hora_inicio: this.crearreserva.value.horainicio,
       reserva_dia_hora_fin: this.crearreserva.value.horafin,
       id_caracteristica: this.crearreserva.value.caracteristica,
-      capacidad_unidad_organizacional: this.crearreserva.value.capacidad,
+      capacidad_unidad_organizacional: parseInt(this.crearreserva.value.capacidad),
       estado: this.crearreserva.value.estado
     };
-    console.log(this.objetoreserva);
     // Realiza la busqueda segun el objeto que ingreso el usuario
     this.peticion.postreserva('unidadorganizacional/reserva', this.objetoreserva).subscribe((respuesta) => {
       if (this.crearreserva.value.estado === 'disponible') {
@@ -223,15 +243,37 @@ export class CrearreservaComponent implements OnInit {
       for (const control of Object.keys(this.crearreserva.controls)) {
         this.crearreserva.controls[control].markAsTouched();
       }
+      this.toastr.warning('Revise los campos, algo no se encuentra bien', 'Alerta', { timeOut: 1500 });
       return;
     }
     if (this.crearreserva.value.disponibles === 0 || this.crearreserva.value.disponibles === '') {
       this.toastr.warning('Elija una unidad disponible', 'Alerta', { timeOut: 1500 });
       return;
     }
+    if (this.crearreserva.value.horainicio >= this.crearreserva.value.horafin) {
+      this.toastr.warning('La hora de inicio debe ser menor que la hora final', 'Alerta', { timeOut: 1500 });
+      return;
+    }
+    if (this.crearreserva.value.fechainicio > this.crearreserva.value.fechafin) {
+      this.toastr.warning('La fecha de inicio debe ser menor o igual a la fecha final', 'Alerta', { timeOut: 1500 });
+      return;
+    }
+    if (this.crearreserva.value.fechainicio < '2023-06-17') {
+      this.toastr.warning('Solo se pueden hacer reservas despues del 18 de Junio del 2023', 'Alerta', { timeOut: 1500 });
+      return;
+    }
+    if (this.crearreserva.value.capacidad < 1) {
+      this.toastr.warning('La capacidad debe ser un número entero mayor a 0', 'Alerta', { timeOut: 1500 });
+      return;
+    }
+    if (this.crearreserva.value.dia.length === 0) {
+      this.toastr.warning('Debe escoger al menos un día', 'Alerta', { timeOut: 1500 });
+      return;
+    }
     const objetogrupo = this.grupos.filter( item =>  item.value === this.crearreserva.value.grupo);
-    const objetocolaborador = this.encargados.filter( item => item.value === this.crearreserva.value.encargado)
+    const objetocolaborador = this.encargados.filter( item => item.value === this.crearreserva.value.encargado);
     const objetoprograma = this.programas.filter( item => item.value === this.crearreserva.value.programa);
+    const objetoReservaDia = this.generarObjetoReservaDia();
     this.objetoreserva = {
       id_reserva:0,
       id_unidad_organizacional: this.crearreserva.value.disponibles,
@@ -248,15 +290,9 @@ export class CrearreservaComponent implements OnInit {
       codigo_programa: objetoprograma[0].value,
       nombre_programa: objetoprograma[0].label,
       submodulo: this.crearreserva.value.submodulo,
-      id_rol: this.autenticacion.datosLogin.rol,
-      reservaDia: {
-        id_reserva: 0,
-        reserva_dia_dia: this.crearreserva.value.dia,
-        reserva_dia_id: 99,
-        reserva_dia_hora_inicio: this.crearreserva.value.horainicio,
-        reserva_dia_hora_fin: this.crearreserva.value.horafin
-      }
+      reservaDia: objetoReservaDia
     }
+    console.log(this.objetoreserva);
     this.peticion.create('reserva', this.objetoreserva).subscribe((respuesta) => {
       if (respuesta.message === 'Registro guardado con exito') {
         this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
@@ -264,6 +300,50 @@ export class CrearreservaComponent implements OnInit {
         this.toastr.error(respuesta.message, 'Exitoso', { timeOut: 1500 });
       };
     });
+  }
+
+  generarObjetoReservaDia(): ReservaDia[] {
+    const objetoReservaDia: ReservaDia[] = [];
+    let objDias = [];
+    objDias = this.crearreserva.value.dia;
+    for (let item of objDias) {
+      let tempReservaDia: ReservaDia;
+      for (let i = 0; i < 50; i++) {
+        if (this.horainicial[i].value === this.crearreserva.value.horainicio) {
+          for (let j = (i+1); j < 50; j++) {
+            tempReservaDia = {
+              reserva_dia_id: 0,
+              id_reserva: 0,
+              reserva_dia_dia: item,
+              reserva_dia_hora_inicio: this.horainicial[(j-1)].value,
+              jornada: this.obtenerJornada(item, this.horainicial[(j-1)].value)
+            }
+            objetoReservaDia.push(tempReservaDia);
+            if (this.horainicial[j].value === this.crearreserva.value.horafin) {
+              break;
+            }
+          }
+          break;
+        }
+      }
+    };
+    return objetoReservaDia;
+  }
+
+  obtenerJornada(item: string, hora: number): string {
+    if (item === 'Lunes' || item === 'Martes' || item === 'Miercoles' || item === 'Jueves' || item === 'Viernes') {
+      if (hora < 1200) {
+        return '01';
+      } else if (hora < 1815) {
+        return '02';
+      } else {
+        return '03';
+      }
+    } else if (item === "Sabado") {
+      return '04';
+    } else {
+      return '05';
+    }
   }
 
 }

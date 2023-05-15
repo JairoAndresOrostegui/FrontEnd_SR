@@ -34,6 +34,6 @@ export interface ReservaDia {
   reserva_dia_id:          number;
   id_reserva:              number;
   reserva_dia_dia:         string;
-  reserva_dia_hora_inicio: string;
-  reserva_dia_hora_fin:    string;
+  reserva_dia_hora_inicio: number;
+  jornada:    string;
 }
