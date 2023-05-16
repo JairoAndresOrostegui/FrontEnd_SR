@@ -123,26 +123,22 @@ export class ConsultarreservaComponent implements OnInit {
     // }, 50)
   }
 
-  obtenerIdReserva(id: number): void {
-    setTimeout (() => {
-      this.idUnidadReserva = id;
-    }, 150);
-  }
-
   buscarReserva(): void {
     this.visible = false;
     this.spinner = true;
     this.verFormConsulta = 'none';
     setTimeout (() => {
-      this._peticion.gettodasreserva('reserva/buscar?type=unidad_organizacional&search=' + this.idUnidadReserva).subscribe((respuesta) => {
+      this._peticion.gettodasreserva('reserva/buscar?type=unidad_organizacional&search=' + this.buscar.value.espacios).subscribe((respuesta) => {
         this.Usuario.datosReserva = respuesta
+        console.log(respuesta)
         if (this.Usuario.datosReserva.message != 'No hay registros') {
           this.objReserva = this.logReserva.crearObjeto(this.Usuario.datosReserva);
+          this.visible = true;
         } else {
           this.toastr.error('No hay registros', 'Error', { timeOut: 1500 });
+          this.visible = false;
         }
         this.spinner = false;
-        this.visible = true;
         this.verFormConsulta = 'block';
       });
     }, 400);

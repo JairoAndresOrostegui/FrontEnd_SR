@@ -15,7 +15,7 @@
     <div class="centrar-fila">
       <mat-form-field appearance="fill" class="centrar-select">
         <mat-select formControlName="espacios">
-          <mat-option *ngFor="let item of cmbEspacios" [value]="item.id_unidad_organizacional" (onSelectionChange)="obtenerIdReserva(item.id_unidad_organizacional)">
+          <mat-option *ngFor="let item of cmbEspacios" [value]="item.id_unidad_organizacional">
             {{ item.nombre_unidad_organizacional.toUpperCase() }}
           </mat-option>
         </mat-select>

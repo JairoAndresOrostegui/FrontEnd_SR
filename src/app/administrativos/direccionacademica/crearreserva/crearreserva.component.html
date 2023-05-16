@@ -1,4 +1,6 @@
-<form [formGroup]="crearreserva" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5">
+<app-spinner *ngIf="spinner"></app-spinner>
+
+<form [formGroup]="crearreserva" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5" [ngStyle]="{'display':verFormCrear}">
   <div class="fila">
     <div>
       <div class="centrar-fila">

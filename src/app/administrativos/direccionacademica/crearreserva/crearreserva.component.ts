@@ -11,6 +11,9 @@ import { RestService } from 'src/app/servicios/rest.service';
   styleUrls: ['./crearreserva.component.css']
 })
 export class CrearreservaComponent implements OnInit {
+
+  spinner: boolean;
+  verFormCrear: string;
   // FormBuilder que almacena los formControlName de los inputs
   crearreserva: FormGroup;
   // Variable que almacena las cedes
@@ -94,12 +97,6 @@ export class CrearreservaComponent implements OnInit {
     { value: 2255, viewValue: '22:55' }
   ];
 
-  verificarHora(): void {
-    if(this.crearreserva.value.horafin <= this.crearreserva.value.horainicio) {
-      this.toastr.warning('La hora fin debe ser mayor a la hora de inicio.', 'Exitoso', { timeOut: 1500 });
-    }
-  }
-
   //Objetos quemados
   //Submodulos
   submodulos = [{ value: 'Algebra 1', label: 'Algebra 1' }, { value: 'Algebra 2', label: 'Algebra 2' },
@@ -114,9 +111,9 @@ export class CrearreservaComponent implements OnInit {
   listaUnidades1 = [{ value: 1, label: 'Aula 225' }, { value: 2, label: 'Laboratorio 1' }];
 
 
-  constructor(private fb: FormBuilder, private autenticacion: DatosUsuario,
-    private toastr: ToastrService,
-    private peticion: RestService) {
+  constructor(private fb: FormBuilder, private autenticacion: DatosUsuario, private toastr: ToastrService, private peticion: RestService) {
+    this.spinner = true;
+    this.verFormCrear = 'none';
     this.crearreserva = this.fb.group({
       fechainicio: ['', Validators.required],
       fechafin: ['', Validators.required],
@@ -177,6 +174,10 @@ export class CrearreservaComponent implements OnInit {
       this.cbcaracteristicas = respuesta;
       this.cbcaracteristicas.unshift({ value: 0, label: 'No aplica' });
       this.crearreserva.controls['caracteristica'].setValue(this.cbcaracteristicas[0].value);
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
     });
   }
 
@@ -184,12 +185,19 @@ export class CrearreservaComponent implements OnInit {
   }
   // Metodo que busca los espacios disponibles segun los datos ingresados en el formulario
   buscarEspacios(): void {
+    this.spinner = true;
+    this.verFormCrear = 'none';
     if (this.crearreserva.invalid) {
       for (const control of Object.keys(this.crearreserva.controls)) {
         this.crearreserva.controls[control].markAsTouched();
       }
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
       return;
-    };/*
+    };
+    /*
     if (this.crearreserva.value.horainicio >= this.crearreserva.value.horafin) {
       this.toastr.warning('La hora de inicio debe ser menor que la hora final', 'Alerta', { timeOut: 1500 });
       return;
@@ -236,9 +244,15 @@ export class CrearreservaComponent implements OnInit {
     });*/
     this.listaUnidades = this.listaUnidades1;
     this.crearreserva.controls['disponibles'].setValue(this.listaUnidades[0].value);
+    setTimeout(() => {
+      this.spinner = false;
+      this.verFormCrear = 'block';
+    }, 300);
   }
   // Crea la reserva segun el dato escogido por el usuario ingresado
   crearReserva() {
+    this.spinner = true;
+    this.verFormCrear = 'none';
     if (this.crearreserva.invalid) {
       for (const control of Object.keys(this.crearreserva.controls)) {
         this.crearreserva.controls[control].markAsTouched();
@@ -294,11 +308,15 @@ export class CrearreservaComponent implements OnInit {
     }
     console.log(this.objetoreserva);
     this.peticion.create('reserva', this.objetoreserva).subscribe((respuesta) => {
-      if (respuesta.message === 'Registro guardado con exito') {
-        this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
-      } else {
-        this.toastr.error(respuesta.message, 'Exitoso', { timeOut: 1500 });
-      };
+      setTimeout(() => {
+        if (respuesta.message === 'Registro guardado con exito') {
+          this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
+        } else {
+          this.toastr.error(respuesta.message, 'Exitoso', { timeOut: 1500 });
+        };
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
     });
   }
 
@@ -331,7 +349,7 @@ export class CrearreservaComponent implements OnInit {
   }
 
   obtenerJornada(item: string, hora: number): string {
-    if (item === 'Lunes' || item === 'Martes' || item === 'Miercoles' || item === 'Jueves' || item === 'Viernes') {
+    if (item === 'Lunes' || item === 'Martes' || item === 'Miércoles' || item === 'Jueves' || item === 'Viernes') {
       if (hora < 1200) {
         return '01';
       } else if (hora < 1815) {
@@ -339,7 +357,7 @@ export class CrearreservaComponent implements OnInit {
       } else {
         return '03';
       }
-    } else if (item === "Sabado") {
+    } else if (item === "Sábado") {
       return '04';
     } else {
       return '05';
