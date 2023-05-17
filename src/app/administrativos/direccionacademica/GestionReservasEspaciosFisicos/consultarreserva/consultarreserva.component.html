@@ -34,17 +34,19 @@
   <tr *ngFor="let item of objReserva; let i = index" class="fuente-cuerpo-tabla borde-tabla color-alerta-verde">
     <td>{{ hora[i] }}</td>
     <td *ngIf="item[0] === 0">Libre</td>
-    <td *ngIf="item[0] != 0" [ngClass]="{'color-alerta-rojo':item[0] != 0}">Reservado</td>
+    <td *ngIf="item[0] != 0" [ngClass]="{'color-alerta-rojo':item[0] != 0}" matTooltip="{{' Docente: ' + item[0].Responsable + ' Inicia: ' + item[0].Inicia.slice(0, -9) + ' Finaliza: ' + item[0].Finaliza.slice(0, -9)}}">Reservado</td>
     <td *ngIf="item[1] === 0">Libre</td>
-    <td *ngIf="item[1] != 0" [ngClass]="{'color-alerta-rojo':item[1] != 0}">Reservado</td>
+    <td *ngIf="item[1] != 0" [ngClass]="{'color-alerta-rojo':item[1] != 0}" matTooltip="{{' Docente: ' + item[1].Responsable + ' Inicia: ' + item[1].Inicia.slice(0, -9) + ' Finaliza: ' + item[1].Finaliza.slice(0, -9)}}">Reservado</td>
     <td *ngIf="item[2] === 0">Libre</td>
-    <td *ngIf="item[2] != 0" [ngClass]="{'color-alerta-rojo':item[2] != 0}">Reservado</td>
+    <td *ngIf="item[2] != 0" [ngClass]="{'color-alerta-rojo':item[2] != 0}" matTooltip="{{' Docente: ' + item[2].Responsable + ' Inicia: ' + item[2].Inicia.slice(0, -9) + ' Finaliza: ' + item[2].Finaliza.slice(0, -9)}}">Reservado</td>
     <td *ngIf="item[3] === 0">Libre</td>
-    <td *ngIf="item[3] != 0" [ngClass]="{'color-alerta-rojo':item[3] != 0}">Reservado</td>
+    <td *ngIf="item[3] != 0" [ngClass]="{'color-alerta-rojo':item[3] != 0}" matTooltip="{{' Docente: ' + item[3].Responsable + ' Inicia: ' + item[3].Inicia.slice(0, -9) + ' Finaliza: ' + item[3].Finaliza.slice(0, -9)}}">Reservado</td>
     <td *ngIf="item[4] === 0">Libre</td>
-    <td *ngIf="item[4] != 0" [ngClass]="{'color-alerta-rojo':item[4] != 0}">Reservado</td>
+    <td *ngIf="item[4] != 0" [ngClass]="{'color-alerta-rojo':item[4] != 0}" matTooltip="{{' Docente: ' + item[4].Responsable + ' Inicia: ' + item[4].Inicia.slice(0, -9) + ' Finaliza: ' + item[4].Finaliza.slice(0, -9)}}">Reservado</td>
     <td *ngIf="item[5] === 0">Libre</td>
-    <td *ngIf="item[5] != 0" [ngClass]="{'color-alerta-rojo':item[5] != 0}">Reservado</td>
+    <td *ngIf="item[5] != 0" [ngClass]="{'color-alerta-rojo':item[5] != 0}" matTooltip="{{' Docente: ' + item[5].Responsable + ' Inicia: ' + item[5].Inicia.slice(0, -9) + ' Finaliza: ' + item[5].Finaliza.slice(0, -9)}}">Reservado</td>
+    <td *ngIf="item[6] === 0">Libre</td>
+    <td *ngIf="item[6] != 0" [ngClass]="{'color-alerta-rojo':item[6] != 0}" matTooltip="{{' Docente: ' + item[6].Responsable + ' Inicia: ' + item[6].Inicia.slice(0, -9) + ' Finaliza: ' + item[6].Finaliza.slice(0, -9)}}">Reservado</td>
   </tr>
 </table>
     <!-- 

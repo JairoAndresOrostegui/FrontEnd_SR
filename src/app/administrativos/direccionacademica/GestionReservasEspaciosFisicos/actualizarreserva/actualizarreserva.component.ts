@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
 import { DatosUsuario } from 'src/app/modelos/modelosData';
 import { RestService } from 'src/app/servicios/rest.service';
-import { logicaReserva } from './logicareserva';
+import { logicaReserva } from '../consultarreserva/logicareserva';
+import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-consultarreserva',
-  templateUrl: './consultarreserva.component.html',
-  styleUrls: ['./consultarreserva.component.css']
+  selector: 'app-actualizarreserva',
+  templateUrl: './actualizarreserva.component.html',
+  styleUrls: ['./actualizarreserva.component.css']
 })
-export class ConsultarreservaComponent implements OnInit {
+export class ActualizarreservaComponent implements OnInit {
 
   buscar: FormGroup;
   visible: boolean;
@@ -28,11 +28,53 @@ export class ConsultarreservaComponent implements OnInit {
   idUnidadReserva?: number;
   verFormConsulta: string;
 
-  arregloTipoEspacio = ['aula', 'laboratorio', 'sala de cómputo'];
-  
-  semana: string[] = ['Hora', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-  hora = ['06:00', '06:45', '07:30', '08:15', '09:00', '09:45', '10:30', '11:15', '12:00', '12:45', '13:30', '14:15', '15:00', '15:45',
-                '16:30','17:15', '18:15', '19:00', '19:55', '20:40', '21:25', '22:10'];
+  horainicial = [
+    { value: 600, viewValue: '6:00' },
+    { value: 645, viewValue: '6:45' },
+    { value: 730, viewValue: '7:30' },
+    { value: 815, viewValue: '8:15' },
+    { value: 900, viewValue: '9:00' },
+    { value: 945, viewValue: '9:45' },
+    { value: 1030, viewValue: '10:30' },
+    { value: 1115, viewValue: '11:15' },
+    { value: 1200, viewValue: '12:00' },
+    { value: 1245, viewValue: '12:45' },
+    { value: 1330, viewValue: '13:30' },
+    { value: 1415, viewValue: '14:15' },
+    { value: 1500, viewValue: '15:00' },
+    { value: 1545, viewValue: '15:45' },
+    { value: 1630, viewValue: '16:30' },
+    { value: 1715, viewValue: '17:15' },
+    { value: 1815, viewValue: '18:15' },
+    { value: 1900, viewValue: '19:00' },
+    { value: 1955, viewValue: '19:55' },
+    { value: 2040, viewValue: '20:40' },
+    { value: 2125, viewValue: '21:25' }
+  ];
+
+  horafinal = [
+    { value: 645, viewValue: '6:45' },
+    { value: 730, viewValue: '7:30' },
+    { value: 815, viewValue: '8:15' },
+    { value: 900, viewValue: '9:00' },
+    { value: 945, viewValue: '9:45' },
+    { value: 1030, viewValue: '10:30' },
+    { value: 1115, viewValue: '11:15' },
+    { value: 1200, viewValue: '12:00' },
+    { value: 1245, viewValue: '12:45' },
+    { value: 1330, viewValue: '13:30' },
+    { value: 1415, viewValue: '14:15' },
+    { value: 1500, viewValue: '15:00' },
+    { value: 1545, viewValue: '15:45' },
+    { value: 1630, viewValue: '16:30' },
+    { value: 1715, viewValue: '17:15' },
+    { value: 1815, viewValue: '18:15' },
+    { value: 1900, viewValue: '19:00' },
+    { value: 1955, viewValue: '19:55' },
+    { value: 2040, viewValue: '20:40' },
+    { value: 2125, viewValue: '21:25' },
+    { value: 2210, viewValue: '22:10' }
+  ];
 
   //Objetos quemados
   // comboBox = [{value: 1, label: 'Algebra 1'},{value: 2, label: 'Algebra 2'},{value: 3, label: 'Estadistica'},{value: 4, label: 'Lógica computacional'}];
@@ -82,32 +124,30 @@ export class ConsultarreservaComponent implements OnInit {
   ngOnInit(){
   }
 
-  mostrarEspacios(): void {
+  mostrarEspacios(): void {/*
     this.spinner = true;
     this.visible = false;
     this.cmbEspacios = [];
     this.arrayEspacios = [];
     this.verFormConsulta = 'none';
     setTimeout(() => {
-      for (let item of this.arregloTipoEspacio) {
-        this._peticion.getunidad('unidadorganizacional/buscar?type=tipo&search=' + item + '&id_sede=' + this.buscar.value.sede).subscribe((respuesta) => {
-          if (respuesta.message != 'No hay registros') {
-            this.espacios = respuesta;
-            if (this.espacios.length != 0) {
-              for(let item of this.espacios) {
-                this.arrayEspacios.push(item);
-              }
+      this._peticion.getunidad('unidadorganizacional/buscar?type=tipo&search=' + item + '&id_sede=' + this.buscar.value.sede).subscribe((respuesta) => {
+        if (respuesta.message != 'No hay registros') {
+          this.espacios = respuesta;
+          if (this.espacios.length != 0) {
+            for(let item of this.espacios) {
+              this.arrayEspacios.push(item);
             }
           }
-        });
-      }
+        }
+      });
     }, 100);
     setTimeout(() => {
       this.cmbEspacios = this.arrayEspacios;
       this.spinner = false;
       this.verFormConsulta = 'block';
       this.buscar.controls['espacios'].setValue(this.cmbEspacios[0]?.id_unidad_organizacional);
-    }, 300);
+    }, 300);*/
   }
 
   filtrarUnidadportipo() {
@@ -123,22 +163,26 @@ export class ConsultarreservaComponent implements OnInit {
     // }, 50)
   }
 
+  obtenerIdReserva(id: number): void {
+    setTimeout (() => {
+      this.idUnidadReserva = id;
+    }, 150);
+  }
+
   buscarReserva(): void {
     this.visible = false;
     this.spinner = true;
     this.verFormConsulta = 'none';
     setTimeout (() => {
-      this._peticion.gettodasreserva('reserva/buscar?type=unidad_organizacional&search=' + this.buscar.value.espacios).subscribe((respuesta) => {
+      this._peticion.gettodasreserva('reserva/buscar?type=unidad_organizacional&search=' + this.idUnidadReserva).subscribe((respuesta) => {
         this.Usuario.datosReserva = respuesta
-        console.log(respuesta)
         if (this.Usuario.datosReserva.message != 'No hay registros') {
           this.objReserva = this.logReserva.crearObjeto(this.Usuario.datosReserva);
-          this.visible = true;
         } else {
           this.toastr.error('No hay registros', 'Error', { timeOut: 1500 });
-          this.visible = false;
         }
         this.spinner = false;
+        this.visible = true;
         this.verFormConsulta = 'block';
       });
     }, 400);

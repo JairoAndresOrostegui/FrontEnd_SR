@@ -1,16 +1,16 @@
-import { ConsultarunidadComponent } from './administrativos/direccionacademica/consultarunidad/consultarunidad.component';
+import { ConsultarunidadComponent } from './administrativos/direccionacademica/GestionUnidadesOrganizacionales/consultarunidad/consultarunidad.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CrearreservaComponent } from './administrativos/direccionacademica/crearreserva/crearreserva.component';
+import { CrearreservaComponent } from './administrativos/direccionacademica/GestionReservasEspaciosFisicos/crearreserva/crearreserva.component';
 import { IniciarsesionComponent } from './autenticacion/iniciarsesion/iniciarsesion.component';
-import { ConsultarreservaComponent } from './administrativos/direccionacademica/consultarreserva/consultarreserva.component';
-import { ActualizarreservaComponent } from './administrativos/direccionacademica/actualizarreserva/actualizarreserva.component';
-import { CrearunidadComponent } from './administrativos/direccionacademica/crearunidad/crearunidad.component';
-import { TipounidadComponent } from './administrativos/direccionacademica/tipounidad/tipounidad.component';
-import { CaracteristicasunidadComponent } from './administrativos/direccionacademica/caracteristicasunidad/caracteristicasunidad.component';
-import { InformesreservaComponent } from './administrativos/direccionacademica/informesreserva/informesreserva.component';
-import { ReportesreservaComponent } from './administrativos/direccionacademica/reportesreserva/reportesreserva.component';
-import { SedesComponent } from './administrativos/direccionacademica/sedes/sedes.component';
+import { ConsultarreservaComponent } from './administrativos/direccionacademica/GestionReservasEspaciosFisicos/consultarreserva/consultarreserva.component';
+import { ActualizarreservaComponent } from './administrativos/direccionacademica/GestionReservasEspaciosFisicos/actualizarreserva/actualizarreserva.component';
+import { CrearunidadComponent } from './administrativos/direccionacademica/GestionUnidadesOrganizacionales/crearunidad/crearunidad.component';
+import { TipounidadComponent } from './administrativos/direccionacademica/GestionUnidadesOrganizacionales/tipounidad/tipounidad.component';
+import { CaracteristicasunidadComponent } from './administrativos/direccionacademica/GestionUnidadesOrganizacionales/caracteristicasunidad/caracteristicasunidad.component';
+import { InformesreservaComponent } from './administrativos/direccionacademica/GestionInformesReportes/informesreserva/informesreserva.component';
+import { ReportesreservaComponent } from './administrativos/direccionacademica/GestionInformesReportes/reportesreserva/reportesreserva.component';
+import { SedesComponent } from './administrativos/direccionacademica/GestionUnidadesOrganizacionales/sedes/sedes.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/iniciarsesion', pathMatch: 'full'},

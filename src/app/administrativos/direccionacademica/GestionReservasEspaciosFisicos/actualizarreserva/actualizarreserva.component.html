@@ -1,0 +1,18 @@
+<app-spinner *ngIf="spinner"></app-spinner>
+
+<table *ngIf="visible" class="espacio-trabajo centrar-texto" cellpadding="7">
+  <tr class="fuente-pequeña">
+    <th>Espacio</th>
+    <th>Submódulo</th>
+    <th>Colaborador</th>
+    <th>Fecha de inicio</th>
+    <th>Fecha de fin</th>
+  </tr>
+  <tr *ngFor="let item of Usuario.datosReserva" class="fuente-cuerpo-tabla borde-tabla">
+    <td>{{ item.nombre_unidad_organizacional }}</td>
+    <td>{{ item.nombre_submodulo }}</td>
+    <td>{{ item.nombre_usuario }}</td>
+    <td>{{ item.fecha_inicio_reserva }}</td>
+    <td>{{ item.fecha_fin_reserva }}</td>
+  </tr>
+</table>

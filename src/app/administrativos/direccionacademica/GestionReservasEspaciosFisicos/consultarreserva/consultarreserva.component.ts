@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 import { DatosUsuario } from 'src/app/modelos/modelosData';
 import { RestService } from 'src/app/servicios/rest.service';
-import { logicaReserva } from '../consultarreserva/logicareserva';
-import { ToastrService } from 'ngx-toastr';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { logicaReserva } from './logicareserva';
 
 @Component({
-  selector: 'app-actualizarreserva',
-  templateUrl: './actualizarreserva.component.html',
-  styleUrls: ['./actualizarreserva.component.css']
+  selector: 'app-consultarreserva',
+  templateUrl: './consultarreserva.component.html',
+  styleUrls: ['./consultarreserva.component.css']
 })
-export class ActualizarreservaComponent implements OnInit {
+export class ConsultarreservaComponent implements OnInit {
 
   buscar: FormGroup;
   visible: boolean;
@@ -30,9 +30,9 @@ export class ActualizarreservaComponent implements OnInit {
 
   arregloTipoEspacio = ['aula', 'laboratorio', 'sala de cómputo'];
   
-  semana: string[] = ['Hora', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  semana: string[] = ['Hora', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
   hora = ['06:00', '06:45', '07:30', '08:15', '09:00', '09:45', '10:30', '11:15', '12:00', '12:45', '13:30', '14:15', '15:00', '15:45',
-                '16:30','17:15', '18:15', '19:00', '19:55', '20:40', '21:25', '22:10'];
+                '16:30','17:15', '18:15', '19:00', '19:55', '20:40', '21:25'];
 
   //Objetos quemados
   // comboBox = [{value: 1, label: 'Algebra 1'},{value: 2, label: 'Algebra 2'},{value: 3, label: 'Estadistica'},{value: 4, label: 'Lógica computacional'}];
@@ -123,26 +123,22 @@ export class ActualizarreservaComponent implements OnInit {
     // }, 50)
   }
 
-  obtenerIdReserva(id: number): void {
-    setTimeout (() => {
-      this.idUnidadReserva = id;
-    }, 150);
-  }
-
   buscarReserva(): void {
     this.visible = false;
     this.spinner = true;
     this.verFormConsulta = 'none';
     setTimeout (() => {
-      this._peticion.gettodasreserva('reserva/buscar?type=unidad_organizacional&search=' + this.idUnidadReserva).subscribe((respuesta) => {
-        this.Usuario.datosReserva = respuesta
+      this._peticion.gettodasreserva('reserva/buscar?type=unidad_organizacional&search=' + this.buscar.value.espacios).subscribe((respuesta) => {
+        this.Usuario.datosReserva = respuesta;
         if (this.Usuario.datosReserva.message != 'No hay registros') {
           this.objReserva = this.logReserva.crearObjeto(this.Usuario.datosReserva);
+          console.log(this.objReserva)
+          this.visible = true;
         } else {
           this.toastr.error('No hay registros', 'Error', { timeOut: 1500 });
+          this.visible = false;
         }
         this.spinner = false;
-        this.visible = true;
         this.verFormConsulta = 'block';
       });
     }, 400);

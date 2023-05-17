@@ -68,8 +68,7 @@ export class CrearreservaComponent implements OnInit {
     { value: 1900, viewValue: '19:00' },
     { value: 1955, viewValue: '19:55' },
     { value: 2040, viewValue: '20:40' },
-    { value: 2125, viewValue: '21:25' },
-    { value: 2210, viewValue: '22:10' }
+    { value: 2125, viewValue: '21:25' }
   ];
 
   horafinal = [
@@ -93,8 +92,7 @@ export class CrearreservaComponent implements OnInit {
     { value: 1955, viewValue: '19:55' },
     { value: 2040, viewValue: '20:40' },
     { value: 2125, viewValue: '21:25' },
-    { value: 2210, viewValue: '22:10' },
-    { value: 2255, viewValue: '22:55' }
+    { value: 2210, viewValue: '22:10' }
   ];
 
   //Objetos quemados
