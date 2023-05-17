@@ -35,7 +35,7 @@ export class CrearreservaComponent implements OnInit {
   // Variable que almacena las caracteristicas
   cbcaracteristicas?: any;
   // Variable que almacena un objeto en caso que no exista registros
-  cbvacio = [{ value: 0, label: 'No existen registros' }]
+  cbvacio = [{ value: 0, label: 'No existen registros' }];
   // Variable que almacena el id de la sede
   idsede?: Number;
   // Variable que almacena el estado para mostrar u ocultar el form

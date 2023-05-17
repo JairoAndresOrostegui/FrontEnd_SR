@@ -15,6 +15,7 @@ export interface UserData {
   id_unidad_organizacional:     number;
   nombre_unidad_organizacional: string;
   nivel_rol:                    number;
+  area_rol:                     string;
   rol_estapcio:                 Rol_espacio[];
   componente:                   Componente[];
 }
