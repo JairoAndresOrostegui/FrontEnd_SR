@@ -69,15 +69,27 @@
   </div>
   <div class="fila">
     <div class="centrar-fila">
+      <label class="fuente-pequeña">Código:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="codigo">
+          <mat-option *ngFor="let item of cbcodigo" [value]="item.codigo_programa">
+            {{item.codigo_programa.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="centrar-fila">
       <label class="fuente-pequeña">Programa:</label>
       <mat-form-field appearance="fill" class="centrar-select">
         <mat-select formControlName="programa">
-          <mat-option *ngFor="let item of cbprograma" [value]="item.value">
+          <mat-option *ngFor="let item of cbcodigo" [value]="item.label">
             {{item.label.toUpperCase()}}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
+  </div>
+  <div class="fila">
     <div class="centrar-fila">
       <label class="fuente-pequeña">Nivel:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -88,8 +100,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-  </div>
-  <div class="fila">
     <div class="centrar-fila">
       <label class="fuente-pequeña">Grupo:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -100,6 +110,8 @@
         </mat-select>
       </mat-form-field>
     </div>
+  </div>
+  <div class="fila">
     <div class="centrar-fila">
       <label class="fuente-pequeña">Submódulo:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -110,8 +122,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-  </div>
-  <div class="fila">
     <div class="centrar-fila">
       <label class="fuente-pequeña">Usuario:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -119,15 +129,6 @@
           <mat-option *ngFor="let item of cbusuarios" [value]="item.value">
             {{item.label.toUpperCase()}}
           </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="centrar-fila">
-      <label class="fuente-pequeña">Estado:</label>
-      <mat-form-field appearance="fill" class="centrar-select">
-        <mat-select formControlName="estado">
-          <mat-option value="disponible">{{ 'Disponible' | uppercase}}</mat-option>
-          <mat-option value="reservado">{{'Reservado' | uppercase}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>

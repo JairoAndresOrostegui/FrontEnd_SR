@@ -164,6 +164,7 @@ export class TipounidadComponent implements OnInit {
     this.vereditar = true;
     this.volver = true;
     this.mostrarCrear = false;
+    this.txtboton = 'Actualizar';
      // Carga los datos del registro seleccionado y lo renderiza en el formulario en su respectivo campo
     this._peticion.gettipoespacio('tipoespacio/' + id).subscribe((respuesta) => {
       this.actualizar.controls['idactualizar'].setValue(id)

@@ -159,6 +159,7 @@ export class ActualizarreservaComponent implements OnInit {
     this.spinner = true;
     this.visible = false;
     this.Usuario.datosReserva = [];
+    this.idUnidadReserva = id;
     setTimeout(() => {
       this._peticion.getunidad('reserva/' + id).subscribe((respuesta) => {
         console.log(respuesta)
@@ -168,50 +169,6 @@ export class ActualizarreservaComponent implements OnInit {
       this.spinner = false;
       this.verFormCrear = 'block';
     }, 300);
-  }
-
-  filtrarUnidadportipo() {
-    // setTimeout (() => {
-    //   this._peticion.getselect('unidadorganizacional/combo/' + this.miFormulario.value.tipoespacio).subscribe((respuesta) => {
-    //     this.comboBox = respuesta;
-    //     if (this.comboBox.length === 0) {
-    //       this.toastr.error('Este tipo de espacio no tiene registros', 'Error', { timeOut: 1500 });
-    //     } else {
-    //       this.miFormulario.controls['submodulo'].setValue(this.comboBox[0].value);
-    //     }
-    //   });
-    // }, 50)
-  }
-
-  buscarReserva(): void {/*
-    this.visible = false;
-    this.spinner = true;
-    this.verFormConsulta = 'none';
-    setTimeout (() => {
-      this._peticion.gettodasreserva('reserva/buscar?type=unidad_organizacional&search=' + this.idUnidadReserva).subscribe((respuesta) => {
-        this.Usuario.datosReserva = respuesta
-        if (this.Usuario.datosReserva.message != 'No hay registros') {
-          this.objReserva = this.logReserva.crearObjeto(this.Usuario.datosReserva);
-        } else {
-          this.toastr.error('No hay registros', 'Error', { timeOut: 1500 });
-        }
-        this.spinner = false;
-        this.visible = true;
-        this.verFormConsulta = 'block';
-      });
-    }, 400);
-    // setTimeout (() => {
-    //   this._peticion.gettodasreserva('reserva/buscar?type=' + this.miFormulario.value.radioButton + '&search=' + this.miFormulario.value.submodulo).subscribe((respuesta) => {
-    //     console.log(respuesta)
-    //     this.Usuario.datosReserva = respuesta;
-    //     if (this.Usuario.datosReserva.message === 'No hay registros') {
-    //       this.toastr.error('No hay registros', 'Error', { timeOut: 1500 });
-    //       this.visible = false;
-    //     } else {
-    //       this.visible = true;
-    //     }
-    //   });
-    // }, 100)*/
   }
 
   eliminarReserva(id: number ): void {
@@ -229,35 +186,6 @@ export class ActualizarreservaComponent implements OnInit {
     //   };
     // });
   }
-
-  cambioRadio(){
-    // switch (this.miFormulario.value.radioButton) {
-    //   case 'unidad_organizacional':
-    //     this.vertipoespacio = true;
-    //     this.filtrarUnidadportipo();
-    //     break;
-    //   case 'usuario':
-    //     // Usuarios
-    //     this.vertipoespacio = false;
-    //     this._peticion.getselect('usuario/combo').subscribe((respuesta) => {
-    //       this.comboBox = respuesta;
-    //       this.miFormulario.controls['submodulo'].setValue(this.comboBox[0].value);
-    //     });
-    //     break;
-    //   case 'submodulo':
-    // //     // Submodulo
-    //     this.vertipoespacio = false;
-    //     this.versubmodulo = true;
-    //     this._peticion.getselect('submodulo/combo').subscribe((respuesta) => {
-    //       this.comboBox = respuesta;
-    //       this.miFormulario.controls['submodulo'].setValue(this.comboBox[0].value);
-    //     });
-    //     this.miFormulario.controls['submodulo'].setValue(this.comboBox[0].value) ;
-    //     break;
-    //   default:
-    //     break;
-    // };
-  };
 
   buscarEspacios(): void {
     this.spinner = true;
@@ -324,8 +252,9 @@ export class ActualizarreservaComponent implements OnInit {
       this.verFormCrear = 'block';
     }, 300);
   }
-  // Crea la reserva segun el dato escogido por el usuario ingresado
-  crearReserva() {
+
+  // Actualiza la reserva segun el dato escogido por el usuario ingresado
+  actualizarReserva() {
     this.spinner = true;
     this.verFormCrear = 'none';
     if (this.crearreserva.invalid) {
@@ -364,7 +293,7 @@ export class ActualizarreservaComponent implements OnInit {
     const objetoprograma = this.programas.filter( item => item.value === this.crearreserva.value.programa);
     const objetoReservaDia = this.generarObjetoReservaDia();
     this.objetoreserva = {
-      id_reserva:0,
+      id_reserva: this.idUnidadReserva,
       id_unidad_organizacional: this.crearreserva.value.disponibles,
       identificador_grupo: 0,
       nombre_grupo: objetogrupo[0].label,
@@ -379,6 +308,7 @@ export class ActualizarreservaComponent implements OnInit {
       codigo_programa: objetoprograma[0].value,
       nombre_programa: objetoprograma[0].label,
       submodulo: this.crearreserva.value.submodulo,
+      sede: '',
       reservaDia: objetoReservaDia
     }
     console.log(this.objetoreserva);
@@ -406,7 +336,7 @@ export class ActualizarreservaComponent implements OnInit {
           for (let j = (i+1); j < 50; j++) {
             tempReservaDia = {
               reserva_dia_id: 0,
-              id_reserva: 0,
+              id_reserva: this.idUnidadReserva!,
               reserva_dia_dia: item,
               reserva_dia_hora_inicio: this.horainicial[(j-1)].value,
               jornada: this.obtenerJornada(item, this.horainicial[(j-1)].value)

@@ -111,6 +111,7 @@ export class SedesComponent implements OnInit {
     this.actualizar.controls['cantidad'].setValue(0);
     this.chequeo = false;
     this.visible = false;
+    this.txtformulario = 'Actualizar';
     this._peticion.getunidad('unidadorganizacional/' + id).subscribe((respuesta) => {
       this.Usuario.datosUnidad = respuesta;
       this.actualizar.controls['idUnidad'].setValue(id);

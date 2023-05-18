@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DatosUsuario } from 'src/app/modelos/modelosData';
 import { ReservaDia } from 'src/app/modelos/reservas/reserva';
+import { NestorService } from 'src/app/servicios/nestor.service';
 import { RestService } from 'src/app/servicios/rest.service';
 
 @Component({
@@ -24,6 +25,7 @@ export class CrearreservaComponent implements OnInit {
   listaUnidades?: any;
   // Variable que almacena los programas
   cbprograma: any;
+  cbcodigo: any
   // Variable que almacena los grupos
   cbgrupos?: any;
   // Variable que almacena los usuarios
@@ -109,7 +111,7 @@ export class CrearreservaComponent implements OnInit {
   listaUnidades1 = [{ value: 1, label: 'Aula 225' }, { value: 2, label: 'Laboratorio 1' }];
 
 
-  constructor(private fb: FormBuilder, private autenticacion: DatosUsuario, private toastr: ToastrService, private peticion: RestService) {
+  constructor(private fb: FormBuilder, private autenticacion: DatosUsuario, private toastr: ToastrService, private _peticion: RestService, private _peticionNestor: NestorService) {
     this.spinner = true;
     this.verFormCrear = 'none';
     this.crearreserva = this.fb.group({
@@ -119,6 +121,7 @@ export class CrearreservaComponent implements OnInit {
       horafin: [645],
       estado: ['disponible'],
       sede: '',
+      codigo: [''],
       programa: [''],
       tipo: '',
       submodulo: '',
@@ -136,20 +139,15 @@ export class CrearreservaComponent implements OnInit {
     //Se muestran los tipo de espacio almacenados la BD para el usuario actual
     this.cbtipoespacio = this.autenticacion.datosLogin.User.rol_espacio;
     this.crearreserva.controls['tipo'].setValue(this.cbtipoespacio[0].value);
-    // Petición que llama y pide sedes lo almacena en la variable y le establece el valor inicial que se encuentre ne la BD
-    /*this.peticion.getselect('unidadorganizacional/combo/'+9).subscribe((respuesta) => {
-      this.sedes = respuesta;
-      this.crearreserva.controls['sede'].setValue(this.sedes[0].value);
-    });*/
+
     this.sedes = this.autenticacion.datosLogin.User.unidad_rol;
     this.crearreserva.controls['sede'].setValue(this.sedes[0].value);
+
+    this.cambiarCombos();
+
     this.cbusuarios = [{ value: this.autenticacion.datosLogin.User.id_usuario, label: this.autenticacion.datosLogin.User.nombre_rol }];
     this.crearreserva.controls['usuariopersona'].setValue(this.cbusuarios[0].value);
-    // Petición que llama y pide programa lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
-    //this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
-      this.cbprograma = this.programas;
-      this.crearreserva.controls['programa'].setValue(this.cbprograma[0].value);
-    //});
+    
     // Petición que llama y pid eel grupo y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
     //this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
       this.cbgrupos = this.grupos;
@@ -168,7 +166,7 @@ export class CrearreservaComponent implements OnInit {
       this.crearreserva.controls['encargado'].setValue(this.cbencargado[0].value);
     //});
     // Petición que llama y pide las caracteristicas y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
-    this.peticion.getselect('caracteristica/combo').subscribe((respuesta) => {
+    this._peticion.getselect('caracteristica/combo').subscribe((respuesta) => {
       this.cbcaracteristicas = respuesta;
       this.cbcaracteristicas.unshift({ value: 0, label: 'No aplica' });
       this.crearreserva.controls['caracteristica'].setValue(this.cbcaracteristicas[0].value);
@@ -305,7 +303,7 @@ export class CrearreservaComponent implements OnInit {
       reservaDia: objetoReservaDia
     }
     console.log(this.objetoreserva);
-    this.peticion.create('reserva', this.objetoreserva).subscribe((respuesta) => {
+    this._peticion.create('reserva', this.objetoreserva).subscribe((respuesta) => {
       setTimeout(() => {
         if (respuesta.message === 'Registro guardado con exito') {
           this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
@@ -359,6 +357,45 @@ export class CrearreservaComponent implements OnInit {
       return '04';
     } else {
       return '05';
+    }
+  }
+
+  cambiarCombos(): void {
+    if (this.crearreserva.value.sede === 2 || this.crearreserva.value.sede === 426|| this.crearreserva.value.sede === 427 || this.crearreserva.value.sede === 428) {
+      this._peticionNestor.getInfo('academico/programas/codigo-escuela/01').subscribe((respuesta) => {
+        this.cbcodigo = respuesta;
+        this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+      });
+    } else if (this.crearreserva.value.sede === 3) {
+      this._peticionNestor.getInfo('academico/programas/codigo-escuela/04').subscribe((respuesta) => {
+        this.cbcodigo = respuesta;
+        this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+      });
+    } else if (this.crearreserva.value.sede === 6) {
+      this._peticionNestor.getInfo('academico/programas/codigo-escuela/05').subscribe((respuesta) => {
+        this.cbcodigo = respuesta;
+        this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+      });
+    } else if (this.crearreserva.value.sede === 8) {
+      this._peticionNestor.getInfo('academico/programas/codigo-escuela/07').subscribe((respuesta) => {
+        this.cbcodigo = respuesta;
+        this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+      });
+    } else if (this.crearreserva.value.sede === 4) {
+      this._peticionNestor.getInfo('academico/programas/nombre-sede/rionegro').subscribe((respuesta) => {
+        this.cbcodigo = respuesta;
+        this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+      });
+    } else if (this.crearreserva.value.sede === 5) {
+      this._peticionNestor.getInfo('academico/programas/nombre-sede/la pintada').subscribe((respuesta) => {
+        this.cbcodigo = respuesta;
+        this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+      });
+    } else if (this.crearreserva.value.sede === 7) {
+      this._peticionNestor.getInfo('academico/programas/nombre-sede/apartadó').subscribe((respuesta) => {
+        this.cbcodigo = respuesta;
+        this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+      });
     }
   }
 
