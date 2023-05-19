@@ -132,7 +132,7 @@ export class ActualizarreservaComponent implements OnInit {
       observaciones: ['']
     });
     // Inicializamos el comboBox de sedes con las que el usuario tenga acceso de informacion
-    this._peticion.getselect('reserva/filtrar-rol-usuario?nivel_rol=' + this.Usuario.datosLogin.User.nivel_rol + '&area_rol=' + 'plantafisica'/*this.Usuario.datosLogin.area_rol*/).subscribe((respuesta) => {
+    this._peticion.getselect('reserva/filtrar-rol-usuario?nivel_rol=' + this.Usuario.datosLogin.User.nivel_rol + '&area_rol=' + this.Usuario.datosLogin.User.area_rol).subscribe((respuesta) => {
       this.Usuario.datosReserva = respuesta;
       // Miramos si el valor retornado por la APi contiene datos
       setTimeout(() => {
@@ -200,10 +200,8 @@ export class ActualizarreservaComponent implements OnInit {
     setTimeout(() => {
       this._peticion.getunidad('reserva/' + id).subscribe((respuesta) => {
         this.Usuario.datosReserva = respuesta;
-        const inicio = new Date(this.Usuario.datosReserva.fecha_inicio_reserva);
-        console.log(this.Usuario.datosReserva)
-        this.crearreserva.controls['fechainicio'].setValue(inicio);
-        this.crearreserva.controls['fechafin'].setValue(this.Usuario.datosReserva.fecha_inicio_reserva);
+        this.crearreserva.controls['fechainicio'].setValue(this.Usuario.datosReserva.fecha_inicio_reserva.substring(0,10));
+        this.crearreserva.controls['fechafin'].setValue(this.Usuario.datosReserva.fecha_fin_reserva.substring(0,10));
         this.crearreserva.controls['horainicio'].setValue(this.Usuario.datosReserva.reservaDias[0].reserva_dia_hora_inicio);
         setTimeout(() => {
           this.spinner = false;
@@ -318,7 +316,7 @@ export class ActualizarreservaComponent implements OnInit {
       this.toastr.warning('La fecha de inicio debe ser menor o igual a la fecha final', 'Alerta', { timeOut: 1500 });
       return;
     }
-    if (this.crearreserva.value.fechainicio < '2023-06-17') {
+    if (this.crearreserva.value.fechainicio <= '2023-06-17') {
       this.toastr.warning('Solo se pueden hacer reservas despues del 18 de Junio del 2023', 'Alerta', { timeOut: 1500 });
       return;
     }
