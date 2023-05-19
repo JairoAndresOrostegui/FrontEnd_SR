@@ -72,8 +72,8 @@
       <label class="fuente-pequeña">Código:</label>
       <mat-form-field appearance="fill" class="centrar-select">
         <mat-select formControlName="codigo">
-          <mat-option *ngFor="let item of cbcodigo" [value]="item.codigo_programa">
-            {{item.codigo_programa.toUpperCase()}}
+          <mat-option *ngFor="let item of cbcodigo" [value]="item.value">
+            {{item.value.toUpperCase()}}
           </mat-option>
         </mat-select>
       </mat-form-field>

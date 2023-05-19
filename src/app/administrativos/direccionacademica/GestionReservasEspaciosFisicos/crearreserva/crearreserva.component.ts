@@ -25,7 +25,7 @@ export class CrearreservaComponent implements OnInit {
   listaUnidades?: any;
   // Variable que almacena los programas
   cbprograma: any;
-  cbcodigo: any
+  cbcodigo: any;
   // Variable que almacena los grupos
   cbgrupos?: any;
   // Variable que almacena los usuarios
@@ -143,11 +143,14 @@ export class CrearreservaComponent implements OnInit {
     this.sedes = this.autenticacion.datosLogin.User.unidad_rol;
     this.crearreserva.controls['sede'].setValue(this.sedes[0].value);
 
-    this.cambiarCombos();
+    //this.cambiarCombos();
 
     this.cbusuarios = [{ value: this.autenticacion.datosLogin.User.id_usuario, label: this.autenticacion.datosLogin.User.nombre_rol }];
     this.crearreserva.controls['usuariopersona'].setValue(this.cbusuarios[0].value);
     
+      this.cbcodigo = this.programas;
+      this.crearreserva.controls['programa'].setValue(this.cbcodigo[0].label);
+      this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
     // Petición que llama y pid eel grupo y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
     //this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
       this.cbgrupos = this.grupos;
@@ -297,8 +300,8 @@ export class CrearreservaComponent implements OnInit {
       id_usuario_colaborador: objetocolaborador[0].value,
       nombre_usuario_colaborador: objetocolaborador[0].label,
       nivel: this.crearreserva.value.nivel,
-      codigo_programa: objetoprograma[0].value,
-      nombre_programa: objetoprograma[0].label,
+      codigo_programa: this.crearreserva.value.codigo,
+      nombre_programa: this.crearreserva.value.programa,
       submodulo: this.crearreserva.value.submodulo,
       reservaDia: objetoReservaDia
     }

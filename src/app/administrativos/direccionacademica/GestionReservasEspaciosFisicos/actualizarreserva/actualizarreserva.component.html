@@ -88,15 +88,27 @@
   </div>
   <div class="fila">
     <div class="centrar-fila">
+      <label class="fuente-pequeña">Código:</label>
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="codigo">
+          <mat-option *ngFor="let item of cbcodigo" [value]="item.value">
+            {{item.value.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="centrar-fila">
       <label class="fuente-pequeña">Programa:</label>
       <mat-form-field appearance="fill" class="centrar-select">
         <mat-select formControlName="programa">
-          <mat-option *ngFor="let item of cbprograma" [value]="item.value">
+          <mat-option *ngFor="let item of cbcodigo" [value]="item.label">
             {{item.label.toUpperCase()}}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
+  </div>
+  <div class="fila">
     <div class="centrar-fila">
       <label class="fuente-pequeña">Nivel:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -107,8 +119,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-  </div>
-  <div class="fila">
     <div class="centrar-fila">
       <label class="fuente-pequeña">Grupo:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -119,6 +129,8 @@
         </mat-select>
       </mat-form-field>
     </div>
+  </div>
+  <div class="fila">
     <div class="centrar-fila">
       <label class="fuente-pequeña">Submódulo:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -129,8 +141,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-  </div>
-  <div class="fila">
     <div class="centrar-fila">
       <label class="fuente-pequeña">Usuario:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -138,15 +148,6 @@
           <mat-option *ngFor="let item of cbusuarios" [value]="item.value">
             {{item.label.toUpperCase()}}
           </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="centrar-fila">
-      <label class="fuente-pequeña">Estado:</label>
-      <mat-form-field appearance="fill" class="centrar-select">
-        <mat-select formControlName="estado">
-          <mat-option value="disponible">{{ 'Disponible' | uppercase}}</mat-option>
-          <mat-option value="reservado">{{'Reservado' | uppercase}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -214,6 +215,6 @@
   </div>
   <!-- Boton para crear la reserva -->
   <div class="centrar-fila boton-crear mt-6">
-    <button (click)="actualizarReserva()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">Crear</button>
+    <button (click)="actualizarReserva()" class="fondo-basico-magenta contorno-nulo mt-6 color-basico-blanco boton-principal fusion-boton">Actualizar</button>
  </div>
 </form>

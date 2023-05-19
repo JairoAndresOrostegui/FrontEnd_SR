@@ -24,7 +24,7 @@ export class ActualizarreservaComponent implements OnInit {
   spinner: boolean;
   idUnidadReserva?: number;
   verFormConsulta: string;
-
+  cbcodigo: any
   cbtipoespacio?: any;
   cbprograma: any;
   // Variable que almacena los grupos
@@ -105,7 +105,7 @@ export class ActualizarreservaComponent implements OnInit {
   ];
 
   constructor(private fb: FormBuilder, private _peticion: RestService, public Usuario: DatosUsuario, public confirmacion: MatDialog,
-              private toastr: ToastrService, private peticion: RestService){
+              private toastr: ToastrService, private peticion: RestService, private autenticacion: DatosUsuario){
     this.spinner = true;
     this.visible = false;
     this.verFormCrear = 'none';
@@ -117,6 +117,7 @@ export class ActualizarreservaComponent implements OnInit {
       horafin: [645],
       estado: ['disponible'],
       sede: '',
+      codigo: '',
       programa: [''],
       tipo: '',
       submodulo: '',
@@ -150,6 +151,43 @@ export class ActualizarreservaComponent implements OnInit {
     //   this.miFormulario.controls['tipoespacio'].setValue(this.comboBoxSede[0].value);
     // });
     // this.cambioRadio();
+    this.cbtipoespacio = this.autenticacion.datosLogin.User.rol_espacio;
+    this.crearreserva.controls['tipo'].setValue(this.cbtipoespacio[0].value);
+
+    this.sedes = this.autenticacion.datosLogin.User.unidad_rol;
+    this.crearreserva.controls['sede'].setValue(this.sedes[0].value);
+
+    //this.cambiarCombos();
+
+    this.cbusuarios = [{ value: this.autenticacion.datosLogin.User.id_usuario, label: this.autenticacion.datosLogin.User.nombre_rol }];
+    this.crearreserva.controls['usuariopersona'].setValue(this.cbusuarios[0].value);
+    
+      this.cbcodigo = this.programas;
+      this.crearreserva.controls['programa'].setValue(this.cbcodigo[0].label);
+      this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+    // Petición que llama y pid eel grupo y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
+    //this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
+      this.cbgrupos = this.grupos;
+      this.crearreserva.controls['grupo'].setValue(this.cbgrupos[0].value);
+    //});
+    // Petición que llama y pide el mdoulo y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
+    //this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
+      this.cbsubmodulo = this.submodulos;
+      this.crearreserva.controls['submodulo'].setValue(this.cbsubmodulo[0].value);
+    //});
+    // Petición que llama y pide el el usuario y encargado  y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
+    /*this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
+      this.cbusuarios = this.usuario;
+      this.crearreserva.controls['usuariopersona'].setValue(this.cbusuarios[0].value);*/
+      this.cbencargado = this.encargados;
+      this.crearreserva.controls['encargado'].setValue(this.cbencargado[0].value);
+    //});
+    // Petición que llama y pide las caracteristicas y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
+    this._peticion.getselect('caracteristica/combo').subscribe((respuesta) => {
+      this.cbcaracteristicas = respuesta;
+      this.cbcaracteristicas.unshift({ value: 0, label: 'No aplica' });
+      this.crearreserva.controls['caracteristica'].setValue(this.cbcaracteristicas[0].value);
+    });
   };
 
   ngOnInit(){
@@ -162,13 +200,18 @@ export class ActualizarreservaComponent implements OnInit {
     this.idUnidadReserva = id;
     setTimeout(() => {
       this._peticion.getunidad('reserva/' + id).subscribe((respuesta) => {
-        console.log(respuesta)
+        this.Usuario.datosReserva = respuesta;
+        const inicio = new Date(this.Usuario.datosReserva.fecha_inicio_reserva);
+        console.log(this.Usuario.datosReserva)
+        this.crearreserva.controls['fechainicio'].setValue(inicio);
+        this.crearreserva.controls['fechafin'].setValue(this.Usuario.datosReserva.fecha_inicio_reserva);
+        this.crearreserva.controls['horainicio'].setValue(this.Usuario.datosReserva.reservaDias[0].reserva_dia_hora_inicio);
+        setTimeout(() => {
+          this.spinner = false;
+          this.verFormCrear = 'block';
+        }, 300);
       });
     }, 100);
-    setTimeout(() => {
-      this.spinner = false;
-      this.verFormCrear = 'block';
-    }, 300);
   }
 
   eliminarReserva(id: number ): void {
@@ -305,8 +348,8 @@ export class ActualizarreservaComponent implements OnInit {
       id_usuario_colaborador: objetocolaborador[0].value,
       nombre_usuario_colaborador: objetocolaborador[0].label,
       nivel: this.crearreserva.value.nivel,
-      codigo_programa: objetoprograma[0].value,
-      nombre_programa: objetoprograma[0].label,
+      codigo_programa: this.crearreserva.value.codigo,
+      nombre_programa: this.crearreserva.value.programa,
       submodulo: this.crearreserva.value.submodulo,
       sede: '',
       reservaDia: objetoReservaDia
