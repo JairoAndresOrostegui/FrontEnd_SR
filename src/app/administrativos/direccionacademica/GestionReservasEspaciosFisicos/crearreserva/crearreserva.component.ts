@@ -119,7 +119,6 @@ export class CrearreservaComponent implements OnInit {
       fechafin: ['', Validators.required],
       horainicio: [600],
       horafin: [645],
-      estado: ['disponible'],
       sede: '',
       codigo: [''],
       programa: [''],
@@ -296,7 +295,7 @@ export class CrearreservaComponent implements OnInit {
       fecha_inicio_reserva: this.crearreserva.value.fechainicio,
       fecha_fin_reserva: this.crearreserva.value.fechafin,
       descripcion_reserva: this.crearreserva.value.observaciones,
-      estado_reserva: this.crearreserva.value.estado,
+      estado_reserva: 'activo',
       id_usuario_colaborador: objetocolaborador[0].value,
       nombre_usuario_colaborador: objetocolaborador[0].label,
       nivel: this.crearreserva.value.nivel,
@@ -305,7 +304,6 @@ export class CrearreservaComponent implements OnInit {
       submodulo: this.crearreserva.value.submodulo,
       reservaDia: objetoReservaDia
     }
-    console.log(this.objetoreserva);
     this._peticion.create('reserva', this.objetoreserva).subscribe((respuesta) => {
       setTimeout(() => {
         if (respuesta.message === 'Registro guardado con exito') {
