@@ -132,7 +132,7 @@ export class ActualizarreservaComponent implements OnInit {
       observaciones: ['']
     });
     // Inicializamos el comboBox de sedes con las que el usuario tenga acceso de informacion
-    this._peticion.getselect('reserva/filtrar-rol-usuario?nivel_rol=' + this.Usuario.datosLogin.User.nivel_rol + '&area_rol=plantafisica' /*+ this.Usuario.datosLogin.User.area_rol*/).subscribe((respuesta) => {
+    this._peticion.getselect('reserva/filtrar-rol-usuario?nivel_rol=' + this.Usuario.datosLogin.User.nivel_rol + '&area_rol=' + this.Usuario.datosLogin.User.area_rol).subscribe((respuesta) => {
       this.Usuario.datosReserva = respuesta;
       // Miramos si el valor retornado por la APi contiene datos
       setTimeout(() => {

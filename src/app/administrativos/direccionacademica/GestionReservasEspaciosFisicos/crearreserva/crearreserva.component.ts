@@ -142,14 +142,14 @@ export class CrearreservaComponent implements OnInit {
     this.sedes = this.autenticacion.datosLogin.User.unidad_rol;
     this.crearreserva.controls['sede'].setValue(this.sedes[0].value);
 
-    //this.cambiarCombos();
+    this.cambiarCombos();
 
     this.cbusuarios = [{ value: this.autenticacion.datosLogin.User.id_usuario, label: this.autenticacion.datosLogin.User.nombre_rol }];
     this.crearreserva.controls['usuariopersona'].setValue(this.cbusuarios[0].value);
     
-      this.cbcodigo = this.programas;
-      this.crearreserva.controls['programa'].setValue(this.cbcodigo[0].label);
-      this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+      //this.cbcodigo = this.programas;
+      //this.crearreserva.controls['programa'].setValue(this.cbcodigo[0].label);
+      //this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
 
     // Petición que llama y pid eel grupo y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
     //this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
@@ -182,6 +182,7 @@ export class CrearreservaComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
   // Metodo que busca los espacios disponibles segun los datos ingresados en el formulario
   buscarEspacios(): void {
     this.spinner = true;
