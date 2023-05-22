@@ -11,8 +11,9 @@ export class ModalgraficotortaComponent implements OnInit {
 
   temp: number;
   tittle: string;
+  data1: any;
 
-  view: [number, number] = [600, 250];
+  view: [number, number] = [800, 400];
 
   showLegend: boolean = true;
   showLabels: boolean = true;
@@ -28,7 +29,7 @@ export class ModalgraficotortaComponent implements OnInit {
   legendTitle: string;
 
   colorScheme1: any = {
-    domain: ['#EE2B7B', '#009EE2', '#BB00E6']
+    domain: ['#EE2B7B', '#009EE2', '#BB00E6', '#EE2B7B', '#009EE2', '#BB00E6', '#EE2B7B', '#009EE2', '#BB00E6', '#EE2B7B']
   };
 
   colorScheme2: any = {
@@ -42,6 +43,7 @@ export class ModalgraficotortaComponent implements OnInit {
     name: 'Customer Usage'
   };
 
+  /*
   ocupacion = [
     {
       "name": "Principal",
@@ -49,13 +51,14 @@ export class ModalgraficotortaComponent implements OnInit {
     },
     {
       "name": "Palo",
-      "value": 2
+      "value": 0
     },
     {
       "name": "San Ignacio",
-      "value": 10
+      "value": 0
     }
   ];
+  */
 
   tiposUnidad = [
     {
@@ -119,6 +122,7 @@ export class ModalgraficotortaComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) private data: any) {
     this.temp = data.temp;
     this.tittle = data.tittle;
+    this.data1 = data.data;
     this.showXAxis = true;
     this.showYAxis = true;
     this.showXAxisLabel = true;

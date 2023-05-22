@@ -87,16 +87,27 @@ export class InformesreservaComponent implements OnInit {
   }
 
   mostrarGrafico(id: number): void {
-    if (this.temp === 1) {
-      this.tittle = '';
-    } else {
-      this.tittle = this.sedes.filter((item: any) => item.value === this.sede)[0].label;
-    }
-    const dialogRef = this.confirmacion.open(ModalgraficotortaComponent, { maxWidth: "700px", data: { temp: this.temp, tittle: this.tittle } });
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        //this.refrescarLista();
-      };
+    this._peticion.getselect('reserva/informe-allsede').subscribe((respuesta) => {
+      let rta: any = respuesta;
+      let data = [];
+      for (let item of rta) {
+        const temp = {
+          "name": item.nombre_sede,
+          "value": item.cantidad_reserva
+        }
+        data.push(temp);
+      }
+      if (this.temp === 1) {
+        this.tittle = '';
+      } else {
+        this.tittle = this.sedes.filter((item: any) => item.value === this.sede)[0].label;
+      }
+      const dialogRef = this.confirmacion.open(ModalgraficotortaComponent, { maxWidth: "700px", data: { data: data, temp: this.temp, tittle: this.tittle } });
+      dialogRef.afterClosed().subscribe(res => {
+        if (res) {
+          //this.refrescarLista();
+        };
+      });
     });
   }
 

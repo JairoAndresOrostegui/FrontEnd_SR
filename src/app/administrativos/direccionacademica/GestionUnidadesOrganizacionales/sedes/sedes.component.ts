@@ -189,14 +189,20 @@ export class SedesComponent implements OnInit {
     const dialogRef = this.confirmacion.open(ConfirmarComponent, { maxWidth: "600px", data: { title: 'CONFIRMACION', message: 'Esta seguro de eliminar este registro?' } });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this._peticion.delete('unidadorganizacional/' + id).subscribe((respuesta) => {
-          if (respuesta.message === "Registro eliminado con exito") {
-            this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
-            this.refrescar();
+        this._peticion.getunidad('unidadorganizacional?id_sede=' + id).subscribe((respuesta) => {
+          if (respuesta.message === 'No hay registros') {
+            this._peticion.delete('unidadorganizacional/' + id).subscribe((respuesta) => {
+              if (respuesta.message === "Registro eliminado con exito") {
+                this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
+                this.refrescar();
+              } else {
+                this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
+              }
+            });
           } else {
-            this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
+            this.toastr.error(respuesta.message, 'Error, esta sede tiene registros asociados', { timeOut: 1500 });
           }
-        })
+        });
       };
     });
   }

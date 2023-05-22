@@ -1,1 +1,38 @@
-<p>reportesreserva works!</p>
+<div class="centrar color-neutro-gris5" *ngIf="visible">
+  <form [formGroup]="buscar" class="centrar-columna">
+    <label class="fuente-pequeña mt-3">Usuario:</label>
+    <div class="centrar-fila">
+      <mat-form-field appearance="fill" class="centrar-select">
+        <mat-select formControlName="usuario">
+          <mat-option *ngFor="let item of encargados" [value]="item.value">
+            {{ item.label.toUpperCase() }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="centrar-fila mt-3 fuente-pequeña">
+      <button (click)="buscarReserva()" class="icono icono-buscar contorno-nulo fusion-boton" matTooltip="Buscar resreva en este espacio"></button>
+    </div>
+  </form>
+</div>
+
+<table *ngIf="mostrar" class="espacio-trabajo centrar-texto" cellpadding="7">
+  <tr class="fuente-pequeña">
+    <th>Hora</th>
+    <th>Dia</th>
+    <th>Programa</th>
+    <th>Aula</th>
+    <th>Grupo</th>
+    <th>Fecha de inicio</th>
+    <th>Fecha de fin</th>
+  </tr>
+  <tr *ngFor="let item of Usuario.datosReserva" class="fuente-cuerpo-tabla borde-tabla">
+    <td>{{ item.reporteReservaDiaDocentes[0].reserva_dia_hora_inicio }}</td>
+    <td>{{ item.reserva_dia_dia }}</td>
+    <td>{{ item.reporteReservaDiaDocentes[0].nombre_programa }}</td>
+    <td>{{ item.reporteReservaDiaDocentes[0].nombre_unidad_organizacional }}</td>
+    <td>{{ item.reporteReservaDiaDocentes[0].nombre_grupo }}</td>
+    <td>{{ item.reporteReservaDiaDocentes[0].fecha_inicio_reserva.slice(0, 10) }}</td>
+    <td>{{ item.reporteReservaDiaDocentes[0].fecha_fin_reserva.slice(0, 10) }}</td>
+  </tr>
+</table>

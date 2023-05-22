@@ -150,6 +150,7 @@ export class CrearreservaComponent implements OnInit {
       this.cbcodigo = this.programas;
       this.crearreserva.controls['programa'].setValue(this.cbcodigo[0].label);
       this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+
     // Petición que llama y pid eel grupo y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
     //this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
       this.cbgrupos = this.grupos;
@@ -256,30 +257,58 @@ export class CrearreservaComponent implements OnInit {
         this.crearreserva.controls[control].markAsTouched();
       }
       this.toastr.warning('Revise los campos, algo no se encuentra bien', 'Alerta', { timeOut: 1500 });
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
       return;
     }
     if (this.crearreserva.value.disponibles === 0 || this.crearreserva.value.disponibles === '') {
       this.toastr.warning('Elija una unidad disponible', 'Alerta', { timeOut: 1500 });
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
       return;
     }
     if (this.crearreserva.value.horainicio >= this.crearreserva.value.horafin) {
       this.toastr.warning('La hora de inicio debe ser menor que la hora final', 'Alerta', { timeOut: 1500 });
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
       return;
     }
     if (this.crearreserva.value.fechainicio > this.crearreserva.value.fechafin) {
       this.toastr.warning('La fecha de inicio debe ser menor o igual a la fecha final', 'Alerta', { timeOut: 1500 });
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
       return;
     }
     if (this.crearreserva.value.fechainicio < '2023-06-17') {
       this.toastr.warning('Solo se pueden hacer reservas despues del 18 de Junio del 2023', 'Alerta', { timeOut: 1500 });
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
       return;
     }
     if (this.crearreserva.value.capacidad < 1) {
       this.toastr.warning('La capacidad debe ser un número entero mayor a 0', 'Alerta', { timeOut: 1500 });
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
       return;
     }
     if (this.crearreserva.value.dia.length === 0) {
       this.toastr.warning('Debe escoger al menos un día', 'Alerta', { timeOut: 1500 });
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
       return;
     }
     const objetogrupo = this.grupos.filter( item =>  item.value === this.crearreserva.value.grupo);
@@ -288,7 +317,8 @@ export class CrearreservaComponent implements OnInit {
     const objetoReservaDia = this.generarObjetoReservaDia();
     this.objetoreserva = {
       id_reserva:0,
-      id_unidad_organizacional: this.crearreserva.value.disponibles,
+      //id_unidad_organizacional: this.crearreserva.value.disponibles,
+      id_unidad_organizacional: 739,
       identificador_grupo: 0,
       nombre_grupo: objetogrupo[0].label,
       id_usuario_reserva: this.crearreserva.value.usuariopersona,
@@ -362,42 +392,45 @@ export class CrearreservaComponent implements OnInit {
   }
 
   cambiarCombos(): void {
-    if (this.crearreserva.value.sede === 2 || this.crearreserva.value.sede === 426|| this.crearreserva.value.sede === 427 || this.crearreserva.value.sede === 428) {
-      this._peticionNestor.getInfo('academico/programas/codigo-escuela/01').subscribe((respuesta) => {
-        this.cbcodigo = respuesta;
-        this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
-      });
-    } else if (this.crearreserva.value.sede === 3) {
-      this._peticionNestor.getInfo('academico/programas/codigo-escuela/04').subscribe((respuesta) => {
-        this.cbcodigo = respuesta;
-        this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
-      });
-    } else if (this.crearreserva.value.sede === 6) {
-      this._peticionNestor.getInfo('academico/programas/codigo-escuela/05').subscribe((respuesta) => {
-        this.cbcodigo = respuesta;
-        this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
-      });
-    } else if (this.crearreserva.value.sede === 8) {
-      this._peticionNestor.getInfo('academico/programas/codigo-escuela/07').subscribe((respuesta) => {
-        this.cbcodigo = respuesta;
-        this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
-      });
-    } else if (this.crearreserva.value.sede === 4) {
-      this._peticionNestor.getInfo('academico/programas/nombre-sede/rionegro').subscribe((respuesta) => {
-        this.cbcodigo = respuesta;
-        this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
-      });
-    } else if (this.crearreserva.value.sede === 5) {
-      this._peticionNestor.getInfo('academico/programas/nombre-sede/la pintada').subscribe((respuesta) => {
-        this.cbcodigo = respuesta;
-        this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
-      });
-    } else if (this.crearreserva.value.sede === 7) {
-      this._peticionNestor.getInfo('academico/programas/nombre-sede/apartadó').subscribe((respuesta) => {
-        this.cbcodigo = respuesta;
-        this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
-      });
-    }
+    setTimeout(() => {
+      if (this.crearreserva.value.sede === 2 || this.crearreserva.value.sede === 426|| this.crearreserva.value.sede === 427 || this.crearreserva.value.sede === 428) {
+        this._peticionNestor.getInfo('academico/programas/codigo-escuela/01').subscribe((respuesta) => {
+          this.cbcodigo = respuesta;
+          this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+        });
+      } else if (this.crearreserva.value.sede === 3) {
+        this._peticionNestor.getInfo('academico/programas/codigo-escuela/04').subscribe((respuesta) => {
+          this.cbcodigo = respuesta;
+          this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+        });
+      } else if (this.crearreserva.value.sede === 6) {
+        this._peticionNestor.getInfo('academico/programas/codigo-escuela/05').subscribe((respuesta) => {
+          this.cbcodigo = respuesta;
+          this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+        });
+      } else if (this.crearreserva.value.sede === 8) {
+        this._peticionNestor.getInfo('academico/programas/codigo-escuela/07').subscribe((respuesta) => {
+          this.cbcodigo = respuesta;
+          this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+        });
+      } else if (this.crearreserva.value.sede === 4) {
+        this._peticionNestor.getInfo('academico/programas/nombre-sede/rionegro').subscribe((respuesta) => {
+          this.cbcodigo = respuesta;
+          this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+        });
+      } else if (this.crearreserva.value.sede === 5) {
+        this._peticionNestor.getInfo('academico/programas/nombre-sede/la pintada').subscribe((respuesta) => {
+          this.cbcodigo = respuesta;
+          this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+        });
+      } else if (this.crearreserva.value.sede === 7) {
+        this._peticionNestor.getInfo('academico/programas/nombre-sede/apartadó').subscribe((respuesta) => {
+          this.cbcodigo = respuesta;
+          this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+        });
+      }
+      console.log(this.cbcodigo)
+    }, 300);
   }
 
 }

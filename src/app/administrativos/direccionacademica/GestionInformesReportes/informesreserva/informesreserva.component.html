@@ -34,7 +34,7 @@
     <tr class="fuente-pequeña">
       <th>Informe</th>
       <th>Gráfico</th>
-      <th>Excel</th>
+      <!-- <th>Excel</th> -->
     </tr>
     <tr class="fuente-cuerpo-tabla borde-tabla">
     <tr *ngFor="let reporte of reportes" class="fuente-cuerpo-tabla borde-tabla">
@@ -42,9 +42,11 @@
       <td>
         <button class="icono icono-graficar contorno-nulo fusion-boton" (click)="mostrarGrafico(reporte.value)" matTooltip="Ver grafico"></button>
       </td>
+      <!--
       <td>
         <button class="icono icono-excel contorno-nulo fusion-boton" (click)="descargarReporte(reporte.value)" matTooltip="Descargar excel"></button>
       </td>
+      -->
     </tr>
   </table>
 </div>
