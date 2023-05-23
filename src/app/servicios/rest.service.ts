@@ -7,6 +7,7 @@ import { ObtenerReserva } from '../modelos/reservas/reserva';
 import { Unidad } from '../modelos/unidadesOrganizacionales/unidad';
 import { Caracteristica, Tipoespaciofisico } from '../modelos/unidadesOrganizacionales/unidad';
 import { Login } from '../modelos/autenticacion/login';
+import { Hdocente } from '../modelos/reportes/horariodocente';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,12 @@ export class RestService {
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.token });
     const requestOptions = { headers: headers };
     return this.http.get<Select>(this.apiurl + url, requestOptions);
+  }
+
+  public getReporteDocente(url: string) {
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.token });
+    const requestOptions = { headers: headers };
+    return this.http.get<Hdocente>(this.apiurl + url, requestOptions);
   }
 
   //Servicios genericos de validar, crear, actualizar y eliminar

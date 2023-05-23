@@ -60,7 +60,7 @@
       <label class="fuente-pequeña">Sede:</label>
       <mat-form-field appearance="fill" class="centrar-select">
         <mat-select formControlName="sede">
-          <mat-option *ngFor="let item of sedes" [value]="item.value"><!-- (onSelectionChange)="cambiarCombos()" -->
+          <mat-option *ngFor="let item of sedes" [value]="item.value" (onSelectionChange)="cambiarCombos()">
             {{item.label.toUpperCase()}}
           </mat-option>
         </mat-select>
@@ -72,8 +72,8 @@
       <label class="fuente-pequeña">Código:</label>
       <mat-form-field appearance="fill" class="centrar-select">
         <mat-select formControlName="codigo">
-          <mat-option *ngFor="let item of cbcodigo" [value]="item.value">
-            {{item.value.toUpperCase()}}
+          <mat-option *ngFor="let item of cbcodigo" [value]="item.codigo_programa" (onSelectionChange)="ejecutarCambioNombrePrograma()">
+            {{item.codigo_programa.toUpperCase()}} - {{identificarGrupoCerrado(item.grupo_cerrado)}}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -82,7 +82,7 @@
       <label class="fuente-pequeña">Programa:</label>
       <mat-form-field appearance="fill" class="centrar-select">
         <mat-select formControlName="programa">
-          <mat-option *ngFor="let item of cbcodigo" [value]="item.label">
+          <mat-option *ngFor="let item of cbprograma" [value]="item.label" matTooltip="{{item.label}}" (onSelectionChange)="ejecutarCambioNivel()">
             {{item.label.toUpperCase()}}
           </mat-option>
         </mat-select>

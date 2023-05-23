@@ -29,10 +29,10 @@ export class ReportesreservaComponent implements OnInit {
   }
 
   buscarReserva(): void {
-    this.mostrar = true;
-    this._peticion.getselect('reserva/reporte-docente?id_colaborador=' + this.buscar.value.usuario).subscribe((respuesta) => {
+    this._peticion.getReporteDocente('reserva/reporte-docente?id_colaborador=' + this.buscar.value.usuario).subscribe((respuesta) => {
       this.Usuario.datosReserva = respuesta;
       if (this.Usuario.datosReserva.length != 0) {
+        this.mostrar = true;
         this.toastr.success('Registros encontrados', 'Exitoso', { timeOut: 1500 });
       } else {
         this.toastr.error('No se encontraron registros', 'Error', { timeOut: 1500 });

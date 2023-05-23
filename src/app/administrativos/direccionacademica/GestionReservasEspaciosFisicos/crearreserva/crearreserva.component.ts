@@ -26,6 +26,7 @@ export class CrearreservaComponent implements OnInit {
   // Variable que almacena los programas
   cbprograma: any;
   cbcodigo: any;
+  cbniveles: any;
   // Variable que almacena los grupos
   cbgrupos?: any;
   // Variable que almacena los usuarios
@@ -97,17 +98,20 @@ export class CrearreservaComponent implements OnInit {
     { value: 2210, viewValue: '22:10' }
   ];
 
-  //Objetos quemados
+  cbProgramasDefecto = [{ codigo_programa: 'Error', label: 'Error', grupo_cerrado: false }];
+  //Objetos reserva Privada
+  cbProgramasReservaPrivada = [{ codigo_programa: 'Privada', label: 'Privada', grupo_cerrado: false }];
+
+  /*Objetos quemados
+  programas = [{ codigo_programa: 'CN', label: 'Ingeniería Industrial' }, { codigo_programa: 'UL', label: 'Ingeniería de Sistemas' }];
+  cbniveles = [{ value: 1, label: '1' }, { value: 2, label: '2' }];
+  */
   //Submodulos
-  submodulos = [{ value: 'Algebra 1', label: 'Algebra 1' }, { value: 'Algebra 2', label: 'Algebra 2' },
-                { value: 'Estadística', label: 'Estadística' }, { value: 'Lógica computacional', label: 'Lógica computacional' }];
-  //Programa
-  programas = [{ value: 'CN', label: 'Ingeniería Industrial' }, { value: 'UL', label: 'Ingeniería de Sistemas' }];
+  submodulos = [{ value: 'Algebra 1', label: 'Algebra 1' }, { value: 'Algebra 2', label: 'Algebra 2' }, { value: 'Estadística', label: 'Estadística' }, { value: 'Lógica computacional', label: 'Lógica computacional' }];
   // Grupos
   grupos = [{ value: 1, label: '1A' }, { value: 2, label: '1B' }, { value: 3, label: '2A' }, { value: 4, label: '2B' }];
   // Encargados
   encargados = [{value: 1, label: 'Carlos Docente'},{value: 2, label: 'Jaime Docente'},{value: 3, label: 'Jorge Docente'}];
-  cbniveles = [{ value: 1, label: '1' }, { value: 2, label: '2' }];
   listaUnidades1 = [{ value: 1, label: 'Aula 225' }, { value: 2, label: 'Laboratorio 1' }];
 
 
@@ -143,14 +147,11 @@ export class CrearreservaComponent implements OnInit {
     this.crearreserva.controls['sede'].setValue(this.sedes[0].value);
 
     this.cambiarCombos();
+    this.cbniveles = [{ value: 1, label: '1' }, { value: 2, label: '2' }, { value: 3, label: '3' }, { value: 4, label: '4' }];
 
     this.cbusuarios = [{ value: this.autenticacion.datosLogin.User.id_usuario, label: this.autenticacion.datosLogin.User.nombre_rol }];
     this.crearreserva.controls['usuariopersona'].setValue(this.cbusuarios[0].value);
     
-      //this.cbcodigo = this.programas;
-      //this.crearreserva.controls['programa'].setValue(this.cbcodigo[0].label);
-      //this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
-
     // Petición que llama y pid eel grupo y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
     //this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
       this.cbgrupos = this.grupos;
@@ -314,12 +315,11 @@ export class CrearreservaComponent implements OnInit {
     }
     const objetogrupo = this.grupos.filter( item =>  item.value === this.crearreserva.value.grupo);
     const objetocolaborador = this.encargados.filter( item => item.value === this.crearreserva.value.encargado);
-    const objetoprograma = this.programas.filter( item => item.value === this.crearreserva.value.programa);
+    //const objetoprograma = this.programas.filter( item => item.codigo_programa === this.crearreserva.value.programa);
     const objetoReservaDia = this.generarObjetoReservaDia();
     this.objetoreserva = {
       id_reserva:0,
-      //id_unidad_organizacional: this.crearreserva.value.disponibles,
-      id_unidad_organizacional: 739,
+      id_unidad_organizacional: this.crearreserva.value.disponibles,
       identificador_grupo: 0,
       nombre_grupo: objetogrupo[0].label,
       id_usuario_reserva: this.crearreserva.value.usuariopersona,
@@ -393,45 +393,77 @@ export class CrearreservaComponent implements OnInit {
   }
 
   cambiarCombos(): void {
+    /* Cargar combos quemados
+    this.cbcodigo = this.programas;
+    */
     setTimeout(() => {
       if (this.crearreserva.value.sede === 2 || this.crearreserva.value.sede === 426|| this.crearreserva.value.sede === 427 || this.crearreserva.value.sede === 428) {
         this._peticionNestor.getInfo('academico/programas/codigo-escuela/01').subscribe((respuesta) => {
-          this.cbcodigo = respuesta;
-          this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+          this.ejecutarCambioCodigoPrograma(respuesta);
         });
       } else if (this.crearreserva.value.sede === 3) {
-        this._peticionNestor.getInfo('academico/programas/codigo-escuela/04').subscribe((respuesta) => {
-          this.cbcodigo = respuesta;
-          this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
-        });
-      } else if (this.crearreserva.value.sede === 6) {
-        this._peticionNestor.getInfo('academico/programas/codigo-escuela/05').subscribe((respuesta) => {
-          this.cbcodigo = respuesta;
-          this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
-        });
-      } else if (this.crearreserva.value.sede === 8) {
-        this._peticionNestor.getInfo('academico/programas/codigo-escuela/07').subscribe((respuesta) => {
-          this.cbcodigo = respuesta;
-          this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+        this._peticionNestor.getInfo('academico/programas/codigo-sede/04').subscribe((respuesta) => {
+          this.ejecutarCambioCodigoPrograma(respuesta);
         });
       } else if (this.crearreserva.value.sede === 4) {
         this._peticionNestor.getInfo('academico/programas/nombre-sede/rionegro').subscribe((respuesta) => {
-          this.cbcodigo = respuesta;
-          this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+          this.ejecutarCambioCodigoPrograma(respuesta);
         });
       } else if (this.crearreserva.value.sede === 5) {
         this._peticionNestor.getInfo('academico/programas/nombre-sede/la pintada').subscribe((respuesta) => {
-          this.cbcodigo = respuesta;
-          this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+          this.ejecutarCambioCodigoPrograma(respuesta);
+        });
+      } else if (this.crearreserva.value.sede === 6) {
+        this._peticionNestor.getInfo('academico/programas/codigo-sede/05').subscribe((respuesta) => {
+          this.ejecutarCambioCodigoPrograma(respuesta);
         });
       } else if (this.crearreserva.value.sede === 7) {
         this._peticionNestor.getInfo('academico/programas/nombre-sede/apartadó').subscribe((respuesta) => {
-          this.cbcodigo = respuesta;
-          this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].value);
+          this.ejecutarCambioCodigoPrograma(respuesta);
+        });
+      } else if (this.crearreserva.value.sede === 8) {
+        this._peticionNestor.getInfo('academico/programas/codigo-escuela/07').subscribe((respuesta) => {
+          this.ejecutarCambioCodigoPrograma(respuesta);
         });
       }
-      console.log(this.cbcodigo)
-    }, 300);
+    }, 100);
+  }
+
+  identificarGrupoCerrado(item: boolean): string {
+    if (item) {
+      return 'Grupo Cerrado';
+    } else {
+      return 'Grupo Regular';
+    }
+  }
+
+  ejecutarCambioCodigoPrograma(obj: any):void {
+    setTimeout(() => {
+      if (obj.length === 0) {
+        this.cbcodigo = this.cbProgramasDefecto;
+        this.toastr.info('No se encontraron programas asociados', 'Información');
+        return
+      } else {
+        this.cbcodigo = obj;
+      }
+      this.crearreserva.controls['codigo'].setValue(this.cbcodigo[0].codigo_programa);
+    }, 100);
+  }
+
+  ejecutarCambioNombrePrograma(): void {
+    setTimeout(() => {
+      this.cbprograma = this.cbcodigo.filter((item: any) => item.codigo_programa === this.crearreserva.value.codigo);
+      this.crearreserva.controls['programa'].setValue(this.cbprograma[0].label);
+    }, 100);
+  }
+
+  ejecutarCambioNivel(): void {
+    setTimeout(() => {
+      //this._peticionNestor.getInfo('academico/' + this.crearreserva.value.codigo + '/niveles').subscribe((respuesta) => {console.log(respuesta)
+        //this.cbniveles = respuesta;
+        this.crearreserva.controls['nivel'].setValue(this.cbniveles[0].value);
+      //});
+    }, 100);
   }
 
 }

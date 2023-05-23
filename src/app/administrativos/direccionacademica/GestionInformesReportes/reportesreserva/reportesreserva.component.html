@@ -27,12 +27,12 @@
     <th>Fecha de fin</th>
   </tr>
   <tr *ngFor="let item of Usuario.datosReserva" class="fuente-cuerpo-tabla borde-tabla">
-    <td>{{ item.reporteReservaDiaDocentes[0].reserva_dia_hora_inicio }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.reserva_dia_hora_inicio }}</td>
     <td>{{ item.reserva_dia_dia }}</td>
-    <td>{{ item.reporteReservaDiaDocentes[0].nombre_programa }}</td>
-    <td>{{ item.reporteReservaDiaDocentes[0].nombre_unidad_organizacional }}</td>
-    <td>{{ item.reporteReservaDiaDocentes[0].nombre_grupo }}</td>
-    <td>{{ item.reporteReservaDiaDocentes[0].fecha_inicio_reserva.slice(0, 10) }}</td>
-    <td>{{ item.reporteReservaDiaDocentes[0].fecha_fin_reserva.slice(0, 10) }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nombre_programa }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nombre_unidad_organizacional }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nivel }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.fecha_inicio_reserva.slice(0, 10) }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.fecha_fin_reserva.slice(0, 10) }}</td>
   </tr>
 </table>
