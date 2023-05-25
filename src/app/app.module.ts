@@ -47,6 +47,7 @@ import { ModalgraficotortaComponent } from './compartidos/modales/modalgraficoto
 import { ModalgraficobarrasComponent } from './compartidos/modales/modalgraficobarras/modalgraficobarras.component';
 import { SedesComponent } from './administrativos/direccionacademica/GestionUnidadesOrganizacionales/sedes/sedes.component';
 import { SpinnerComponent } from './compartidos/spinner/spinner.component';
+import { ModaltabladatosComponent } from './modales/modaltabladatos/modaltabladatos.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { SpinnerComponent } from './compartidos/spinner/spinner.component';
     ModalgraficotortaComponent,
     ModalgraficobarrasComponent,
     SedesComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    ModaltabladatosComponent
   ],
   imports: [
     BrowserModule,

@@ -1,52 +1,51 @@
-<div class="centrar-fila mb-3">
-  <div class="centrar-fila">
-    <div class="centrar-fila">
-      <label class="fuente-pequeña">Sede:</label>
-      <mat-form-field appearance="fill" class="centrar-select">
-        <mat-select [(ngModel)]="sede" name="sede">
-          <mat-option *ngFor="let item of sedes" [value]="item.value">
-            {{item.label}}
-          </mat-option>           
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="centrar-fila">
-      <label class="fuente-pequeña">Mes:</label>
-      <mat-form-field appearance="fill" class="centrar-select">
-        <mat-select [(ngModel)]="mes" name="mes">
-          <mat-option *ngFor="let item of meses" [value]="item.value" class="fuente-pequeña">
-            {{item.label}}
-          </mat-option>           
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </div>
-  <div class="centrar-fila">
-    <button class="icono icono-buscar contorno-nulo fusion-boton icono2" (click)="mostrarLista(1)" matTooltip="Ocupación"></button>
-    <button class="icono icono-buscar contorno-nulo fusion-boton icono2" (click)="mostrarLista(2)" matTooltip="Tipos de unidad"></button>
-    <button class="icono icono-buscar contorno-nulo fusion-boton icono2" (click)="mostrarLista(3)" matTooltip="Programas"></button>
-    <button class="icono icono-buscar contorno-nulo fusion-boton icono2" (click)="mostrarLista(4)" matTooltip="Usuarios"></button>
-  </div>
-</div>
+<app-spinner *ngIf="spinner"></app-spinner>
 
-<div *ngIf="reportes != ''" class="centrar-fila">
+<form [formGroup]="frmInforme" class="centrar-columna mb-3">
+  <div class="centrar-fila mb-3" [ngStyle]="{'display':verFormInforme}">
+    <label class="fuente-pequeña">Informe:</label>
+    <mat-form-field appearance="fill" class="centrar-select">
+      <mat-select formControlName="opcionInforme">
+        <mat-option *ngFor="let item of opcionesInforme" [value]="item.value" (onSelectionChange)="cambiarOpcionInforme()">
+          {{item.label}}
+        </mat-option>           
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div *ngIf="selectSedes" class="centrar-fila mb-3">
+      <div class="centrar-fila">
+        <label class="fuente-pequeña">Sede:</label>
+        <mat-form-field appearance="fill" class="centrar-select">
+          <mat-select  formControlName="sede">
+            <mat-option *ngFor="let item of sedes" [value]="item.value">
+              {{item.label}}
+            </mat-option>           
+          </mat-select>
+        </mat-form-field>
+      </div>
+  </div>
+</form>
+
+
+<div *ngIf="mostrarTodas" class="centrar-fila">
   <table class="espacio-trabajo centrar-texto" [cellPadding]="10">
     <tr class="fuente-pequeña">
+      <th>Nombre</th>
       <th>Informe</th>
       <th>Gráfico</th>
-      <!-- <th>Excel</th> -->
+      <th>Descarga</th>
     </tr>
     <tr class="fuente-cuerpo-tabla borde-tabla">
     <tr *ngFor="let reporte of reportes" class="fuente-cuerpo-tabla borde-tabla">
       <td class="texto-izquierda1">{{ reporte.label }}</td>
       <td>
-        <button class="icono icono-graficar contorno-nulo fusion-boton" (click)="mostrarGrafico(reporte.value)" matTooltip="Ver grafico"></button>
+        <button class="icono icono-menu contorno-nulo fusion-boton" (click)="mostrarDatos(reporte.value)" matTooltip="Ver estadísticas"></button>
       </td>
-      <!--
+      <td>
+        <button class="icono icono-graficar contorno-nulo fusion-boton" (click)="mostrarGrafico(reporte.value)" matTooltip="Ver gráficos"></button>
+      </td>
       <td>
         <button class="icono icono-excel contorno-nulo fusion-boton" (click)="descargarReporte(reporte.value)" matTooltip="Descargar excel"></button>
       </td>
-      -->
     </tr>
   </table>
 </div>
