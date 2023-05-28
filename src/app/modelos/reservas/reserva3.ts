@@ -10,3 +10,8 @@ export interface Reservas3 {
   id_caracteristica:               number;
   capacidad_unidad_organizacional: number;
 }
+
+export interface docentes {
+  id_profesor: string;
+  nombre_persona: string;
+}

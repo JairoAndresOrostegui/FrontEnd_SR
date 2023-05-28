@@ -15,14 +15,8 @@ h2 {
   column-gap: 10px;
 }
 
-.etiqueta-entrada-contraseña {
-  display: grid;
-  grid-template-columns: 4fr 1fr;
-}
-
 .etiqueta {
   text-align: end;
-  margin-right: 0.5em;
 }
 
 .formulario-piecera {
@@ -46,6 +40,13 @@ h2 {
 
 .etiqueta-entrada {
   padding-bottom: 20px;
+}
+
+.fix {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
 }
 
 @media (max-width: 500px) {

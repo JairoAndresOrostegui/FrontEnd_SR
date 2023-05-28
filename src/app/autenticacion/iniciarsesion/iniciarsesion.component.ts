@@ -52,7 +52,8 @@ export class IniciarsesionComponent implements OnInit {
         this.spinner = true;
         setTimeout(() => {
           if ((this.usuario === '') || (this.clave === '')) {
-            this.toastr.warning('Ingrese el usuario y la contraseña', 'Alerta', { timeOut: 1500 })
+            this.toastr.warning('Ingrese el usuario y la contraseña', 'Alerta', { timeOut: 1500 });
+            this.spinner = false;
             return;
           } else {
             // Si el usuario y contraseña son correctos realiza la peticion a la API
@@ -60,6 +61,7 @@ export class IniciarsesionComponent implements OnInit {
               this.logueo = respuesta;
               // Si el token viene vacio muestra mensaje de error
               if (this.logueo.token === '') {
+                this.spinner = false;
                 this.toastr.warning('Error en la aplicación, contactese con el administrador del sistema', 'Alerta', { timeOut: 3000 });
               } else {
                 // Si el login es exitoso muestra mensaje de loguin exitoso y almacena en variables globales los datos de login para ser usuados en algunas parte de otros compoentenes
@@ -83,7 +85,7 @@ export class IniciarsesionComponent implements OnInit {
                 this.clave = '';
                 // Reliza el ruteo en caso que todo este ok
                 this.spinner = false;
-                this.router.navigate([this.autenticacion.datosLogin[0].funcionalidad[0].url_funcionalidad]);  
+                this.router.navigate([this.autenticacion.datosLogin[0].funcionalidad[0].url_funcionalidad]);
               }
             });
           }

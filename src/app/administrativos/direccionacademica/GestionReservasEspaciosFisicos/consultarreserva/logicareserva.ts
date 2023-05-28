@@ -7,8 +7,8 @@ import { Injectable } from "@angular/core";
 export class logicaReserva {
 
   crearObjeto(reserva: any): any[] {
-    var arraySemana= new Array(22);
-    for(let i = 0; i < 22; i++) {
+    var arraySemana= new Array(21);
+    for(let i = 0; i < 21; i++) {
       arraySemana[i] = new Array(7);
       for(let j = 0; j < 7; j++) {
         arraySemana[i][j] = 0;
@@ -21,49 +21,70 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[0][0] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Martes') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[0][1] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Miércoles') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[0][2] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Jueves') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[0][3] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Viernes') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[0][4] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Sábado') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[0][5] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Domingo') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[0][6] = objReserva;
           }
@@ -72,49 +93,70 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[1][0] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Martes') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[1][1] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Miércoles') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[1][2] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Jueves') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[1][3] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Viernes') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[1][4] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Sábado') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[1][5] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Domingo') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[1][6] = objReserva;
           }
@@ -123,49 +165,70 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[2][0] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Martes') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[2][1] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Miércoles') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[2][2] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Jueves') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[2][3] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Viernes') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[2][4] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Sábado') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[2][5] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Domingo') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[2][6] = objReserva;
           }
@@ -174,49 +237,70 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[3][0] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Martes') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[3][1] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Miércoles') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[3][2] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Jueves') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[3][3] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Viernes') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[3][4] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Sábado') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[3][5] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Domingo') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[3][6] = objReserva;
           }
@@ -225,49 +309,70 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[4][0] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Martes') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[4][1] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Miércoles') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[4][2] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Jueves') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[4][3] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Viernes') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[4][4] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Sábado') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[4][5] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Domingo') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[4][6] = objReserva;
           }
@@ -276,49 +381,70 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[5][0] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Martes') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[5][1] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Miércoles') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[5][2] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Jueves') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[5][3] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Viernes') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[5][4] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Sábado') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[5][5] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Domingo') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[5][6] = objReserva;
           }
@@ -327,49 +453,70 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[6][0] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Martes') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[6][1] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Miércoles') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[6][2] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Jueves') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[6][3] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Viernes') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[6][4] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Sábado') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[6][5] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Domingo') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[6][6] = objReserva;
           }
@@ -378,49 +525,70 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[7][0] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Martes') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[7][1] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Miércoles') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[7][2] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Jueves') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[7][3] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Viernes') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[7][4] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Sábado') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[7][5] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Domingo') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[7][6] = objReserva;
           }
@@ -429,21 +597,30 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[8][0] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Martes') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[8][1] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Miércoles') {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[8][2] = objReserva;
           } else if (itemdia.reserva_dia_dia === 'Jueves') {
@@ -452,6 +629,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -462,6 +642,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -472,6 +655,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -480,7 +666,10 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[8][6] = objReserva;
           }
@@ -491,6 +680,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -501,6 +693,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -511,6 +706,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -521,6 +719,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -531,6 +732,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -541,6 +745,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -549,7 +756,10 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[9][6] = objReserva;
           }
@@ -560,6 +770,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -570,6 +783,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -580,6 +796,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -590,6 +809,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -600,6 +822,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -610,6 +835,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -618,7 +846,10 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[10][6] = objReserva;
           }
@@ -629,6 +860,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -639,6 +873,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -649,6 +886,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -659,6 +899,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -669,6 +912,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -679,6 +925,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -687,7 +936,10 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[11][6] = objReserva;
           }
@@ -698,6 +950,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -708,6 +963,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -718,6 +976,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -728,6 +989,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -738,6 +1002,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -748,6 +1015,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -756,7 +1026,10 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[12][6] = objReserva;
           }
@@ -767,6 +1040,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -777,6 +1053,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -787,6 +1066,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -797,6 +1079,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -807,6 +1092,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -817,6 +1105,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -825,7 +1116,10 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[13][6] = objReserva;
           }
@@ -836,6 +1130,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -846,6 +1143,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -856,6 +1156,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -866,6 +1169,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -876,6 +1182,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -886,6 +1195,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -894,7 +1206,10 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[14][6] = objReserva;
           }
@@ -905,6 +1220,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -915,6 +1233,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -925,6 +1246,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -935,6 +1259,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -945,6 +1272,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -955,6 +1285,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -963,7 +1296,10 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[15][6] = objReserva;
           }
@@ -974,6 +1310,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -984,6 +1323,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -994,6 +1336,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1004,6 +1349,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1014,6 +1362,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1024,6 +1375,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1032,7 +1386,10 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[16][6] = objReserva;
           }
@@ -1043,6 +1400,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1053,6 +1413,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1063,6 +1426,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1073,6 +1439,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1083,6 +1452,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1093,6 +1465,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1101,7 +1476,10 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[17][6] = objReserva;
           }
@@ -1112,6 +1490,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1122,6 +1503,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1132,6 +1516,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1142,6 +1529,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1152,6 +1542,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1162,6 +1555,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1170,7 +1566,10 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[18][6] = objReserva;
           }
@@ -1181,6 +1580,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1191,6 +1593,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1201,6 +1606,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1211,6 +1619,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1221,6 +1632,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1231,6 +1645,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1239,7 +1656,10 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[19][6] = objReserva;
           }
@@ -1250,6 +1670,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1260,6 +1683,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1270,6 +1696,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1280,6 +1709,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1290,6 +1722,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1300,6 +1735,9 @@ export class logicaReserva {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
               Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo,
               Dia: itemdia.reserva_dia_dia,
               HoraI: itemdia.reserva_dia_hora_inicio,
             }
@@ -1308,78 +1746,12 @@ export class logicaReserva {
             const objReserva = {
               Inicia: itemreserva.fecha_inicio_reserva,
               Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
+              Responsable: itemreserva.nombre_usuario_colaborador,
+              RolReserva: itemreserva.nombre_rol,
+              Programa: itemreserva.nombre_programa,
+              Submodulo: itemreserva.nombre_submodulo
             }
             arraySemana[20][6] = objReserva;
-          }
-        } else if (itemdia.reserva_dia_hora_inicio === 2210) {
-          if (itemdia.reserva_dia_dia === 'Lunes') {
-            const objReserva = {
-              Aula: itemreserva.nombre_unidad_organizacional,
-              Inicia: itemreserva.fecha_inicio_reserva,
-              Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador,
-              Dia: itemdia.reserva_dia_dia,
-              HoraI: itemdia.reserva_dia_hora_inicio,
-            }
-            arraySemana[21][0] = objReserva;
-          } else if (itemdia.reserva_dia_dia === 'Martes') {
-            const objReserva = {
-              Aula: itemreserva.nombre_unidad_organizacional,
-              Inicia: itemreserva.fecha_inicio_reserva,
-              Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador,
-              Dia: itemdia.reserva_dia_dia,
-              HoraI: itemdia.reserva_dia_hora_inicio,
-            }
-            arraySemana[21][1] = objReserva;
-          } else if (itemdia.reserva_dia_dia === 'Miércoles') {
-            const objReserva = {
-              Aula: itemreserva.nombre_unidad_organizacional,
-              Inicia: itemreserva.fecha_inicio_reserva,
-              Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador,
-              Dia: itemdia.reserva_dia_dia,
-              HoraI: itemdia.reserva_dia_hora_inicio,
-            }
-            arraySemana[21][2] = objReserva;
-          } else if (itemdia.reserva_dia_dia === 'Jueves') {
-            const objReserva = {
-              Aula: itemreserva.nombre_unidad_organizacional,
-              Inicia: itemreserva.fecha_inicio_reserva,
-              Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador,
-              Dia: itemdia.reserva_dia_dia,
-              HoraI: itemdia.reserva_dia_hora_inicio,
-            }
-            arraySemana[21][3] = objReserva;
-          } else if (itemdia.reserva_dia_dia === 'Viernes') {
-            const objReserva = {
-              Aula: itemreserva.nombre_unidad_organizacional,
-              Inicia: itemreserva.fecha_inicio_reserva,
-              Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador,
-              Dia: itemdia.reserva_dia_dia,
-              HoraI: itemdia.reserva_dia_hora_inicio,
-            }
-            arraySemana[21][4] = objReserva;
-          } else if (itemdia.reserva_dia_dia === 'Sábado') {
-            const objReserva = {
-              Aula: itemreserva.nombre_unidad_organizacional,
-              Inicia: itemreserva.fecha_inicio_reserva,
-              Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador,
-              Dia: itemdia.reserva_dia_dia,
-              HoraI: itemdia.reserva_dia_hora_inicio,
-            }
-            arraySemana[21][5] = objReserva;
-          } else if (itemdia.reserva_dia_dia === 'Domingo') {
-            const objReserva = {
-              Inicia: itemreserva.fecha_inicio_reserva,
-              Finaliza: itemreserva.fecha_fin_reserva,
-              Responsable: itemreserva.nombre_usuario_colaborador
-            }
-            arraySemana[21][6] = objReserva;
           }
         }
       }

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DatosUsuario } from 'src/app/modelos/modelosData';
 import { ReservaDia } from 'src/app/modelos/reservas/reserva';
+import { docentes } from 'src/app/modelos/reservas/reserva3';
 import { NestorService } from 'src/app/servicios/nestor.service';
 import { RestService } from 'src/app/servicios/rest.service';
 
@@ -15,6 +16,7 @@ export class CrearreservaComponent implements OnInit {
 
   spinner: boolean;
   verFormCrear: string;
+  verPrivado: string;
   // FormBuilder que almacena los formControlName de los inputs
   crearreserva: FormGroup;
   // Variable que almacena las cedes
@@ -49,6 +51,8 @@ export class CrearreservaComponent implements OnInit {
   cbencargado?: any;
 
   semana: string[] = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+  cbtiporeserva: any[] = [ { value: 0, label: 'Programa' }, { value: 1, label: 'Privada' } ];
+  cbProgramasDefecto = [{ codigo_programa: 'Error', label: 'Error', grupo_cerrado: false }];
 
   horainicial = [
     { value: 600, viewValue: '6:00' },
@@ -98,27 +102,28 @@ export class CrearreservaComponent implements OnInit {
     { value: 2210, viewValue: '22:10' }
   ];
 
-  cbProgramasDefecto = [{ codigo_programa: 'Error', label: 'Error', grupo_cerrado: false }];
-  //Objetos reserva Privada
-  cbProgramasReservaPrivada = [{ codigo_programa: 'Privada', label: 'Privada', grupo_cerrado: false }];
-
-  /*Objetos quemados
-  programas = [{ codigo_programa: 'CN', label: 'Ingeniería Industrial' }, { codigo_programa: 'UL', label: 'Ingeniería de Sistemas' }];
+  /*Quemados
+  this.cbcodigo = [{ codigo_programa: 'CN', label: 'Ingeniería Industrial' }, { codigo_programa: 'UL', label: 'Ingeniería de Sistemas' }];
   cbniveles = [{ value: 1, label: '1' }, { value: 2, label: '2' }];
-  */
-  //Submodulos
-  submodulos = [{ value: 'Algebra 1', label: 'Algebra 1' }, { value: 'Algebra 2', label: 'Algebra 2' }, { value: 'Estadística', label: 'Estadística' }, { value: 'Lógica computacional', label: 'Lógica computacional' }];
-  // Grupos
   grupos = [{ value: 1, label: '1A' }, { value: 2, label: '1B' }, { value: 3, label: '2A' }, { value: 4, label: '2B' }];
-  // Encargados
+  this.cbgrupos = this.grupos;
+  this.crearreserva.controls['grupo'].setValue(this.cbgrupos[0].value);
+  submodulos = [{ value: 'Algebra 1', label: 'Algebra 1' }, { value: 'Algebra 2', label: 'Algebra 2' }, { value: 'Estadística', label: 'Estadística' }, { value: 'Lógica computacional', label: 'Lógica computacional' }];
+  this.cbsubmodulo = this.submodulos;
+  this.crearreserva.controls['submodulo'].setValue(this.cbsubmodulo[0].value);
   encargados = [{value: 1, label: 'Carlos Docente'},{value: 2, label: 'Jaime Docente'},{value: 3, label: 'Jorge Docente'}];
-  listaUnidades1 = [{ value: 1, label: 'Aula 225' }, { value: 2, label: 'Laboratorio 1' }];
-
-
+  this.cbencargado = this.encargados;
+  this.crearreserva.controls['encargado'].setValue(this.cbencargado[0].value);
+  
+  this.listaUnidades = this.listaUnidades1;
+  */
+  
   constructor(private fb: FormBuilder, private autenticacion: DatosUsuario, private toastr: ToastrService, private _peticion: RestService, private _peticionNestor: NestorService) {
-    this.spinner = true;
+    this.spinner = true;this.listaUnidades = [{ value: 1, label: 'Aula 225' }, { value: 2, label: 'Laboratorio 1' }];
     this.verFormCrear = 'none';
+    this.verPrivado = 'flex';
     this.crearreserva = this.fb.group({
+      tiporeserva: [0],
       fechainicio: ['', Validators.required],
       fechafin: ['', Validators.required],
       horainicio: [600],
@@ -142,46 +147,35 @@ export class CrearreservaComponent implements OnInit {
     //Se muestran los tipo de espacio almacenados la BD para el usuario actual
     this.cbtipoespacio = this.autenticacion.datosLogin.User.rol_espacio;
     this.crearreserva.controls['tipo'].setValue(this.cbtipoespacio[0].value);
-
     this.sedes = this.autenticacion.datosLogin.User.unidad_rol;
     this.crearreserva.controls['sede'].setValue(this.sedes[0].value);
-
-    this.cambiarCombos();
-    this.cbniveles = [{ value: 1, label: '1' }, { value: 2, label: '2' }, { value: 3, label: '3' }, { value: 4, label: '4' }];
-
     this.cbusuarios = [{ value: this.autenticacion.datosLogin.User.id_usuario, label: this.autenticacion.datosLogin.User.nombre_rol }];
     this.crearreserva.controls['usuariopersona'].setValue(this.cbusuarios[0].value);
-    
-    // Petición que llama y pid eel grupo y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
-    //this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
-      this.cbgrupos = this.grupos;
-      this.crearreserva.controls['grupo'].setValue(this.cbgrupos[0].value);
-    //});
-    // Petición que llama y pide el mdoulo y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
-    //this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
-      this.cbsubmodulo = this.submodulos;
-      this.crearreserva.controls['submodulo'].setValue(this.cbsubmodulo[0].value);
-    //});
-    // Petición que llama y pide el el usuario y encargado  y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
-    /*this.peticion.getselect('unidadorganizacional/combo/').subscribe((respuesta) => {
-      this.cbusuarios = this.usuario;
-      this.crearreserva.controls['usuariopersona'].setValue(this.cbusuarios[0].value);*/
-      this.cbencargado = this.encargados;
-      this.crearreserva.controls['encargado'].setValue(this.cbencargado[0].value);
-    //});
     // Petición que llama y pide las caracteristicas y lo almacena en la variable y le establece el valor inicial que se encuentre en la BD
     this._peticion.getselect('caracteristica/combo').subscribe((respuesta) => {
       this.cbcaracteristicas = respuesta;
       this.cbcaracteristicas.unshift({ value: 0, label: 'No aplica' });
       this.crearreserva.controls['caracteristica'].setValue(this.cbcaracteristicas[0].value);
-      setTimeout(() => {
-        this.spinner = false;
-        this.verFormCrear = 'block';
-      }, 300);
     });
+
+    this._peticionNestor.getInfo('profesores/comboprofesores').subscribe((respuesta) => {
+      this.cbencargado = respuesta.sort((firstObject: docentes, secondObject: docentes) => (firstObject.nombre_persona > secondObject.nombre_persona) ? 1 : -1);
+      this.crearreserva.controls['encargado'].setValue(this.cbencargado[0].id_profesor);
+    });
+    this.cambiarCombos();
   }
 
   ngOnInit(): void {
+  }
+
+  cambiarTipoReserva(): void {
+    this.spinner = true;
+    this.verFormCrear = 'none';
+    setTimeout(() => {
+      (this.crearreserva.value.tiporeserva === 0) ? this.verPrivado = 'flex' : this.verPrivado = 'none';
+      this.spinner = false;
+      this.verFormCrear = 'block';
+    }, 200);
   }
 
   // Metodo que busca los espacios disponibles segun los datos ingresados en el formulario
@@ -243,13 +237,13 @@ export class CrearreservaComponent implements OnInit {
       }
       this.crearreserva.controls['disponibles'].setValue(this.listaUnidades[0].value);
     });*/
-    this.listaUnidades = this.listaUnidades1;
     this.crearreserva.controls['disponibles'].setValue(this.listaUnidades[0].value);
     setTimeout(() => {
       this.spinner = false;
       this.verFormCrear = 'block';
     }, 300);
   }
+
   // Crea la reserva segun el dato escogido por el usuario ingresado
   crearReserva() {
     this.spinner = true;
@@ -281,16 +275,25 @@ export class CrearreservaComponent implements OnInit {
       }, 300);
       return;
     }
-    if (this.crearreserva.value.fechainicio > this.crearreserva.value.fechafin) {
-      this.toastr.warning('La fecha de inicio debe ser menor o igual a la fecha final', 'Alerta', { timeOut: 1500 });
+    if (this.crearreserva.value.fechainicio <= '2023-06-17') {
+      this.toastr.warning('Solo se pueden hacer reservas despues del 18 de Junio del 2023', 'Alerta', { timeOut: 1500 });
       setTimeout(() => {
         this.spinner = false;
         this.verFormCrear = 'block';
       }, 300);
       return;
     }
-    if (this.crearreserva.value.fechainicio < '2023-06-17') {
-      this.toastr.warning('Solo se pueden hacer reservas despues del 18 de Junio del 2023', 'Alerta', { timeOut: 1500 });
+    let datenow = new Date();
+    if (this.crearreserva.value.fechainicio < datenow.toISOString().slice(0,10)) {
+      this.toastr.warning('La fecha de inicio debe ser mayor a la actual', 'Alerta', { timeOut: 1500 });
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
+      return;
+    }
+    if (this.crearreserva.value.fechainicio > this.crearreserva.value.fechafin) {
+      this.toastr.warning('La fecha de inicio debe ser menor o igual a la fecha final', 'Alerta', { timeOut: 1500 });
       setTimeout(() => {
         this.spinner = false;
         this.verFormCrear = 'block';
@@ -313,27 +316,49 @@ export class CrearreservaComponent implements OnInit {
       }, 300);
       return;
     }
-    const objetogrupo = this.grupos.filter( item =>  item.value === this.crearreserva.value.grupo);
-    const objetocolaborador = this.encargados.filter( item => item.value === this.crearreserva.value.encargado);
-    //const objetoprograma = this.programas.filter( item => item.codigo_programa === this.crearreserva.value.programa);
     const objetoReservaDia = this.generarObjetoReservaDia();
-    this.objetoreserva = {
-      id_reserva:0,
-      id_unidad_organizacional: this.crearreserva.value.disponibles,
-      identificador_grupo: 0,
-      nombre_grupo: objetogrupo[0].label,
-      id_usuario_reserva: this.crearreserva.value.usuariopersona,
-      fecha_inicio_reserva: this.crearreserva.value.fechainicio,
-      fecha_fin_reserva: this.crearreserva.value.fechafin,
-      descripcion_reserva: this.crearreserva.value.observaciones,
-      estado_reserva: 'activo',
-      id_usuario_colaborador: objetocolaborador[0].value,
-      nombre_usuario_colaborador: objetocolaborador[0].label,
-      nivel: this.crearreserva.value.nivel,
-      codigo_programa: this.crearreserva.value.codigo,
-      nombre_programa: this.crearreserva.value.programa,
-      submodulo: this.crearreserva.value.submodulo,
-      reservaDia: objetoReservaDia
+    if (this.crearreserva.value.tiporeserva === 1) {
+      this.objetoreserva = {
+        id_reserva:0,
+        id_unidad_organizacional: this.crearreserva.value.disponibles,
+        identificador_grupo: 0,
+        nombre_grupo: '',
+        id_usuario_reserva: this.crearreserva.value.usuariopersona,
+        fecha_inicio_reserva: this.crearreserva.value.fechainicio,
+        fecha_fin_reserva: this.crearreserva.value.fechafin,
+        descripcion_reserva: this.crearreserva.value.observaciones,
+        estado_reserva: 'activo',
+        id_usuario_colaborador: 0,
+        nombre_usuario_colaborador: '',
+        nivel: '',
+        codigo_programa: '',
+        nombre_programa: '',
+        submodulo: '',
+        reservaDia: objetoReservaDia
+      }
+    } else {
+      //Quemado
+      //const objetogrupo = this.grupos.filter( item =>  item.value === this.crearreserva.value.grupo);
+      //const objetoprograma = this.programas.filter( item => item.codigo_programa === this.crearreserva.value.programa);
+      const objetocolaborador = this.cbencargado.filter( (item: any) => item.value === this.crearreserva.value.encargado);
+      this.objetoreserva = {
+        id_reserva:0,
+        id_unidad_organizacional: this.crearreserva.value.disponibles,
+        identificador_grupo: 0,
+        nombre_grupo: this.crearreserva.value.grupo,
+        id_usuario_reserva: this.crearreserva.value.usuariopersona,
+        fecha_inicio_reserva: this.crearreserva.value.fechainicio,
+        fecha_fin_reserva: this.crearreserva.value.fechafin,
+        descripcion_reserva: this.crearreserva.value.observaciones,
+        estado_reserva: 'activo',
+        id_usuario_colaborador: this.crearreserva.value.encargado,
+        nombre_usuario_colaborador: objetocolaborador[0].label,
+        nivel: this.crearreserva.value.nivel,
+        codigo_programa: this.crearreserva.value.codigo,
+        nombre_programa: this.crearreserva.value.programa,
+        submodulo: this.crearreserva.value.submodulo,
+        reservaDia: objetoReservaDia
+      }
     }
     this._peticion.create('reserva', this.objetoreserva).subscribe((respuesta) => {
       setTimeout(() => {
@@ -393,9 +418,6 @@ export class CrearreservaComponent implements OnInit {
   }
 
   cambiarCombos(): void {
-    /* Cargar combos quemados
-    this.cbcodigo = this.programas;
-    */
     setTimeout(() => {
       if (this.crearreserva.value.sede === 2 || this.crearreserva.value.sede === 426|| this.crearreserva.value.sede === 427 || this.crearreserva.value.sede === 428) {
         this._peticionNestor.getInfo('academico/programas/codigo-escuela/01').subscribe((respuesta) => {
@@ -438,6 +460,8 @@ export class CrearreservaComponent implements OnInit {
   }
 
   ejecutarCambioCodigoPrograma(obj: any):void {
+    this.spinner = true;
+    this.verFormCrear = 'none';
     setTimeout(() => {
       if (obj.length === 0) {
         this.cbcodigo = this.cbProgramasDefecto;
@@ -451,6 +475,8 @@ export class CrearreservaComponent implements OnInit {
   }
 
   ejecutarCambioNombrePrograma(): void {
+    this.spinner = true;
+    this.verFormCrear = 'none';
     setTimeout(() => {
       this.cbprograma = this.cbcodigo.filter((item: any) => item.codigo_programa === this.crearreserva.value.codigo);
       this.crearreserva.controls['programa'].setValue(this.cbprograma[0].label);
@@ -458,11 +484,39 @@ export class CrearreservaComponent implements OnInit {
   }
 
   ejecutarCambioNivel(): void {
+    this.spinner = true;
+    this.verFormCrear = 'none';
     setTimeout(() => {
-      //this._peticionNestor.getInfo('academico/' + this.crearreserva.value.codigo + '/niveles').subscribe((respuesta) => {console.log(respuesta)
-        //this.cbniveles = respuesta;
-        this.crearreserva.controls['nivel'].setValue(this.cbniveles[0].value);
-      //});
+      this._peticionNestor.getInfo('academico/' + this.crearreserva.value.codigo + '/niveles').subscribe((respuesta) => {
+        this.cbniveles = respuesta;
+        this.crearreserva.controls['nivel'].setValue(this.cbniveles[0].nivel);
+      });
+    }, 100);
+  }
+
+  ejecutarCambioGrupo(): void {
+    this.spinner = true;
+    this.verFormCrear = 'none';
+    setTimeout(() => {
+      this._peticionNestor.getInfo('academico/' + this.crearreserva.value.codigo + '/' + this.crearreserva.value.nivel + '/grupos').subscribe((respuesta) => {
+        this.cbgrupos = respuesta;
+        this.crearreserva.controls['grupo'].setValue(this.cbgrupos[0].grupo);
+      });
+    }, 100);
+  }
+
+  ejecutarCambioSubmodulo(): void {
+    this.spinner = true;
+    this.verFormCrear = 'none';
+    setTimeout(() => {
+      this._peticionNestor.getInfo('academico/' + this.crearreserva.value.codigo + '/' + this.crearreserva.value.nivel + '/' + this.crearreserva.value.grupo + '/materias').subscribe((respuesta) => {
+        this.cbsubmodulo = respuesta;
+        this.crearreserva.controls['submodulo'].setValue(this.cbsubmodulo[0].codigo_materia);
+      });
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 100);
     }, 100);
   }
 

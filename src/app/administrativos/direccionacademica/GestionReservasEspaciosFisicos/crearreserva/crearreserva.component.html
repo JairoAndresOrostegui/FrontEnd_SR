@@ -1,6 +1,16 @@
 <app-spinner *ngIf="spinner"></app-spinner>
 
 <form [formGroup]="crearreserva" class="formulario-estandar fondo-neutro-gris2 color-neutro-gris5" [ngStyle]="{'display':verFormCrear}">
+  <div class="centrar-fila">
+    <label class="fuente-pequeña">Tipo de reserva(*):</label>
+    <mat-form-field appearance="fill" class="centrar-select">
+      <mat-select formControlName="tiporeserva">
+        <mat-option *ngFor="let item of cbtiporeserva" [value]="item.value" (onSelectionChange)="cambiarTipoReserva()">
+          {{item.label}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
   <div class="fila">
     <div>
       <div class="centrar-fila">
@@ -67,7 +77,7 @@
       </mat-form-field>
     </div>
   </div>
-  <div class="fila">
+  <div class="fila" [ngStyle]="{'display':verPrivado}">
     <div class="centrar-fila">
       <label class="fuente-pequeña">Código:</label>
       <mat-form-field appearance="fill" class="centrar-select">
@@ -89,13 +99,13 @@
       </mat-form-field>
     </div>
   </div>
-  <div class="fila">
+  <div class="fila" [ngStyle]="{'display':verPrivado}">
     <div class="centrar-fila">
       <label class="fuente-pequeña">Nivel:</label>
       <mat-form-field appearance="fill" class="centrar-select">
         <mat-select formControlName="nivel">
-          <mat-option *ngFor="let item of cbniveles" [value]="item.value">
-            {{item.label.toUpperCase()}}
+          <mat-option *ngFor="let item of cbniveles" [value]="item.nivel" (onSelectionChange)="ejecutarCambioGrupo()">
+            {{item.nivel.toUpperCase()}}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -104,30 +114,30 @@
       <label class="fuente-pequeña">Grupo:</label>
       <mat-form-field appearance="fill" class="centrar-select">
         <mat-select formControlName="grupo">
-          <mat-option *ngFor="let item of cbgrupos" [value]="item.value">
-            {{item.label.toUpperCase()}}
+          <mat-option *ngFor="let item of cbgrupos" [value]="item.grupo" (onSelectionChange)="ejecutarCambioSubmodulo()">
+            {{item.grupo.toUpperCase()}}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
   </div>
-  <div class="fila">
+  <div class="fila" [ngStyle]="{'display':verPrivado}">
     <div class="centrar-fila">
       <label class="fuente-pequeña">Submódulo:</label>
       <mat-form-field appearance="fill" class="centrar-select">
         <mat-select formControlName="submodulo">
-          <mat-option *ngFor="let item of cbsubmodulo" [value]="item.value">
-            {{item.label.toUpperCase()}}
+          <mat-option *ngFor="let item of cbsubmodulo" [value]="item.codigo_materia" matTooltip="{{item.codigo_materia}}">
+            {{item.nombre_materia.toUpperCase()}}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
     <div class="centrar-fila">
-      <label class="fuente-pequeña">Usuario:</label>
+      <label class="fuente-pequeña">Encargado:</label>
       <mat-form-field appearance="fill" class="centrar-select">
-        <mat-select formControlName="usuariopersona">
-          <mat-option *ngFor="let item of cbusuarios" [value]="item.value">
-            {{item.label.toUpperCase()}}
+        <mat-select formControlName="encargado">
+          <mat-option *ngFor="let item of cbencargado" [value]="item.id_profesor" matTooltip="{{item.id_profesor}}">
+            {{item.nombre_persona.toUpperCase()}}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -166,10 +176,10 @@
           class="fuente-pequeña mb-6 centrar-fila color-alerta-rojo">La capacidad debe ser mínimo: 1</span>
     </div>
     <div class="centrar-fila">
-      <label class="fuente-pequeña">Encargado:</label>
+      <label class="fuente-pequeña">Usuario:</label>
       <mat-form-field appearance="fill" class="centrar-select">
-        <mat-select formControlName="encargado">
-          <mat-option *ngFor="let item of cbencargado" [value]="item.value">
+        <mat-select formControlName="usuariopersona">
+          <mat-option *ngFor="let item of cbusuarios" [value]="item.value">
             {{item.label.toUpperCase()}}
           </mat-option>
         </mat-select>

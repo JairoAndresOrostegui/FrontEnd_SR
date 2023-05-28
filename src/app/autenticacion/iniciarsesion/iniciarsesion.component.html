@@ -11,13 +11,14 @@
     <!-- Input para ingresar la contraseña -->
     <div class="etiqueta-entrada mt-6 fuente-pequeña">
       <label class="etiqueta">Contraseña:</label>
-      <div class="etiqueta-entrada-contraseña">
+      <div class="fix">
         <input [type]="tipoinput" class="entrada-texto" placeholder="escriba la contraseña" [(ngModel)]="clave"
           name="contraseña">
         <!-- Icono del ojo para ver u ocultar contraseña -->
         <button
           class="mostrar-contraseña icono icono-contrasena fondo-basico-magenta fusion-boton borde-grueso contorno-nulo esquina-24"
-          type="button" matTooltip="Mostrar/Ocultar contraseña" (click)="cambiarTipo()"></button>
+          type="button" matTooltip="Mostrar/Ocultar contraseña" (click)="cambiarTipo()">
+        </button>
       </div>
     </div>
     <!-- Boton de ingresar -->

@@ -18,17 +18,15 @@ export class ConsultarreservaComponent implements OnInit {
   
   // Variable que almacena la sede para mostrar el comboBox
   cmbSedes: any;
+  cmbTipos: any;
   sedes: any;
   cbvacio: any;
   espacios: any;
-  arrayEspacios: any[];
-  cmbEspacios: any[];
+  cmbEspacios: any;
   objReserva: any[];
   spinner: boolean;
   idUnidadReserva?: number;
   verFormConsulta: string;
-
-  arregloTipoEspacio = ['aula', 'laboratorio', 'sala de cómputo'];
   
   semana: string[] = ['Hora', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
   hora = ['06:00', '06:45', '07:30', '08:15', '09:00', '09:45', '10:30', '11:15', '12:00', '12:45', '13:30', '14:15', '15:00', '15:45',
@@ -38,13 +36,12 @@ export class ConsultarreservaComponent implements OnInit {
               private toastr: ToastrService, private logReserva: logicaReserva ){
     this.spinner = false;
     this.visible = false;
-    this.cmbEspacios = [];
-    this.arrayEspacios = [];
     this.objReserva = [];
     this.verFormConsulta = 'block';
     this.buscar = this.fb.group ({
       sede: [''],
       espacios: [''],
+      tipo: ['']
     });
     // Inicializamos el comboBox de sedes con las que el usuario tenga acceso de informacion
     this._peticion.getselect('unidadrol?id_rol=' + this.Usuario.datosLogin.rol).subscribe((respuesta) => {
@@ -57,6 +54,7 @@ export class ConsultarreservaComponent implements OnInit {
         this.cmbSedes = this.cbvacio;
         this.buscar.controls['sede'].setValue(this.cmbSedes[0].value);
       } //** FIN if */
+      this.mostrarEspacios();
     });
   };
 
@@ -66,28 +64,14 @@ export class ConsultarreservaComponent implements OnInit {
   mostrarEspacios(): void {
     this.spinner = true;
     this.visible = false;
-    this.cmbEspacios = [];
-    this.arrayEspacios = [];
     this.verFormConsulta = 'none';
     setTimeout(() => {
-      for (let item of this.arregloTipoEspacio) {
-        this._peticion.getunidad('unidadorganizacional/buscar?type=tipo&search=' + item + '&id_sede=' + this.buscar.value.sede).subscribe((respuesta) => {
-          if (respuesta.message != 'No hay registros') {
-            this.espacios = respuesta;
-            if (this.espacios.length != 0) {
-              for(let item of this.espacios) {
-                this.arrayEspacios.push(item);
-              }
-            }
-          }
-        });
-      }
-    }, 100);
-    setTimeout(() => {
-      this.cmbEspacios = this.arrayEspacios;
-      this.spinner = false;
-      this.verFormConsulta = 'block';
-      this.buscar.controls['espacios'].setValue(this.cmbEspacios[0]?.id_unidad_organizacional);
+      this._peticion.getselect('unidadorganizacional?id_sede=' + this.buscar.value.sede).subscribe((respuesta) => {
+        this.cmbEspacios = respuesta;
+        this.spinner = false;
+        this.verFormConsulta = 'block';
+        this.buscar.controls['espacios'].setValue(this.cmbEspacios[0]?.id_unidad_organizacional);
+      });
     }, 300);
   }
 
@@ -97,11 +81,9 @@ export class ConsultarreservaComponent implements OnInit {
     this.verFormConsulta = 'none';
     setTimeout (() => {
       this._peticion.gettodasreserva('reserva/buscar?type=unidad_organizacional&search=' + this.buscar.value.espacios).subscribe((respuesta) => {
-        console.log(respuesta)
         this.Usuario.datosReserva = respuesta;
         if (this.Usuario.datosReserva.message != 'No hay registros') {
           this.objReserva = this.logReserva.crearObjeto(this.Usuario.datosReserva);
-          console.log(this.objReserva)
           this.visible = true;
         } else {
           this.toastr.error('No hay registros', 'Error', { timeOut: 1500 });
@@ -110,7 +92,7 @@ export class ConsultarreservaComponent implements OnInit {
         this.spinner = false;
         this.verFormConsulta = 'block';
       });
-    }, 400);
+    }, 300);
   }
 
 }

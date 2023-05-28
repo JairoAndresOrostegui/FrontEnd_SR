@@ -22,7 +22,11 @@ export interface ObtenerReserva {
   id_reserva:                   number;
   nombre_unidad_organizacional: string;
   nombre_submodulo:             string;
-  nombre_usuario:               string;
+  nombre_usuario_colaborador:   string;
+  nombre_programa:              string;
+  codigo_programa:              string;
+  nombre_rol:                   string;
+  area_rol:                     string;
   fecha_inicio_reserva:         Date;
   fecha_fin_reserva:            Date;
   descripcion_reserva:          string;
@@ -35,5 +39,6 @@ export interface ReservaDia {
   id_reserva:              number;
   reserva_dia_dia:         string;
   reserva_dia_hora_inicio: number;
-  jornada:    string;
+  jornada:                 string;
 }
+

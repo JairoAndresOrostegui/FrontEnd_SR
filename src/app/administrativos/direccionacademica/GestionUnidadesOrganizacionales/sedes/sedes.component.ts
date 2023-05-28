@@ -118,7 +118,9 @@ export class SedesComponent implements OnInit {
       this.actualizar.controls['nombre'].setValue(respuesta.nombre_unidad_organizacional);
       this.txtunidad = respuesta.nombre_unidad_organizacional.toLowerCase();
       this.actualizar.controls['piso'].setValue(respuesta.piso_unidad_organizacional);
-      this.actualizar.controls['capacidad'].setValue(respuesta.capacidad_unidad_organizacional);
+      this._peticion.getId('reserva/obtener-capacidad?id_sede=' + id).subscribe((respuesta4) => {
+        this.actualizar.controls['capacidad'].setValue(respuesta4);
+      });
       this.actualizar.controls['estado'].setValue(respuesta.estado_unidad_organizacional);
       this._peticion.getselect('tipoespacio/combo').subscribe((respuesta1) => {
         this.tiposdeespacio = respuesta1;
