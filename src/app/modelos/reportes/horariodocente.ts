@@ -4,8 +4,8 @@ export interface Hdocente {
 }
 
 export interface ReporteReservaDiaDocentes {
-  fecha_inicio_reserva:         Date;
-  fecha_fin_reserva:            Date;
+  fecha_inicio_reserva:         string;
+  fecha_fin_reserva:            string;
   nombre_programa:              string;
   nivel:                        number;
   nombre_unidad_organizacional: string;

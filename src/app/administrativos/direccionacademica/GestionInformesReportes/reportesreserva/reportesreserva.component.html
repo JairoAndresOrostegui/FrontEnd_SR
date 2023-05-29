@@ -28,7 +28,61 @@
     <th>Fecha de inicio</th>
     <th>Fecha de fin</th>
   </tr>
-  <tr *ngFor="let item of Usuario.datosReserva" class="fuente-cuerpo-tabla borde-tabla">
+  <tr *ngFor="let item of reservalunes" class="fuente-cuerpo-tabla borde-tabla">
+    <td>{{ item.reporteReservaDiaDocentes.reserva_dia_hora_inicio }}</td>
+    <td>{{ item.reserva_dia_dia }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nombre_programa }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nombre_unidad_organizacional }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nivel }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.fecha_inicio_reserva.slice(0, 10) }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.fecha_fin_reserva.slice(0, 10) }}</td>
+  </tr>
+  <tr *ngFor="let item of reservamartes" class="fuente-cuerpo-tabla borde-tabla">
+    <td>{{ item.reporteReservaDiaDocentes.reserva_dia_hora_inicio }}</td>
+    <td>{{ item.reserva_dia_dia }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nombre_programa }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nombre_unidad_organizacional }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nivel }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.fecha_inicio_reserva.slice(0, 10) }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.fecha_fin_reserva.slice(0, 10) }}</td>
+  </tr>
+  <tr *ngFor="let item of reservamiercoles" class="fuente-cuerpo-tabla borde-tabla">
+    <td>{{ item.reporteReservaDiaDocentes.reserva_dia_hora_inicio }}</td>
+    <td>{{ item.reserva_dia_dia }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nombre_programa }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nombre_unidad_organizacional }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nivel }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.fecha_inicio_reserva.slice(0, 10) }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.fecha_fin_reserva.slice(0, 10) }}</td>
+  </tr>
+  <tr *ngFor="let item of reservajueves" class="fuente-cuerpo-tabla borde-tabla">
+    <td>{{ item.reporteReservaDiaDocentes.reserva_dia_hora_inicio }}</td>
+    <td>{{ item.reserva_dia_dia }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nombre_programa }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nombre_unidad_organizacional }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nivel }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.fecha_inicio_reserva.slice(0, 10) }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.fecha_fin_reserva.slice(0, 10) }}</td>
+  </tr>
+  <tr *ngFor="let item of reservaviernes" class="fuente-cuerpo-tabla borde-tabla">
+    <td>{{ item.reporteReservaDiaDocentes.reserva_dia_hora_inicio }}</td>
+    <td>{{ item.reserva_dia_dia }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nombre_programa }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nombre_unidad_organizacional }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nivel }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.fecha_inicio_reserva.slice(0, 10) }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.fecha_fin_reserva.slice(0, 10) }}</td>
+  </tr>
+  <tr *ngFor="let item of reservasabado" class="fuente-cuerpo-tabla borde-tabla">
+    <td>{{ item.reporteReservaDiaDocentes.reserva_dia_hora_inicio }}</td>
+    <td>{{ item.reserva_dia_dia }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nombre_programa }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nombre_unidad_organizacional }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.nivel }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.fecha_inicio_reserva.slice(0, 10) }}</td>
+    <td>{{ item.reporteReservaDiaDocentes.fecha_fin_reserva.slice(0, 10) }}</td>
+  </tr>
+  <tr *ngFor="let item of reservadomingo" class="fuente-cuerpo-tabla borde-tabla">
     <td>{{ item.reporteReservaDiaDocentes.reserva_dia_hora_inicio }}</td>
     <td>{{ item.reserva_dia_dia }}</td>
     <td>{{ item.reporteReservaDiaDocentes.nombre_programa }}</td>
