@@ -50,7 +50,7 @@ export class CrearreservaComponent implements OnInit {
   // Temporal
   cbencargado?: any;
 
-  semana: string[] = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+  semana: string[] = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
   cbtiporeserva: any[] = [ { value: 0, label: 'Programa' }, { value: 1, label: 'Privada' } ];
   cbProgramasDefecto = [{ codigo_programa: 'Error', label: 'Error', grupo_cerrado: false }];
 
@@ -119,7 +119,7 @@ export class CrearreservaComponent implements OnInit {
   */
   
   constructor(private fb: FormBuilder, private autenticacion: DatosUsuario, private toastr: ToastrService, private _peticion: RestService, private _peticionNestor: NestorService) {
-    this.spinner = true;this.listaUnidades = [{ value: 1, label: 'Aula 225' }, { value: 2, label: 'Laboratorio 1' }];
+    this.spinner = true;
     this.verFormCrear = 'none';
     this.verPrivado = 'flex';
     this.crearreserva = this.fb.group({
@@ -180,38 +180,21 @@ export class CrearreservaComponent implements OnInit {
 
   // Metodo que busca los espacios disponibles segun los datos ingresados en el formulario
   buscarEspacios(): void {
+    this.listaUnidades = [];
     this.spinner = true;
     this.verFormCrear = 'none';
-    if (this.crearreserva.invalid) {
-      for (const control of Object.keys(this.crearreserva.controls)) {
-        this.crearreserva.controls[control].markAsTouched();
+    let horas = [];
+    this.validarFormulario();
+    for (let i = 0; i < 50; i++) {
+      if (this.horainicial[i].value === this.crearreserva.value.horainicio) {
+        for (let j = (i+1); j < 50; j++) {
+          horas.push(this.horainicial[(j-1)].value);
+          if (this.horainicial[j].value === this.crearreserva.value.horafin) {
+            break;
+          }
+        }
+        break;
       }
-      setTimeout(() => {
-        this.spinner = false;
-        this.verFormCrear = 'block';
-      }, 300);
-      return;
-    };
-    /*
-    if (this.crearreserva.value.horainicio >= this.crearreserva.value.horafin) {
-      this.toastr.warning('La hora de inicio debe ser menor que la hora final', 'Alerta', { timeOut: 1500 });
-      return;
-    }
-    if (this.crearreserva.value.fechainicio > this.crearreserva.value.fechafin) {
-      this.toastr.warning('La fecha de inicio debe ser menor o igual a la fecha final', 'Alerta', { timeOut: 1500 });
-      return;
-    }
-    if (this.crearreserva.value.fechainicio < '2023-06-17') {
-      this.toastr.warning('Solo se pueden hacer reservas despues del 18 de Junio del 2023', 'Alerta', { timeOut: 1500 });
-      return;
-    }
-    if (this.crearreserva.value.capacidad < 1) {
-      this.toastr.warning('La capacidad debe ser un número entero mayor a 0', 'Alerta', { timeOut: 1500 });
-      return;
-    }
-    if (this.crearreserva.value.dia.length === 0) {
-      this.toastr.warning('Debe escoger al menos un día', 'Alerta', { timeOut: 1500 });
-      return;
     }
     this.objetoreserva = {
       id_unidad_organizacional_padre: this.crearreserva.value.sede,
@@ -219,97 +202,38 @@ export class CrearreservaComponent implements OnInit {
       fecha_inicio_reserva: this.crearreserva.value.fechainicio,
       fecha_fin_reserva: this.crearreserva.value.fechafin,
       reserva_dia_dia: this.crearreserva.value.dia,
-      reserva_dia_hora_inicio: this.crearreserva.value.horainicio,
-      reserva_dia_hora_fin: this.crearreserva.value.horafin,
+      reserva_dia_hora_inicio: horas,
       id_caracteristica: this.crearreserva.value.caracteristica,
       capacidad_unidad_organizacional: parseInt(this.crearreserva.value.capacidad),
-      estado: this.crearreserva.value.estado
+      estado: "activo"
     };
     // Realiza la busqueda segun el objeto que ingreso el usuario
-    this.peticion.postreserva('unidadorganizacional/reserva', this.objetoreserva).subscribe((respuesta) => {
-      if (this.crearreserva.value.estado === 'disponible') {
-        this.listaUnidades = respuesta.reservaDisponible;
+    this._peticion.postreserva('reserva/obtener-espacios-disponibles', this.objetoreserva).subscribe((respuesta) => {
+      if (respuesta.message === 'No hay espacios disponibles') {
+        this.toastr.warning('No hay espacios disponibles', 'Alerta', { timeOut: 1500 });
+        this.listaUnidades = [];
+      } else if (respuesta.message === 'No se pudo obtener unidades') {
+        this.toastr.warning('No existe ese tipo de unidad en esa sede', 'Alerta', { timeOut: 1500 });
+        this.listaUnidades = [];
       } else {
-        this.listaUnidades = respuesta.reservaReservada;
+        this.toastr.success('Espacios encontrados', 'Alerta', { timeOut: 1500 });
+        this.listaUnidades = respuesta;
+        this.crearreserva.controls['disponibles'].setValue(this.listaUnidades[0].value);
       }
-      if (this.listaUnidades.length === 0 || undefined) {
-        this.listaUnidades = this.cbvacio;
-      }
-      this.crearreserva.controls['disponibles'].setValue(this.listaUnidades[0].value);
-    });*/
-    this.crearreserva.controls['disponibles'].setValue(this.listaUnidades[0].value);
-    setTimeout(() => {
-      this.spinner = false;
-      this.verFormCrear = 'block';
-    }, 300);
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
+    });
   }
 
   // Crea la reserva segun el dato escogido por el usuario ingresado
   crearReserva() {
     this.spinner = true;
     this.verFormCrear = 'none';
-    if (this.crearreserva.invalid) {
-      for (const control of Object.keys(this.crearreserva.controls)) {
-        this.crearreserva.controls[control].markAsTouched();
-      }
-      this.toastr.warning('Revise los campos, algo no se encuentra bien', 'Alerta', { timeOut: 1500 });
-      setTimeout(() => {
-        this.spinner = false;
-        this.verFormCrear = 'block';
-      }, 300);
-      return;
-    }
+    this.validarFormulario();
     if (this.crearreserva.value.disponibles === 0 || this.crearreserva.value.disponibles === '') {
       this.toastr.warning('Elija una unidad disponible', 'Alerta', { timeOut: 1500 });
-      setTimeout(() => {
-        this.spinner = false;
-        this.verFormCrear = 'block';
-      }, 300);
-      return;
-    }
-    if (this.crearreserva.value.horainicio >= this.crearreserva.value.horafin) {
-      this.toastr.warning('La hora de inicio debe ser menor que la hora final', 'Alerta', { timeOut: 1500 });
-      setTimeout(() => {
-        this.spinner = false;
-        this.verFormCrear = 'block';
-      }, 300);
-      return;
-    }
-    if (this.crearreserva.value.fechainicio <= '2023-06-17') {
-      this.toastr.warning('Solo se pueden hacer reservas despues del 18 de Junio del 2023', 'Alerta', { timeOut: 1500 });
-      setTimeout(() => {
-        this.spinner = false;
-        this.verFormCrear = 'block';
-      }, 300);
-      return;
-    }
-    let datenow = new Date();
-    if (this.crearreserva.value.fechainicio < datenow.toISOString().slice(0,10)) {
-      this.toastr.warning('La fecha de inicio debe ser mayor a la actual', 'Alerta', { timeOut: 1500 });
-      setTimeout(() => {
-        this.spinner = false;
-        this.verFormCrear = 'block';
-      }, 300);
-      return;
-    }
-    if (this.crearreserva.value.fechainicio > this.crearreserva.value.fechafin) {
-      this.toastr.warning('La fecha de inicio debe ser menor o igual a la fecha final', 'Alerta', { timeOut: 1500 });
-      setTimeout(() => {
-        this.spinner = false;
-        this.verFormCrear = 'block';
-      }, 300);
-      return;
-    }
-    if (this.crearreserva.value.capacidad < 1) {
-      this.toastr.warning('La capacidad debe ser un número entero mayor a 0', 'Alerta', { timeOut: 1500 });
-      setTimeout(() => {
-        this.spinner = false;
-        this.verFormCrear = 'block';
-      }, 300);
-      return;
-    }
-    if (this.crearreserva.value.dia.length === 0) {
-      this.toastr.warning('Debe escoger al menos un día', 'Alerta', { timeOut: 1500 });
       setTimeout(() => {
         this.spinner = false;
         this.verFormCrear = 'block';
@@ -340,7 +264,7 @@ export class CrearreservaComponent implements OnInit {
       //Quemado
       //const objetogrupo = this.grupos.filter( item =>  item.value === this.crearreserva.value.grupo);
       //const objetoprograma = this.programas.filter( item => item.codigo_programa === this.crearreserva.value.programa);
-      const objetocolaborador = this.cbencargado.filter( (item: any) => item.value === this.crearreserva.value.encargado);
+      const objetocolaborador = this.cbencargado.filter( (item: any) => item.id_profesor === this.crearreserva.value.encargado);
       this.objetoreserva = {
         id_reserva:0,
         id_unidad_organizacional: this.crearreserva.value.disponibles,
@@ -352,7 +276,7 @@ export class CrearreservaComponent implements OnInit {
         descripcion_reserva: this.crearreserva.value.observaciones,
         estado_reserva: 'activo',
         id_usuario_colaborador: this.crearreserva.value.encargado,
-        nombre_usuario_colaborador: objetocolaborador[0].label,
+        nombre_usuario_colaborador: objetocolaborador[0].nombre_persona,
         nivel: this.crearreserva.value.nivel,
         codigo_programa: this.crearreserva.value.codigo,
         nombre_programa: this.crearreserva.value.programa,
@@ -518,6 +442,69 @@ export class CrearreservaComponent implements OnInit {
         this.verFormCrear = 'block';
       }, 100);
     }, 100);
+  }
+
+  validarFormulario():void {
+    if (this.crearreserva.invalid) {
+      for (const control of Object.keys(this.crearreserva.controls)) {
+        this.crearreserva.controls[control].markAsTouched();
+      }
+      this.toastr.warning('Revise los campos, algo no se encuentra bien', 'Alerta', { timeOut: 1500 });
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
+      return;
+    }
+    if (this.crearreserva.value.horainicio >= this.crearreserva.value.horafin) {
+      this.toastr.warning('La hora de inicio debe ser menor que la hora final', 'Alerta', { timeOut: 1500 });
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
+      return;
+    }
+    if (this.crearreserva.value.fechainicio <= '2023-06-17') {
+      this.toastr.warning('Solo se pueden hacer reservas despues del 18 de Junio del 2023', 'Alerta', { timeOut: 1500 });
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
+      return;
+    }
+    let datenow = new Date();
+    if (this.crearreserva.value.fechainicio < datenow.toISOString().slice(0,10)) {
+      this.toastr.warning('La fecha de inicio debe ser mayor a la actual', 'Alerta', { timeOut: 1500 });
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
+      return;
+    }
+    if (this.crearreserva.value.fechainicio > this.crearreserva.value.fechafin) {
+      this.toastr.warning('La fecha de inicio debe ser menor o igual a la fecha final', 'Alerta', { timeOut: 1500 });
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
+      return;
+    }
+    if (this.crearreserva.value.capacidad < 1) {
+      this.toastr.warning('La capacidad debe ser un número entero mayor a 0', 'Alerta', { timeOut: 1500 });
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
+      return;
+    }
+    if (this.crearreserva.value.dia.length === 0) {
+      this.toastr.warning('Debe escoger al menos un día', 'Alerta', { timeOut: 1500 });
+      setTimeout(() => {
+        this.spinner = false;
+        this.verFormCrear = 'block';
+      }, 300);
+      return;
+    }
   }
 
 }

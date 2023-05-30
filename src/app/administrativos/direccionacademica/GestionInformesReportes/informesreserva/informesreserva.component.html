@@ -16,7 +16,7 @@
         <label class="fuente-pequeña">Sede:</label>
         <mat-form-field appearance="fill" class="centrar-select">
           <mat-select  formControlName="sede">
-            <mat-option *ngFor="let item of sedes" [value]="item.value">
+            <mat-option *ngFor="let item of sedes" [value]="item.value" (onSelectionChange)="mostrarLista()">
               {{item.label}}
             </mat-option>           
           </mat-select>

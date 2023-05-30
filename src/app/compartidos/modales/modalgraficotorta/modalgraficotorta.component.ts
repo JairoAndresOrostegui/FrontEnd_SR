@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Color, ScaleType } from '@swimlane/ngx-charts';
+import { ScaleType } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-modalgraficotorta',
@@ -42,23 +42,6 @@ export class ModalgraficotortaComponent implements OnInit {
     selectable: true, 
     name: 'Customer Usage'
   };
-
-  /*
-  ocupacion = [
-    {
-      "name": "Principal",
-      "value": 7
-    },
-    {
-      "name": "Palo",
-      "value": 0
-    },
-    {
-      "name": "San Ignacio",
-      "value": 0
-    }
-  ];
-  */
 
   tiposUnidad = [
     {

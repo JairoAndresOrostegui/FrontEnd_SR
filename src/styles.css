@@ -304,6 +304,9 @@ input {
   font-family: Montserrat-Medium !important;
 }
 
+.mat-dialog-container {
+  font-family: Montserrat-Light !important;
+}
 
 /* Tamaños predeterminados: */
 

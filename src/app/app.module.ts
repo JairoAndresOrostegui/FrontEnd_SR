@@ -47,7 +47,8 @@ import { ModalgraficotortaComponent } from './compartidos/modales/modalgraficoto
 import { ModalgraficobarrasComponent } from './compartidos/modales/modalgraficobarras/modalgraficobarras.component';
 import { SedesComponent } from './administrativos/direccionacademica/GestionUnidadesOrganizacionales/sedes/sedes.component';
 import { SpinnerComponent } from './compartidos/spinner/spinner.component';
-import { ModaltabladatosComponent } from './modales/modaltabladatos/modaltabladatos.component';
+import { ReservaDatosAllsedesComponent } from './compartidos/modales/reservas/reserva-datos-allsedes/reserva-datos-allsedes.component';
+import { ReservaGraficosAllsedesComponent } from './compartidos/modales/reservas/reserva-graficos-allsedes/reserva-graficos-allsedes.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { ModaltabladatosComponent } from './modales/modaltabladatos/modaltablada
     ModalgraficobarrasComponent,
     SedesComponent,
     SpinnerComponent,
-    ModaltabladatosComponent
+    ReservaDatosAllsedesComponent,
+    ReservaGraficosAllsedesComponent
   ],
   imports: [
     BrowserModule,

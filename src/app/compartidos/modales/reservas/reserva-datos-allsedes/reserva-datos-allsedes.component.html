@@ -1,0 +1,52 @@
+<div class="centrar-texto mb-2">
+  <h1 class="fuente-extragrande">{{ tittle }}</h1>
+</div>
+<div class="centrar-fila">
+  <table class="espacio-trabajo centrar-texto" [cellPadding]="10">
+    <tr class="fuente-pequeña">
+      <th>Sede</th>
+      <th>Espacios</th>
+      <th>Reservas</th>
+      <th>Mañana</th>
+      <th>Tarde</th>
+      <th>Noche</th>
+      <th>Sábado</th>
+      <th>Domingo</th>
+    </tr>
+    <tr class="fuente-cuerpo-tabla borde-tabla">
+    <tr *ngFor="let item of dataTabla" class="fuente-cuerpo-tabla borde-tabla">
+      <td class="texto-izquierda1">{{ item.nombre_sede.charAt(0).toUpperCase() + item.nombre_sede.slice(1) }}</td>
+      <td>{{ item.ocupacion_total }}</td>
+      <td>
+        {{
+          item.informes.lunes_conteo_jornada1 + item.informes.lunes_conteo_jornada2 + item.informes.lunes_conteo_jornada3 +
+          item.informes.martes_conteo_jornada1 + item.informes.martes_conteo_jornada2 + item.informes.martes_conteo_jornada3 +
+          item.informes.miercoles_conteo_jornada1 + item.informes.miercoles_conteo_jornada2 + item.informes.miercoles_conteo_jornada3 +
+          item.informes.jueves_conteo_jornada1 + item.informes.jueves_conteo_jornada2 + item.informes.jueves_conteo_jornada3 +
+          item.informes.viernes_conteo_jornada1 + item.informes.viernes_conteo_jornada2 + item.informes.viernes_conteo_jornada3 +
+          item.informes.sadado_conteo_jornada4 + item.informes.domingo_conteo_jornada5
+        }}
+      </td>
+      <td>
+        {{
+          item.informes.lunes_conteo_jornada1 + item.informes.martes_conteo_jornada1 + item.informes.miercoles_conteo_jornada1 +
+          item.informes.jueves_conteo_jornada1 + item.informes.viernes_conteo_jornada1
+        }}
+      </td>
+      <td>
+        {{
+          item.informes.lunes_conteo_jornada2 + item.informes.martes_conteo_jornada2 + item.informes.miercoles_conteo_jornada2 +
+          item.informes.jueves_conteo_jornada2 + item.informes.viernes_conteo_jornada2
+        }}
+      </td>
+      <td>
+        {{
+          item.informes.lunes_conteo_jornada3 + item.informes.martes_conteo_jornada3 + item.informes.miercoles_conteo_jornada3 +
+          item.informes.jueves_conteo_jornada3 + item.informes.viernes_conteo_jornada3
+        }}
+      </td>
+      <td>{{ item.informes.sadado_conteo_jornada4 }}</td>
+      <td>{{ item.informes.domingo_conteo_jornada5 }}</td>
+    </tr>
+  </table>
+</div>
