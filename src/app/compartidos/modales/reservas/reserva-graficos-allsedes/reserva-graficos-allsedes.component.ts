@@ -36,7 +36,7 @@ export class ReservaGraficosAllsedesComponent implements OnInit {
         "name": item.nombre_sede.charAt(0).toUpperCase() + item.nombre_sede.slice(1),
         "series": [
           {
-            "name": "Ocupación total",
+            "name": "Ocupación máxima",
             "value": (item.ocupacion_total*147)
           },
           {

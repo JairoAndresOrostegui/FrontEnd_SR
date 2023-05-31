@@ -6,6 +6,9 @@ import { ReservaDatosAllsedesComponent } from 'src/app/compartidos/modales/reser
 import { ReservaGraficosAllsedesComponent } from 'src/app/compartidos/modales/reservas/reserva-graficos-allsedes/reserva-graficos-allsedes.component';
 import { DatosUsuario } from 'src/app/modelos/modelosData';
 import { RestService } from 'src/app/servicios/rest.service';
+import { FileSaverService } from 'ngx-filesaver';
+import * as XLSX from 'xlsx';
+import { logicaInformesData } from './transformarData';
 
 @Component({
   selector: 'app-informesreserva',
@@ -20,13 +23,14 @@ export class InformesreservaComponent implements OnInit {
   selectSedes: boolean;
   mostrarTodas: boolean;
   opcionesInforme: any[];
+  data: any;
   reportes: any;
   sedes: any;
   sede: any;
-  
   tittle: string = '';
 
-  constructor(private fb: FormBuilder,private toastr: ToastrService, private _peticion: RestService, public Usuario: DatosUsuario, public confirmacion: MatDialog) {
+  constructor(private fb: FormBuilder,private toastr: ToastrService, private _peticion: RestService, public Usuario: DatosUsuario, public confirmacion: MatDialog,
+    private filerSaver:FileSaverService, private convertir: logicaInformesData) {
     this.opcionesInforme = [{ value: 1, label: 'Todas las sedes'}, { value: 2, label: 'Por sede'},];
     this.selectSedes = false;
     this.mostrarTodas = false;
@@ -100,7 +104,27 @@ export class InformesreservaComponent implements OnInit {
   }
 
   descargarReporte(id: number): void {
-  
+    const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const EXCEL_EXTENSION = '.xlsx';
+    setTimeout(() => {
+      if (this.frmInforme.value.opcionInforme === 1) {
+        //const ws:XLSX.WorkSheet = 
+        this._peticion.getselect('reserva/informe-allsede').subscribe((respuesta) => {
+          this.data = respuesta;
+          const newData = this.convertir.convertirDataAllSedes(this.data);
+          const worksheet = XLSX.utils.json_to_sheet(newData!);
+          const workbook = {
+            Sheets: {
+              'testingSheet': worksheet
+            },
+            SheetNames:['testingSheet']
+          };
+          const excelBuffer = XLSX.write(workbook,{bookType:'xlsx', type:'array'});
+          const bloobData = new Blob([excelBuffer],{type:EXCEL_TYPE});
+          this.filerSaver.save(bloobData,"ReservasTotalSedes");
+        });
+      }
+    }, 200);
   }
 
 }

@@ -215,6 +215,9 @@ export class CrearreservaComponent implements OnInit {
       } else if (respuesta.message === 'No se pudo obtener unidades') {
         this.toastr.warning('No existe ese tipo de unidad en esa sede', 'Alerta', { timeOut: 1500 });
         this.listaUnidades = [];
+      } else if (respuesta.message === 'No existe espacio con esa caracteristica') {
+        this.toastr.warning('No existen espacios con esa característica', 'Alerta', { timeOut: 1500 });
+        this.listaUnidades = [];
       } else {
         this.toastr.success('Espacios encontrados', 'Alerta', { timeOut: 1500 });
         this.listaUnidades = respuesta;
