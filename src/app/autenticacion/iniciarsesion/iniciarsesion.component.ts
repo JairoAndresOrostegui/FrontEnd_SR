@@ -60,9 +60,9 @@ export class IniciarsesionComponent implements OnInit {
             this._peticion.login('login', {login_usuario: this.usuario, clave_usuario: this.clave}).subscribe((respuesta) => {
               this.logueo = respuesta;
               // Si el token viene vacio muestra mensaje de error
-              if (this.logueo.token === '') {
+              if (this.logueo.message === 'Usuario o contraseña incorrecto') {
                 this.spinner = false;
-                this.toastr.warning('Error en la aplicación, contactese con el administrador del sistema', 'Alerta', { timeOut: 3000 });
+                this.toastr.warning(this.logueo.message, 'Alerta', { timeOut: 3000 });
               } else {
                 // Si el login es exitoso muestra mensaje de loguin exitoso y almacena en variables globales los datos de login para ser usuados en algunas parte de otros compoentenes
                 this.toastr.success('Login exitoso', 'Exitoso', { timeOut: 1500 });
