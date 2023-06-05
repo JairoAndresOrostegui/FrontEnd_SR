@@ -196,6 +196,8 @@ export class CrearreservaComponent implements OnInit {
     let horas = [];
     if (!this.validarForm) {
       this.activarForm();
+      this.crearreserva.controls['disponibles'].setValue(0);
+      this.listaUnidades = null;
       return;
     } else {
       let validarRepeticion = false;
@@ -250,6 +252,8 @@ export class CrearreservaComponent implements OnInit {
       } else {
         this.toastr.warning('Los dias no coinciden con el rango de fechas indicado', 'Alerta', { timeOut: 1500 });
         this.activarForm();
+        this.crearreserva.controls['disponibles'].setValue(0);
+        this.listaUnidades = null;
         return;
       }
     }
@@ -259,7 +263,6 @@ export class CrearreservaComponent implements OnInit {
   crearReserva() {
     this.spinner = true;
     this.verFormCrear = 'none';
-    this.validarFormulario();
     if (this.crearreserva.value.disponibles === 0 || this.crearreserva.value.disponibles === '') {
       this.toastr.warning('Elija una unidad disponible', 'Alerta', { timeOut: 1500 });
       setTimeout(() => {
@@ -268,63 +271,79 @@ export class CrearreservaComponent implements OnInit {
       }, 300);
       return;
     }
-    const objetoReservaDia = this.generarObjetoReservaDia();
-    if (this.crearreserva.value.tiporeserva === 1) {
-      this.objetoreserva = {
-        id_reserva:0,
-        id_unidad_organizacional: this.crearreserva.value.disponibles,
-        identificador_grupo: 0,
-        nombre_grupo: '',
-        id_usuario_reserva: this.crearreserva.value.usuariopersona,
-        fecha_inicio_reserva: this.crearreserva.value.fechainicio,
-        fecha_fin_reserva: this.crearreserva.value.fechafin,
-        descripcion_reserva: this.crearreserva.value.observaciones,
-        estado_reserva: 'activo',
-        id_usuario_colaborador: 0,
-        nombre_usuario_colaborador: '',
-        nivel: '',
-        codigo_programa: '',
-        nombre_programa: '',
-        submodulo: '',
-        reservaDia: objetoReservaDia
-      }
+    this.validarFormulario();
+    if (!this.validarForm) {
+      this.activarForm();
+      return;
     } else {
-      //Quemado
-      //const objetogrupo = this.grupos.filter( item =>  item.value === this.crearreserva.value.grupo);
-      //const objetoprograma = this.programas.filter( item => item.codigo_programa === this.crearreserva.value.programa);
-      const objetocolaborador = this.cbencargado.filter( (item: any) => item.id_profesor === this.crearreserva.value.encargado);
-      this.objetoreserva = {
-        id_reserva:0,
-        id_unidad_organizacional: this.crearreserva.value.disponibles,
-        identificador_grupo: 0,
-        nombre_grupo: this.crearreserva.value.grupo,
-        id_usuario_reserva: this.crearreserva.value.usuariopersona,
-        fecha_inicio_reserva: this.crearreserva.value.fechainicio,
-        fecha_fin_reserva: this.crearreserva.value.fechafin,
-        descripcion_reserva: this.crearreserva.value.observaciones,
-        estado_reserva: 'activo',
-        id_usuario_colaborador: this.crearreserva.value.encargado,
-        nombre_usuario_colaborador: objetocolaborador[0].nombre_persona,
-        nivel: this.crearreserva.value.nivel,
-        codigo_programa: this.crearreserva.value.codigo,
-        nombre_programa: this.crearreserva.value.programa,
-        submodulo: this.crearreserva.value.submodulo,
-        reservaDia: objetoReservaDia
+      let validarRepeticion = false;
+      const dateInit = new Date(this.crearreserva.value.fechainicio);
+      const dateEnd = new Date(this.crearreserva.value.fechafin);
+      if (((dateEnd.getTime()-dateInit.getTime())/(1000*60*60*24)) < 6) {
+        validarRepeticion = this.validarFechaDia(dateInit.getDay(), dateEnd.getDay());
+      } else {
+        validarRepeticion = true;
+      }
+      if (validarRepeticion) {
+        const objetoReservaDia = this.generarObjetoReservaDia();
+        if (this.crearreserva.value.tiporeserva === 1) {
+          this.objetoreserva = {
+            id_reserva:0,
+            id_unidad_organizacional: this.crearreserva.value.disponibles,
+            identificador_grupo: 0,
+            nombre_grupo: '',
+            id_usuario_reserva: this.crearreserva.value.usuariopersona,
+            fecha_inicio_reserva: this.crearreserva.value.fechainicio,
+            fecha_fin_reserva: this.crearreserva.value.fechafin,
+            descripcion_reserva: this.crearreserva.value.observaciones,
+            estado_reserva: 'activo',
+            id_usuario_colaborador: 0,
+            nombre_usuario_colaborador: '',
+            nivel: '',
+            codigo_programa: '',
+            nombre_programa: '',
+            submodulo: '',
+            reservaDia: objetoReservaDia
+          }
+        } else {
+          //Quemado
+          //const objetogrupo = this.grupos.filter( item =>  item.value === this.crearreserva.value.grupo);
+          //const objetoprograma = this.programas.filter( item => item.codigo_programa === this.crearreserva.value.programa);
+          const objetocolaborador = this.cbencargado.filter( (item: any) => item.id_profesor === this.crearreserva.value.encargado);
+          this.objetoreserva = {
+            id_reserva:0,
+            id_unidad_organizacional: this.crearreserva.value.disponibles,
+            identificador_grupo: 0,
+            nombre_grupo: this.crearreserva.value.grupo,
+            id_usuario_reserva: this.crearreserva.value.usuariopersona,
+            fecha_inicio_reserva: this.crearreserva.value.fechainicio,
+            fecha_fin_reserva: this.crearreserva.value.fechafin,
+            descripcion_reserva: this.crearreserva.value.observaciones,
+            estado_reserva: 'activo',
+            id_usuario_colaborador: this.crearreserva.value.encargado,
+            nombre_usuario_colaborador: objetocolaborador[0].nombre_persona,
+            nivel: this.crearreserva.value.nivel,
+            codigo_programa: this.crearreserva.value.codigo,
+            nombre_programa: this.crearreserva.value.programa,
+            submodulo: this.crearreserva.value.submodulo,
+            reservaDia: objetoReservaDia
+          }
+        }
+        this._peticion.create('reserva', this.objetoreserva).subscribe((respuesta) => {
+          this.crearreserva.controls['disponibles'].setValue(0);
+          this.listaUnidades = null;
+          setTimeout(() => {
+            if (respuesta.message === 'Registro guardado con exito') {
+              this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
+            } else {
+              this.toastr.error(respuesta.message, 'Error', { timeOut: 1500 });
+            }
+            this.spinner = false;
+            this.verFormCrear = 'block';
+          }, 300);
+        });
       }
     }
-    this.listaUnidades = null;
-    this.crearreserva.controls['disponibles'].setValue(0);
-    this._peticion.create('reserva', this.objetoreserva).subscribe((respuesta) => {
-      setTimeout(() => {
-        if (respuesta.message === 'Registro guardado con exito') {
-          this.toastr.success(respuesta.message, 'Exitoso', { timeOut: 1500 });
-        } else {
-          this.toastr.error(respuesta.message, 'Exitoso', { timeOut: 1500 });
-        };
-        this.spinner = false;
-        this.verFormCrear = 'block';
-      }, 300);
-    });
   }
 
   generarObjetoReservaDia(): ReservaDia[] {
