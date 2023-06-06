@@ -102,22 +102,6 @@ export class CrearreservaComponent implements OnInit {
     { value: 2125, viewValue: '21:25' },
     { value: 2210, viewValue: '22:10' }
   ];
-
-  /*Quemados
-  this.cbcodigo = [{ codigo_programa: 'CN', label: 'Ingeniería Industrial' }, { codigo_programa: 'UL', label: 'Ingeniería de Sistemas' }];
-  cbniveles = [{ value: 1, label: '1' }, { value: 2, label: '2' }];
-  grupos = [{ value: 1, label: '1A' }, { value: 2, label: '1B' }, { value: 3, label: '2A' }, { value: 4, label: '2B' }];
-  this.cbgrupos = this.grupos;
-  this.crearreserva.controls['grupo'].setValue(this.cbgrupos[0].value);
-  submodulos = [{ value: 'Algebra 1', label: 'Algebra 1' }, { value: 'Algebra 2', label: 'Algebra 2' }, { value: 'Estadística', label: 'Estadística' }, { value: 'Lógica computacional', label: 'Lógica computacional' }];
-  this.cbsubmodulo = this.submodulos;
-  this.crearreserva.controls['submodulo'].setValue(this.cbsubmodulo[0].value);
-  encargados = [{value: 1, label: 'Carlos Docente'},{value: 2, label: 'Jaime Docente'},{value: 3, label: 'Jorge Docente'}];
-  this.cbencargado = this.encargados;
-  this.crearreserva.controls['encargado'].setValue(this.cbencargado[0].value);
-  
-  this.listaUnidades = this.listaUnidades1;
-  */
   
   constructor(private fb: FormBuilder, private autenticacion: DatosUsuario, private toastr: ToastrService, private _peticion: RestService, private _peticionNestor: NestorService) {
     this.spinner = true;
@@ -306,9 +290,6 @@ export class CrearreservaComponent implements OnInit {
             reservaDia: objetoReservaDia
           }
         } else {
-          //Quemado
-          //const objetogrupo = this.grupos.filter( item =>  item.value === this.crearreserva.value.grupo);
-          //const objetoprograma = this.programas.filter( item => item.codigo_programa === this.crearreserva.value.programa);
           const objetocolaborador = this.cbencargado.filter( (item: any) => item.id_profesor === this.crearreserva.value.encargado);
           this.objetoreserva = {
             id_reserva:0,
