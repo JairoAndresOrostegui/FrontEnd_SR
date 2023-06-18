@@ -75,7 +75,7 @@ export class CrearreservaComponent implements OnInit {
     { value: 1815, viewValue: '18:15' },
     { value: 1900, viewValue: '19:00' },
     { value: 1955, viewValue: '19:55' },
-    { value: 2040, viewValue: '20:40' },
+    { value: 2040, viewValue: '20:40' },//Hasta aca
     { value: 2125, viewValue: '21:25' }
   ];
 
@@ -99,7 +99,7 @@ export class CrearreservaComponent implements OnInit {
     { value: 1900, viewValue: '19:00' },
     { value: 1955, viewValue: '19:55' },
     { value: 2040, viewValue: '20:40' },
-    { value: 2125, viewValue: '21:25' },
+    { value: 2125, viewValue: '21:25' },//Hasta aca
     { value: 2210, viewValue: '22:10' }
   ];
   
@@ -374,7 +374,7 @@ export class CrearreservaComponent implements OnInit {
   cambiarCombos(): void {
     setTimeout(() => {
       if (this.crearreserva.value.sede === 2 || this.crearreserva.value.sede === 426|| this.crearreserva.value.sede === 427 || this.crearreserva.value.sede === 428) {
-        this._peticionNestor.getInfo('academico/programas/codigo-escuela/01').subscribe((respuesta) => {
+        this._peticionNestor.getInfo('academico/programas/codigo-sede/01').subscribe((respuesta) => {
           this.ejecutarCambioCodigoPrograma(respuesta);
         });
       } else if (this.crearreserva.value.sede === 3) {
